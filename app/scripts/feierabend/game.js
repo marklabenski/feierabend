@@ -2,7 +2,7 @@
  * Created by marklabenski on 31.10.15.
  */
 
-require('feierabend/player.js', function (player) {
+require(['feierabend/player.js', 'feierabend/scene.js'], function () {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -21,8 +21,9 @@ require('feierabend/player.js', function (player) {
     });
 
     var createGame = function createGame() {
-        var pausedContainer = new PIXI.DisplayObjectContainer();
-        var gameContainer = new PIXI.Container();
+        var gameScene;
+        var pauseScene;
+        var currentScenes = [gameScene, pauseScene];
         var stage = new PIXI.Container();
         var GAMESTATE = { MENU: 'menu', INGAME: 'ingame'};
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font:"30px Arial", fill:"red"});
@@ -54,7 +55,6 @@ require('feierabend/player.js', function (player) {
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
-                    stage.addChild(gameContainer);
                     if(!isPaused) {
                         everySecond(function () {
                             player.move();
@@ -68,11 +68,11 @@ require('feierabend/player.js', function (player) {
         var togglePause = function() {
             if(isPaused) {
                 isPaused = false;
-                stage.removeChild(pausedContainer);
+                stage.removeChild(pauseScene.container);
             }
             else {
                 isPaused = true;
-                stage.addChild(pausedContainer);
+                stage.addChild(pauseScene.container);
             }
         };
 
@@ -87,29 +87,33 @@ require('feierabend/player.js', function (player) {
 
                 switch (gameState) {
                     case GAMESTATE.INGAME:
-                        stage.addChild(gameContainer);
+                        currentScenes = [pauseScene, gameScene];
                         break;
                     default:
                         //something
                         break;
                 }
+
+                currentScenes.map(function(scene){
+                    stage.addChild(scene.container);
+                });
             },
             pause: function pauseGame() {
                 togglePause();
             },
-            resume: function() {
-                togglePause();
-            },
             init: function init() {
+                gameScene = createScene();
+
+                pauseScene = createScene();
+
                 player = window.createPlayer(loader.resources.player.texture);
+                gameScene.container.addChild(player.getSprite());
 
-                gameContainer.addChild(player.getSprite());
-
-                pausedContainer.addChild(pauseText);
-                pausedContainer.width = 400;
-                pausedContainer.height = 200;
-                pausedContainer.x = gameWidth/2 - pausedContainer.width /2;
-                pausedContainer.y = gameHeight/2 - pausedContainer.height /2;
+                pauseScene.container.addChild(pauseText);
+                pauseScene.container.width = 400;
+                pauseScene.container.height = 200;
+                pauseScene.container.x = gameWidth/2 - pauseScene.container.width /2;
+                pauseScene.container.y = gameHeight/2 - pauseScene.container.height /2;
 
                 this.changeGameState(GAMESTATE.INGAME);
                 togglePause();
