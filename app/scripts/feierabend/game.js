@@ -21,7 +21,13 @@ require('feierabend/player.js', function (player) {
     });
 
     var createGame = function createGame() {
+        var pausedContainer = new PIXI.DisplayObjectContainer();
+        var gameContainer = new PIXI.Container();
         var stage = new PIXI.Container();
+        var GAMESTATE = { MENU: 'menu', INGAME: 'ingame'};
+        var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font:"30px Arial", fill:"red"});
+        var isPaused = true;
+        var gameState = GAMESTATE.INGAME;
         var player;
         var counters = {};
 
@@ -44,12 +50,20 @@ require('feierabend/player.js', function (player) {
 
         var render = function render(timestamp) {
             requestAnimationFrame(render);
-            var everySecond = onElapsed(500, timestamp);
-            everySecond(function() {
-                player.move();
-            });
-
-            // render the container
+            switch (gameState) {
+                case GAMESTATE.INGAME:
+                    stage.addChild(gameContainer);
+                    if(isPaused) {
+                        stage.addChild(pausedContainer);
+                    } else {
+                        stage.removeChild(pausedContainer);
+                        var everySecond = onElapsed(500, timestamp);
+                        everySecond(function () {
+                            player.move();
+                        });
+                    }
+                    break;
+            }
             renderer.render(stage);
         };
 
@@ -60,15 +74,26 @@ require('feierabend/player.js', function (player) {
             init: function init() {
                 player = window.createPlayer(loader.resources.player.texture);
 
-                stage.addChild(player.getSprite());
+                gameContainer.addChild(player.getSprite());
 
-                renderer.render(stage);
+                pausedContainer.addChild(pauseText);
+                pausedContainer.width = 400;
+                pausedContainer.height = 200;
+                pausedContainer.x = gameWidth/2 - pausedContainer.width /2;
+                pausedContainer.y = gameHeight/2 - pausedContainer.height /2;
 
                 render();
 
                 window.addEventListener('keydown', function (event) {
+                    if(!isPaused) {
+                        player.changeDirectionByKeyCode(event.keyCode);
+                    }
 
-                    player.changeDirectionByKeyCode(event.keyCode);
+                    switch(event.keyCode) {
+                        case 32:
+                            isPaused = !isPaused;
+                            break;
+                    }
                 });
             }
         };
