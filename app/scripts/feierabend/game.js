@@ -80,6 +80,9 @@ require(['feierabend/player.js', 'feierabend/scene.js'], function () {
             getBounds: function getBounds() {
                 return {x: gameWidth, y: gameHeight};
             },
+            getGridSize: function getGridSize() {
+                return gridSize;
+            },
             changeGameState: function changeGameState(stateString) {
                 stage.removeChildren();
                 if(GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())

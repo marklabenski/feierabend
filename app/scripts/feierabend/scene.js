@@ -8,6 +8,9 @@ require('feierabend/player.js', function () {
             init: function() {
                 this.container = new PIXI.Container();
             },
+            render: function() {
+
+            },
             container: null,
         };
         var sceneInstance = Object.create(scene);
