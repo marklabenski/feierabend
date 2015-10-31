@@ -26,7 +26,7 @@ require('feierabend/player.js', function (player) {
         var stage = new PIXI.Container();
         var GAMESTATE = { MENU: 'menu', INGAME: 'ingame'};
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font:"30px Arial", fill:"red"});
-        var isPaused = true;
+        var isPaused = false;
         var gameState = GAMESTATE.INGAME;
         var player;
         var counters = {};
@@ -50,25 +50,30 @@ require('feierabend/player.js', function (player) {
 
         var render = function render(timestamp) {
             requestAnimationFrame(render);
-            stage.removeChildren();
+            var everySecond = onElapsed(500, timestamp);
+
             switch (gameState) {
                 case GAMESTATE.INGAME:
                     stage.addChild(gameContainer);
-                    if(isPaused) {
-                        stage.addChild(pausedContainer);
-                    } else {
-                        stage.removeChild(pausedContainer);
-                        var everySecond = onElapsed(500, timestamp);
+                    if(!isPaused) {
                         everySecond(function () {
                             player.move();
                         });
                     }
                     break;
-                default:
-                    //something
-                    break;
             }
             renderer.render(stage);
+        };
+
+        var togglePause = function() {
+            if(isPaused) {
+                isPaused = false;
+                stage.removeChild(pausedContainer);
+            }
+            else {
+                isPaused = true;
+                stage.addChild(pausedContainer);
+            }
         };
 
         var game = {
@@ -76,14 +81,24 @@ require('feierabend/player.js', function (player) {
                 return {x: gameWidth, y: gameHeight};
             },
             changeGameState: function changeGameState(stateString) {
+                stage.removeChildren();
                 if(GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
                     gameState = stateString.toLowerCase();
+
+                switch (gameState) {
+                    case GAMESTATE.INGAME:
+                        stage.addChild(gameContainer);
+                        break;
+                    default:
+                        //something
+                        break;
+                }
             },
             pause: function pauseGame() {
-                isPaused = true;
+                togglePause();
             },
             resume: function() {
-                isPaused = false;
+                togglePause();
             },
             init: function init() {
                 player = window.createPlayer(loader.resources.player.texture);
@@ -96,6 +111,8 @@ require('feierabend/player.js', function (player) {
                 pausedContainer.x = gameWidth/2 - pausedContainer.width /2;
                 pausedContainer.y = gameHeight/2 - pausedContainer.height /2;
 
+                this.changeGameState(GAMESTATE.INGAME);
+                togglePause();
                 render();
 
                 window.addEventListener('keydown', function (event) {
@@ -105,7 +122,7 @@ require('feierabend/player.js', function (player) {
 
                     switch(event.keyCode) {
                         case 32:
-                            isPaused = !isPaused;
+                            togglePause();
                             break;
                     }
                 });
@@ -116,6 +133,6 @@ require('feierabend/player.js', function (player) {
 
     window.game = window.game || createGame();
 
-    loader.once('complete', game.init);
+    loader.once('complete', $.proxy(game.init, game));
     loader.load();
 });
