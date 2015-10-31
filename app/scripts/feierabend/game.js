@@ -50,6 +50,7 @@ require('feierabend/player.js', function (player) {
 
         var render = function render(timestamp) {
             requestAnimationFrame(render);
+            stage.removeChildren();
             switch (gameState) {
                 case GAMESTATE.INGAME:
                     stage.addChild(gameContainer);
@@ -63,6 +64,9 @@ require('feierabend/player.js', function (player) {
                         });
                     }
                     break;
+                default:
+                    //something
+                    break;
             }
             renderer.render(stage);
         };
@@ -70,6 +74,16 @@ require('feierabend/player.js', function (player) {
         var game = {
             getBounds: function getBounds() {
                 return {x: gameWidth, y: gameHeight};
+            },
+            changeGameState: function changeGameState(stateString) {
+                if(GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
+                    gameState = stateString.toLowerCase();
+            },
+            pause: function pauseGame() {
+                isPaused = true;
+            },
+            resume: function() {
+                isPaused = false;
             },
             init: function init() {
                 player = window.createPlayer(loader.resources.player.texture);
