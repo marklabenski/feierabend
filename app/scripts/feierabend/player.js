@@ -2,12 +2,10 @@
  * Created by marklabenski on 31.10.15.
  */
 define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js'], function(movable, controllable) {
-    return function createPlayer() {
+    return function createPlayer(texture, game) {
         var playerInstance;
         var sprite;
         //init with texture
-        var texture = arguments[0];
-        var game = arguments[1];
 
         var Player = {
             enteredGridTile: null,
@@ -22,6 +20,7 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js'], 
                     sprite.anchor.y = 0.5;
 
                     this.enteredGridTile = game.getGrid().getTileAt();
+                    this.enteredGridTile.enter();
 
                     sprite.position.x = this.enteredGridTile.getPos().x + sprite.width/2;
                     sprite.position.y = this.enteredGridTile.getPos().y + sprite.height/2;
@@ -33,7 +32,6 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js'], 
                 return sprite;
             },
             move: function() {
-
                 this.moveSprite(sprite);
             },
             changeDirectionByKeyCode: function(keyCode) {
