@@ -1,5 +1,5 @@
-require('feierabend/player.js', function () {
-    window.createScene = function createScene(_sceneName) {
+define([], function () {
+    return function createScene(_sceneName) {
         var sceneName = _sceneName;
         var sceneContainer;
         var player;

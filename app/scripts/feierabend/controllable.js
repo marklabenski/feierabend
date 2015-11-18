@@ -1,7 +1,8 @@
-require([], function() {
-    // controllables has to be movable
-    window.controllable = {
+define(function() {
+    return {
         changeSpriteDirectionByKeyCode: function changeSpriteDirectionByKeyCode(keyCode, sprite) {
+
+
             switch (keyCode) {
                 case 37: // arrow left
                     sprite.rotation = this.changeDirection(-1) * (Math.PI * 0.5);
@@ -13,6 +14,7 @@ require([], function() {
                 default:
                     return; // Quit when this doesn't handle the key event.
             }
+
         },
     };
 });

@@ -2,7 +2,7 @@
  * Created by marklabenski on 31.10.15.
  */
 
-require(['feierabend/player.js', 'feierabend/scene.js'], function () {
+define(['scripts/feierabend/player.js', 'scripts/feierabend/scene.js', 'scripts/feierabend/grid.js'], function (createPlayer, createScene, createGrid) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -20,7 +20,8 @@ require(['feierabend/player.js', 'feierabend/scene.js'], function () {
         loader.add(asset.name, asset.file);
     });
 
-    var createGame = function createGame() {
+    var createGame = function createGame(_grid) {
+        var gameInstance;
         var gameScene;
         var pauseScene;
         var currentScenes = [gameScene, pauseScene];
@@ -28,6 +29,8 @@ require(['feierabend/player.js', 'feierabend/scene.js'], function () {
         var GAMESTATE = { MENU: 'menu', INGAME: 'ingame'};
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font:"30px Arial", fill:"red"});
         var isPaused = false;
+
+        var grid = _grid;
         var gameState = GAMESTATE.INGAME;
         var player;
         var counters = {};
@@ -104,12 +107,15 @@ require(['feierabend/player.js', 'feierabend/scene.js'], function () {
             pause: function pauseGame() {
                 togglePause();
             },
+            getGrid: function getGrid() {
+                return grid;
+            },
             init: function init() {
                 gameScene = createScene();
 
                 pauseScene = createScene();
 
-                player = window.createPlayer(loader.resources.player.texture);
+                player = createPlayer(loader.resources.player.texture, game);
                 gameScene.container.addChild(player.getSprite());
 
                 pauseScene.container.addChild(pauseText);
@@ -135,11 +141,15 @@ require(['feierabend/player.js', 'feierabend/scene.js'], function () {
                 });
             }
         };
-        return Object.create(game);
+
+        gameInstance = gameInstance || Object.create(game);
+        return gameInstance;
     };
 
-    window.game = window.game || createGame();
-
+    var game = createGame(createGrid(gridSize, gameWidth, gameHeight));
+    //window.grid = window.createGrid(window.game.getGridSize());
     loader.once('complete', $.proxy(game.init, game));
     loader.load();
+
+    return game;
 });
