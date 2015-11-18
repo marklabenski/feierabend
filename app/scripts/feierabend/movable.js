@@ -1,18 +1,13 @@
 /**
  * Created by marklabenski on 31.10.15.
  */
-require([], function () {
+define([], function () {
 
-    window.movable = (function () {
+    return function (game) {
         var DIRECTION= {DOWN: 0, LEFT: 1, TOP: 2, RIGHT: 3};
         var direction= 0;
-        var gridSize = window.game.getGridSize();
-        var movementIsValid = function movementIsValid(movement, sprite) {
-            return sprite.position.x + (movement.x * gridSize) > 0
-                && sprite.position.y + (movement.y * gridSize) > 0
-                && sprite.position.x + (movement.x * gridSize) < window.game.getBounds().x
-                && sprite.position.y + (movement.y * gridSize) < window.game.getBounds().y
-        };
+        var onGridTile = null;
+
         var movable = {
             changeDirection: function changeDirection(change) {
                 var newDirection = direction + change;
@@ -24,23 +19,32 @@ require([], function () {
                 direction = newDirection;
                 return direction;
             },
-            moveSprite: function moveSprite(sprite) {
-                var movement = {x: 0, y: 0};
-                if (direction === DIRECTION.DOWN) {
-                    movement.y = +1;
-                } else if (direction === DIRECTION.LEFT) {
-                    movement.x = -1;
-                } else if (direction === DIRECTION.TOP) {
-                    movement.y = -1;
-                } else {
-                    movement.x = +1;
-                }
-                if (movementIsValid(movement, sprite)) {
-                    sprite.position.x += movement.x * gridSize;
-                    sprite.position.y += movement.y * gridSize;
-                }
+            setOnGrid: function setOnGrid(tile) {
+                onGridTile = tile;
             },
+            moveSprite: function moveSprite(sprite) {
+                var moveToTile;
+
+                if (direction === DIRECTION.DOWN) {
+                    moveToTile = onGridTile.getSouth();
+                } else if (direction === DIRECTION.LEFT) {
+                    moveToTile = onGridTile.getWest();
+                } else if (direction === DIRECTION.TOP) {
+                    moveToTile = onGridTile.getNorth();
+                } else {
+                    moveToTile = onGridTile.getEast();
+                }
+                //moveToTile
+
+                var moveX = moveToTile.getPos().x;
+                var moveY = moveToTile.getPos().y;
+
+
+                sprite.position.x = moveX + (sprite.width/2);
+                sprite.position.y = moveY + (sprite.height/2);
+                onGridTile = moveToTile;
+            }
         };
         return Object.create(movable);
-    })();
+    };
 });
