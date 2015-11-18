@@ -6,4 +6,6 @@
 
 requirejs(["vendor/jquery/jquery-2.1.4.min", "vendor/pixijs/pixi.min", "scripts/feierabend/game.js"], function($, pixi, game) {
 
+//funny comment
+
 });
