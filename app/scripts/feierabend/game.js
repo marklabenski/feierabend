@@ -2,13 +2,18 @@
  * Created by marklabenski on 31.10.15.
  */
 
-define(['scripts/feierabend/player.js', 'scripts/feierabend/scene.js', 'scripts/feierabend/grid.js'], function (createPlayer, createScene, createGrid) {
+define(['scripts/feierabend/player.js',
+    'scripts/feierabend/scene.js',
+    'scripts/feierabend/grid.js',
+    'scripts/feierabend/coffee.js',
+    ], function (createPlayer, createScene, createGrid, createCoffee) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
 
     var assets = [
-        { name: 'player', file: 'img/player.png'}
+        { name: 'player', file: 'img/player.png'},
+        { name: 'coffee', file: 'img/coffee.png'}
     ];
 
     var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
@@ -32,7 +37,7 @@ define(['scripts/feierabend/player.js', 'scripts/feierabend/scene.js', 'scripts/
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
-        var player;
+        var player, coffee;
         var counters = {};
 
         var onElapsed = function (delta, currentTimestamp) {
@@ -116,7 +121,11 @@ define(['scripts/feierabend/player.js', 'scripts/feierabend/scene.js', 'scripts/
                 pauseScene = createScene();
 
                 player = createPlayer(loader.resources.player.texture, game);
+                coffee = createCoffee(loader.resources.coffee.texture, game);
+
                 gameScene.container.addChild(player.getSprite());
+                gameScene.container.addChild(coffee.getSprite());
+
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;
@@ -148,7 +157,7 @@ define(['scripts/feierabend/player.js', 'scripts/feierabend/scene.js', 'scripts/
 
     var game = createGame(createGrid(gridSize, gameWidth, gameHeight));
     //window.grid = window.createGrid(window.game.getGridSize());
-    loader.once('complete', $.proxy(game.init, game));
+    //loader.once('complete', $.proxy(game.init, game));
     loader.load();
 
     return game;

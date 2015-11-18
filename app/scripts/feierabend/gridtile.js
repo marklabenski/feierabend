@@ -7,6 +7,7 @@ define([],function() {
         var south = null;
         var west = null;
         var east = null;
+        var objectsOnTile = [];
 
         var gridTile = {
             setNorth: function setNorth(tile) {
@@ -22,16 +23,31 @@ define([],function() {
                 east = tile;
             },
             getNorth: function getNorth(tile) {
-                return north;
+                return north.collide();
             },
             getSouth: function getSouth(tile) {
-                return south;
+                return south.collide();
             },
             getWest: function getWest(tile) {
-                return west;
+                return west.collide();
             },
             getEast: function getEast(tile) {
-                return east;
+                return east.collide();
+            },
+            collide: function collide() {
+                if(objectsOnTile.length === 0) {
+                    return this;
+                }
+                else
+                    return null;
+            },
+            enter: function(object) {
+                objectsOnTile.push(object);
+            },
+            leave: function(object) {
+                if(objectsOnTile.indexOf(object) != -1) {
+                    objectsOnTile.slice(objectsOnTile.indexOf(object))
+                }
             },
             getPos: function () {
                 return {x: posX, y: posY}
