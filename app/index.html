@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Feierabend - ein "Snake"-Spiel für 9to5-Worker</title>
-    <link href="styles/main.css" media="all">
+    <link href="styles/main.css" media="all" type="text/css" rel="stylesheet">
 </head>
 <body>
-<canvas id="game-canvas">
-
-</canvas>
 
 <script src="vendor/requirejs/require.js"></script>
-
 <script src="scripts/main.js"></script>
 
-<button>Spiel starten</button>
+<div class="menu">
+    <ul class="buttons">
+        <li class="menuButton" id="startButton"><img src="img/buttonStart.png"></li>
+        <li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li>
+    </ul>
+</div>
+
 </body>
 </html>
