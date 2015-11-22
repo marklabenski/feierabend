@@ -1,0 +1,53 @@
+body {
+    background-color: lightgray;
+    min-width: 1000px;
+}
+
+#highscore-lists {
+    width: 100%
+}
+.highscore-list {
+    position: relative;
+    margin: 0 auto;
+}
+    .highscore-list-border {
+        position: absolute;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+    }
+        .highscore-list-name {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+         }
+
+#mitarbeiter_des_monats {
+    height: 500px;
+}
+    #mitarbeiter_des_monats-border {
+        background-image: url("../img/mitarbeiter_des_monats.svg");
+    }
+        #mitarbeiter_des_monats-name {
+            font-size: 6em;
+            font-weight: bold;
+            font-style: italic;
+            top: 65%;
+        }
+
+#der_rest {
+    height: 400px;
+    width: 400px;
+}
+    #der_rest-zettel {
+        background-image: url("../img/der_rest_zettel.svg");
+    }
+        #der_rest-name {
+            top: 30%;
+        }
+        #der_rest-name li {
+            transform: rotate(7.5deg);
+            line-height: 25px;
+            list-style-type: none;
+        }

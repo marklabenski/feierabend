@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Feierabend - Highscore</title>
-    <link href="styles/highscore.css">
+    <link rel="stylesheet" type="text/css" href="../styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../styles/highscore.css">
 </head>
-    <body>
+<body>
+    <nav><a href="../index.html">zurück...</a></nav>
+    <main id="highscore-lists">
+        <section class="highscore-list" id="mitarbeiter_des_monats">
+            <div class="highscore-list-border" id="mitarbeiter_des_monats-border">
+                <div class="highscore-list-name" id="mitarbeiter_des_monats-name">
 
-        <header>Highscore</header>
-        <main>
-            <section id="mitarbeiter_des_monats">
-                <img src="../img/mitarbeiter_des_monats.svg">
-                <img src="../img/mitarbeiter_des_monats_rahmen.svg">
-            </section>
-            <section id="der_rest">
-                <img src="../img/der_rest_zettel.svg">
-            </section>
-        </main>
-        <footer>
+                </div>
+            </div>
+        </section>
+        <section class="highscore-list" id="der_rest">
+            <div class="highscore-list-border" id="der_rest-zettel">
+                <div class="highscore-list-name" id="der_rest-name">
+                    <ul>
 
-        </footer>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    </body>
+    <script src="../vendor/jquery/jquery-2.1.4.min.js"></script>
+    <script src="../scripts/highscore.js"></script>
+</body>
 </html>
