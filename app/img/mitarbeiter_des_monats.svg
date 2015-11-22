@@ -5,13 +5,14 @@
 	 width="815.383px" height="375.55px" viewBox="0 0 815.383 375.55" enable-background="new 0 0 815.383 375.55"
 	 xml:space="preserve">
 <g>
-	<polygon id="Stern" fill="#FFD700" points="776.883,218.529 723.288,218.937 693.26,263.313 676.309,212.478 624.825,197.624 
-		667.938,165.791 666.145,112.237 709.743,143.401 760.135,125.16 743.961,176.239 	"/>
-	<text transform="matrix(1.3295 -0.1573 0.1175 0.9931 191.8333 226.7007)" font-family="'AgencyFB-Reg'" font-size="86.6931">Mitarbeiter</text>
+	<polygon id="Stern" fill="none" points="776.883,218.529 723.287,218.937 693.26,263.313 676.309,212.478 624.824,197.625 
+		667.938,165.791 666.145,112.237 709.742,143.401 760.135,125.16 743.961,176.239 	"/>
+	<text transform="matrix(1.3295 -0.1573 0.1175 0.9931 202.7327 330.1714)" font-family="'AgencyFB-Reg'" font-size="86.6931">des Monats</text>
 	
-		<text transform="matrix(1.3295 -0.1573 0.1175 0.9931 191.8333 226.7007)" fill="none" stroke="#000000" stroke-miterlimit="10" font-family="'AgencyFB-Reg'" font-size="86.6931">Mitarbeiter</text>
-	<text transform="matrix(1.3295 -0.1573 0.1175 0.9931 202.7317 330.1714)" font-family="'AgencyFB-Reg'" font-size="86.6931">des Monats</text>
+		<text transform="matrix(1.3295 -0.1573 0.1175 0.9931 191.8342 226.7007)" stroke="#000000" stroke-width="3" stroke-miterlimit="10" font-family="'AgencyFB-Reg'" font-size="86.6931">Mitarbeiter</text>
 	<polygon id="Stern_1_" fill="#FFD700" points="153.24,180.604 115.06,143.001 62.437,153.139 86.401,105.213 60.5,58.297 
 		113.496,66.274 150.098,27.142 158.889,80.005 207.422,102.738 159.864,127.419 	"/>
+	<polygon id="Stern_2_" fill="#FFD700" points="752.352,289.379 701.468,272.569 658.773,304.957 659.039,251.374 615.045,220.775 
+		666.096,204.462 681.589,153.17 712.875,196.677 766.457,195.573 734.742,238.759 	"/>
 </g>
 </svg>
