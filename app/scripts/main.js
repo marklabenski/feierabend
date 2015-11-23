@@ -4,10 +4,9 @@
  */
     // pixi exposes a premade instance for you to use.
 
-requirejs([ "vendor/pixijs/pixi.min", "scripts/feierabend/game.js","vendor/jquery/jquery-2.1.4.min.js"], function(pixi, game) {
+requirejs(["scripts/feierabend/game.js", "vendor/jquery/jquery-2.1.4.min.js"], function(game) {
     window.feierabend = game;
 
-    $('button').on('click', function() {
-        feierabend.init();
-    });
+    //feierabend.init();
+
 });
