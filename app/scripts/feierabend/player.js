@@ -8,6 +8,8 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js'], 
         //init with texture
 
         var Player = {
+            id: 'player',
+            speed: 500,
             enteredGridTile: null,
             init: function init() {
                 if(texture) {
@@ -20,12 +22,12 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js'], 
                     sprite.anchor.y = 0.5;
 
                     this.enteredGridTile = game.getGrid().getTileAt();
-                    this.enteredGridTile.enter();
 
                     sprite.position.x = this.enteredGridTile.getPos().x + sprite.width/2;
                     sprite.position.y = this.enteredGridTile.getPos().y + sprite.height/2;
 
                     this.setOnGrid(this.enteredGridTile);
+                    this.enteredGridTile.enter(this);
                 }
             },
             getSprite: function getSprite() {

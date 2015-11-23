@@ -35,14 +35,17 @@ define([], function () {
                     moveToTile = onGridTile.getEast();
                 }
                 //moveToTile
+                if(moveToTile !== null) {
+                    moveToTile.enter(this);
 
-                var moveX = moveToTile.getPos().x;
-                var moveY = moveToTile.getPos().y;
+                    var moveX = moveToTile.getPos().x;
+                    var moveY = moveToTile.getPos().y;
 
-
-                sprite.position.x = moveX + (sprite.width/2);
-                sprite.position.y = moveY + (sprite.height/2);
-                onGridTile = moveToTile;
+                    sprite.position.x = moveX + (sprite.width/2);
+                    sprite.position.y = moveY + (sprite.height/2);
+                    onGridTile = moveToTile;
+                    onGridTile.leave();
+                }
             }
         };
         return Object.create(movable);
