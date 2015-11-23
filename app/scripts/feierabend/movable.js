@@ -44,7 +44,7 @@ define([], function () {
                     sprite.position.x = moveX + (sprite.width/2);
                     sprite.position.y = moveY + (sprite.height/2);
                     onGridTile = moveToTile;
-                    onGridTile.leave();
+                    onGridTile.leave(this);
                 }
             }
         };
