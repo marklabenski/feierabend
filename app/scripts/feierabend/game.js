@@ -6,26 +6,20 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
     'scripts/feierabend/coffee.js',
+    'vendor/pixijs/pixi.min'
     ], function (createPlayer, createScene, createGrid, createCoffee) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
-
-    var assets = [
-        { name: 'player', file: 'img/player.png'},
-        { name: 'coffee', file: 'img/coffee.png'}
-    ];
-
-    var renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
-    document.body.appendChild(renderer.view);
-
     var loader = PIXI.loader;
 
-    assets.map(function(asset) {
-        loader.add(asset.name, asset.file);
-    });
-
     var createGame = function createGame(_grid) {
+        var assets = [
+            { name: 'player', file: 'img/player.png'},
+            { name: 'coffee', file: 'img/coffee.png'}
+        ];
+
+        var renderer = null;
         var gameInstance;
         var gameScene;
         var pauseScene;
@@ -39,6 +33,10 @@ define(['scripts/feierabend/player.js',
         var gameState = GAMESTATE.INGAME;
         var player, coffee;
         var counters = {};
+
+        assets.map(function(asset) {
+            loader.add(asset.name, asset.file);
+        });
 
         var onElapsed = function (delta, currentTimestamp) {
             currentTimestamp = currentTimestamp || 0;
@@ -59,7 +57,7 @@ define(['scripts/feierabend/player.js',
 
         var render = function render(timestamp) {
             requestAnimationFrame(render);
-            var everySecond = onElapsed(500, timestamp);
+            var everySecond = onElapsed(player.speed, timestamp);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
@@ -116,6 +114,9 @@ define(['scripts/feierabend/player.js',
                 return grid;
             },
             init: function init() {
+                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
+                document.body.appendChild(renderer.view);
+
                 gameScene = createScene();
 
                 pauseScene = createScene();
@@ -155,9 +156,11 @@ define(['scripts/feierabend/player.js',
         return gameInstance;
     };
 
-    var game = createGame(createGrid(gridSize, gameWidth, gameHeight));
-    //window.grid = window.createGrid(window.game.getGridSize());
-    //loader.once('complete', $.proxy(game.init, game));
+
+    var grid = createGrid(gridSize, gameWidth, gameHeight);
+
+    var game = createGame(grid);
+    loader.once('complete', $.proxy(game.init, game));
     loader.load();
 
     return game;
