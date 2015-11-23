@@ -12,10 +12,10 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
 
         var grid = {
             init: function init() {
-                for (var x = 0; x <= (sceneWidth / tileSize); x += 1) {
+                for (var x = 0; x < (sceneWidth / tileSize); x += 1) {
                     tiles.push([]);
 
-                    for (var y = 0; y <= (sceneHeight / tileSize); y += 1) {
+                    for (var y = 0; y < (sceneHeight / tileSize); y += 1) {
                         var newTile = gridTile(x * tileSize, y * tileSize);
                         //cant set neighbors for first tile
                         if (x > 0) {

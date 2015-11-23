@@ -1,4 +1,4 @@
-define([],function() {
+define([], function () {
     return function createGridTile(_x, _y) {
 
         var posX = _x;
@@ -23,29 +23,53 @@ define([],function() {
                 east = tile;
             },
             getNorth: function getNorth(tile) {
-                return north.collide();
+                if (north !== null)
+                    return north.collide();
+                else
+                    return null
             },
             getSouth: function getSouth(tile) {
-                return south.collide();
+                if (south !== null)
+                    return south.collide();
+                else
+                    return null
             },
             getWest: function getWest(tile) {
-                return west.collide();
+                if (west !== null)
+                    return west.collide();
+                else
+                    return null
             },
             getEast: function getEast(tile) {
-                return east.collide();
+                if (east !== null)
+                    return east.collide();
+                else
+                    return null
             },
             collide: function collide() {
-                if(objectsOnTile.length === 0) {
+                if (objectsOnTile.length === 0) {
                     return this;
                 }
-                else
-                    return null;
+                else {
+                    var solid = false;
+                    objectsOnTile.map(function (object) {
+                        if (object.hasOwnProperty('isSolid'))
+                            solid = true;
+                    });
+                    if (solid) return null;
+                    else return this;
+                }
             },
-            enter: function(object) {
+            enter: function (object) {
+                objectsOnTile.map(function (objectOnTile) {
+                    if (objectOnTile.collideFn !== undefined)
+                        objectOnTile.collideFn(object);
+                });
+
                 objectsOnTile.push(object);
             },
-            leave: function(object) {
-                if(objectsOnTile.indexOf(object) != -1) {
+            leave: function (object) {
+                if (objectsOnTile.indexOf(object) != -1) {
                     objectsOnTile.slice(objectsOnTile.indexOf(object))
                 }
             },
