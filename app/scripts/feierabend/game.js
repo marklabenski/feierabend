@@ -5,9 +5,10 @@
 define(['scripts/feierabend/player.js',
     'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
-    'scripts/feierabend/coffee.js',
+    'scripts/feierabend/collectable.js',
+    'scripts/feierabend/workmate.js',
     'vendor/pixijs/pixi.min'
-    ], function (createPlayer, createScene, createGrid, createCoffee) {
+], function (createPlayer, createScene, createGrid, createCollectable, createWorkmate) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -15,8 +16,9 @@ define(['scripts/feierabend/player.js',
 
     var createGame = function createGame(_grid) {
         var assets = [
-            { name: 'player', file: 'img/player.png'},
-            { name: 'coffee', file: 'img/coffee.png'}
+            {name: 'player', file: 'img/player.png'},
+            {name: 'coffee', file: 'img/coffee.png'},
+            {name: 'workmate', file: 'img/workmate.png'},
         ];
 
         var renderer = null;
@@ -25,22 +27,22 @@ define(['scripts/feierabend/player.js',
         var pauseScene;
         var currentScenes = [gameScene, pauseScene];
         var stage = new PIXI.Container();
-        var GAMESTATE = { MENU: 'menu', INGAME: 'ingame'};
-        var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font:"30px Arial", fill:"red"});
+        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame'};
+        var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
         var isPaused = false;
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
-        var player, coffee;
+        var player, coffee, workmates = [];
         var counters = {};
 
-        assets.map(function(asset) {
+        assets.map(function (asset) {
             loader.add(asset.name, asset.file);
         });
 
         var onElapsed = function (delta, currentTimestamp) {
             currentTimestamp = currentTimestamp || 0;
-            if(!counters[delta])
+            if (!counters[delta])
                 counters[delta] = {elapsed: 0, lastTimestamp: currentTimestamp};
 
             var counter = counters[delta];
@@ -48,7 +50,7 @@ define(['scripts/feierabend/player.js',
             counter.elapsed = currentTimestamp - counter.lastTimestamp;
 
             return function (isElapsed) {
-                if(counter.elapsed > delta) {
+                if (counter.elapsed > delta) {
                     counter.lastTimestamp = currentTimestamp;
                     isElapsed();
                 }
@@ -57,13 +59,19 @@ define(['scripts/feierabend/player.js',
 
         var render = function render(timestamp) {
             requestAnimationFrame(render);
-            var everySecond = onElapsed(player.speed, timestamp);
+            var onPlayerMove = onElapsed(player.speed, timestamp);
+            var afterPlayerMove = onElapsed(player.speed+1, timestamp);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
-                    if(!isPaused) {
-                        everySecond(function () {
+                    if (!isPaused) {
+                        onPlayerMove(function () {
                             player.move();
+                        });
+                        afterPlayerMove(function() {
+                            workmates.map(function (workmate) {
+                                workmate.move();
+                            });
                         });
                     }
                     break;
@@ -71,8 +79,8 @@ define(['scripts/feierabend/player.js',
             renderer.render(stage);
         };
 
-        var togglePause = function() {
-            if(isPaused) {
+        var togglePause = function () {
+            if (isPaused) {
                 isPaused = false;
                 stage.removeChild(pauseScene.container);
             }
@@ -91,7 +99,7 @@ define(['scripts/feierabend/player.js',
             },
             changeGameState: function changeGameState(stateString) {
                 stage.removeChildren();
-                if(GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
+                if (GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
                     gameState = stateString.toLowerCase();
 
                 switch (gameState) {
@@ -103,7 +111,7 @@ define(['scripts/feierabend/player.js',
                         break;
                 }
 
-                currentScenes.map(function(scene){
+                currentScenes.map(function (scene) {
                     stage.addChild(scene.container);
                 });
             },
@@ -113,37 +121,51 @@ define(['scripts/feierabend/player.js',
             getGrid: function getGrid() {
                 return grid;
             },
+            createLevel: function createLevel() {
+                player = createPlayer(loader.resources.player.texture, game);
+                coffee = createCollectable('coffee', loader.resources.coffee.texture, game,
+                    function collideFn(collideObj, eventObj) {
+                        if (collideObj.id === 'player') {
+                            collideObj.speed = 200;
+                            setTimeout(function () {
+                                collideObj.speed = 500
+                            }, 2000);
+                            eventObj.getSprite().visible = false;
+                        }
+                }, {x: 3, y: 3});
+                var workmate1 = createWorkmate('workmate1', loader.resources.workmate.texture, game);
+                workmates.push(workmate1);
+
+                gameScene.container.addChild(player.getSprite());
+                gameScene.container.addChild(coffee.getSprite());
+                gameScene.container.addChild(workmate1.getSprite());
+            },
             init: function init() {
                 renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
                 document.body.appendChild(renderer.view);
 
                 gameScene = createScene();
-
                 pauseScene = createScene();
 
-                player = createPlayer(loader.resources.player.texture, game);
-                coffee = createCoffee(loader.resources.coffee.texture, game);
-
-                gameScene.container.addChild(player.getSprite());
-                gameScene.container.addChild(coffee.getSprite());
-
+                this.createLevel();
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;
                 pauseScene.container.height = 200;
-                pauseScene.container.x = gameWidth/2 - pauseScene.container.width /2;
-                pauseScene.container.y = gameHeight/2 - pauseScene.container.height /2;
+                pauseScene.container.x = gameWidth / 2 - pauseScene.container.width / 2;
+                pauseScene.container.y = gameHeight / 2 - pauseScene.container.height / 2;
 
                 this.changeGameState(GAMESTATE.INGAME);
                 togglePause();
                 render();
 
+
                 window.addEventListener('keydown', function (event) {
-                    if(!isPaused) {
+                    if (!isPaused) {
                         player.changeDirectionByKeyCode(event.keyCode);
                     }
 
-                    switch(event.keyCode) {
+                    switch (event.keyCode) {
                         case 32:
                             togglePause();
                             break;

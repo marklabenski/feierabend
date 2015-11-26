@@ -1,10 +1,12 @@
+/**
+ * Created by marklabenski on 26.11.15.
+ */
 define([], function () {
-    return function createCoffee(texture, game) {
+    return function createViewable(texture, game, gridPos) {
         var sprite;
         //init with texture
 
-        var Coffee = {
-            id: 'coffee',
+        var Viewable = {
             enteredGridTile: null,
             init: function init() {
                 if (texture) {
@@ -16,31 +18,21 @@ define([], function () {
                     sprite.anchor.x = 0.5;
                     sprite.anchor.y = 0.5;
 
-                    this.enteredGridTile = game.getGrid().getTileAt(3, 3);
+                    this.enteredGridTile = game.getGrid().getTileAt(gridPos.x, gridPos.y);
                     this.enteredGridTile.enter(this);
 
                     sprite.position.x = this.enteredGridTile.getPos().x + sprite.width / 2;
                     sprite.position.y = this.enteredGridTile.getPos().y + sprite.height / 2;
                 }
             },
-            collideFn: function collideFn(collideObj) {
-                if (collideObj.id === 'player') {
-                    collideObj.speed = 200;
-                    setTimeout(function () {
-                        collideObj.speed = 500
-                    }, 2000);
-                    sprite.visible = false;
-                }
-
-            },
             getSprite: function getSprite() {
                 return sprite;
             }
         };
 
-        var coffeeInstance = Object.create(Coffee);
-        coffeeInstance.init();
-        return coffeeInstance;
+        var viewableInstance = Object.create(Viewable);
+        viewableInstance.init();
+        return viewableInstance;
     };
 
 });
