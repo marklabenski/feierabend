@@ -5,8 +5,12 @@ define(['scripts/feierabend/viewable.js'], function (createViewable) {
 
         var Collectable = {
             id: id,
+            collect: function collect() {
+                this.getGridTile().leave(this);
+            },
             collideFn: function collideFn(collideObj) {
                 collide(collideObj, this);
+                this.collect();
             },
         };
 

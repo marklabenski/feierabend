@@ -25,13 +25,15 @@ define([], function () {
                     sprite.position.y = this.enteredGridTile.getPos().y + sprite.height / 2;
                 }
             },
+            getGridTile: function getGridTile() {
+                return this.enteredGridTile;
+            },
             getSprite: function getSprite() {
                 return sprite;
             }
         };
 
         var viewableInstance = Object.create(Viewable);
-        viewableInstance.init();
         return viewableInstance;
     };
 
