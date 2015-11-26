@@ -10,6 +10,7 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js', '
         var Player = {
             id: 'player',
             speed: 500,
+            workmatesFollowing: [],
             enteredGridTile: null,
             move: function() {
                 this.moveSprite(this.getSprite());

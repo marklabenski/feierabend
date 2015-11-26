@@ -1,22 +1,26 @@
 define(['scripts/feierabend/viewable.js', 'scripts/feierabend/collectable.js', 'scripts/feierabend/movable.js'], function (createViewable, createCollectable, createMovable) {
-    return function createWorkmate(queuePos, texture, game, enterGrid) {
+    return function createWorkmate(number, texture, game, enterGrid) {
         var followingPlayer = null;
-        var collideFn = function collideFn(collideObj) {
+        var positionInQueue = 0;
+        var followPlayer= function followPlayer(player) {
+            positionInQueue = player.workmatesFollowing.length;
+            player.workmatesFollowing.push('workmate' + number);
+            followingPlayer = player;
+        };
+        var collideFn = function collideFn(collideObj, thisWorkmate) {
             if (collideObj.id === 'player') {
                 if(followingPlayer) {
-                    //game.pause();
-                    console.log('player hits ' + this.id);
+                    console.log('player hits ' + thisWorkmate.id);
                 } else {
-                    followingPlayer = collideObj;
+                    followPlayer(collideObj);
                 }
             }
         };
         var Workmate = {
-            queuePosition: queuePos,
             move: function move() {
                 if(followingPlayer) {
-                    var followMovement1 = followingPlayer.getPathMovement(this.queuePosition-1);
-                    var followMovement2 = followingPlayer.getPathMovement(this.queuePosition);
+                    var followMovement1 = followingPlayer.getPathMovement(positionInQueue);
+                    var followMovement2 = followingPlayer.getPathMovement(positionInQueue+1);
                     this.setDirection(followMovement1.direction);
                     this.moveSpriteTo(this.getSprite(), followMovement2.tile);
                 }
@@ -24,7 +28,7 @@ define(['scripts/feierabend/viewable.js', 'scripts/feierabend/collectable.js', '
         };
 
         var workmateInstance = Object.create(Workmate);
-        workmateInstance = $.extend({}, createCollectable('workmate'+queuePos, texture, game, collideFn, enterGrid), workmateInstance, createMovable(game));
+        workmateInstance = $.extend({}, createCollectable('workmate' + number, texture, game, collideFn, enterGrid), workmateInstance, createMovable(game));
         return workmateInstance;
     };
 
