@@ -70,12 +70,21 @@ define([], function () {
             },
             leave: function (object) {
                 if (objectsOnTile.indexOf(object) != -1) {
-                    objectsOnTile.slice(objectsOnTile.indexOf(object))
+                    objectsOnTile.splice(objectsOnTile.indexOf(object), 1);
                 }
             },
             getPos: function () {
                 return {x: posX, y: posY}
-            }
+            },
+            visualize: function() {
+                var string = '<div style="overflow:hidden;width:50px; height:50px;font-size:6px;"><span>X:' + posX  + ' Y:' + posY + '</span>' +
+                    '<ul style="margin:0;-webkit-padding-start: 4px;">';
+                objectsOnTile.map(function(obj) {
+                    string += '<li style="margin:0;">' + obj.id + '</li>';
+                });
+                string += '<ul></div>'
+                return string;
+            },
         };
         return Object.create(gridTile);
     };

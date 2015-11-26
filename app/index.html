@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Feierabend - ein "Snake"-Spiel für 9to5-Worker</title>
-    <link href="styles/main.css" media="all">
+    <link href="styles/main.css" media="all" rel="stylesheet">
 </head>
 <body>
 
 <script src="vendor/requirejs/require.js"></script>
 
 <script src="scripts/main.js"></script>
-
+<div class="debug-grid hidden"></div>
+<div class="debug-panel">
+    <label for="display-debug-grid">debug grid</label>
+    <input id="display-debug-grid" type="checkbox" onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/>
+</div>
 </body>
 </html>

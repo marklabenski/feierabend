@@ -67,11 +67,12 @@ define(['scripts/feierabend/player.js',
                     if (!isPaused) {
                         onPlayerMove(function () {
                             player.move();
-                        });
-                        afterPlayerMove(function() {
                             workmates.map(function (workmate) {
                                 workmate.move();
                             });
+                        });
+                        afterPlayerMove(function() {
+                            document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     }
                     break;
@@ -133,12 +134,15 @@ define(['scripts/feierabend/player.js',
                             eventObj.getSprite().visible = false;
                         }
                 }, {x: 3, y: 3});
-                var workmate1 = createWorkmate('workmate1', loader.resources.workmate.texture, game);
-                workmates.push(workmate1);
+
+
+                workmates.push(createWorkmate(1, loader.resources.workmate.texture, game, {x:6, y:3}));
+                workmates.push(createWorkmate(2, loader.resources.workmate.texture, game, {x:8, y:4}));
 
                 gameScene.container.addChild(player.getSprite());
                 gameScene.container.addChild(coffee.getSprite());
-                gameScene.container.addChild(workmate1.getSprite());
+                workmates.map(function(workmate) {gameScene.container.addChild(workmate.getSprite());} );
+
             },
             init: function init() {
                 renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
