@@ -13,6 +13,16 @@ define(['scripts/feierabend/player.js',
     var gameHeight = 600;
     var gridSize = 50;
     var loader = PIXI.loader;
+    var levels = [
+        [
+            {type: 'player', id: 'player', x: 0, y: 0},
+            {type: 'coffee', id: 'coffee1', x: 3, y: 3},
+            {type: 'coffee', id: 'coffee2', x: 3, y: 8},
+            {type: 'workmate', id: '1', x: 5, y: 8},
+            {type: 'workmate', id: '2', x: 8, y: 8}
+        ]
+    ];
+
 
     var createGame = function createGame(_grid) {
         var assets = [
@@ -25,6 +35,7 @@ define(['scripts/feierabend/player.js',
         var gameInstance;
         var gameScene;
         var pauseScene;
+        var currentLevel = 0;
         var currentScenes = [gameScene, pauseScene];
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame'};
@@ -60,7 +71,7 @@ define(['scripts/feierabend/player.js',
         var render = function render(timestamp) {
             requestAnimationFrame(render);
             var onPlayerMove = onElapsed(player.speed, timestamp);
-            var afterPlayerMove = onElapsed(player.speed+1, timestamp);
+            var afterPlayerMove = onElapsed(player.speed + 1, timestamp);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
@@ -71,7 +82,7 @@ define(['scripts/feierabend/player.js',
                                 workmate.move();
                             });
                         });
-                        afterPlayerMove(function() {
+                        afterPlayerMove(function () {
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     }
@@ -123,26 +134,37 @@ define(['scripts/feierabend/player.js',
                 return grid;
             },
             createLevel: function createLevel() {
-                player = createPlayer(loader.resources.player.texture, game);
-                coffee = createCollectable('coffee', loader.resources.coffee.texture, game,
-                    function collideFn(collideObj, eventObj) {
-                        if (collideObj.id === 'player') {
-                            collideObj.speed = 200;
-                            setTimeout(function () {
-                                collideObj.speed = 500
-                            }, 2000);
-                            eventObj.getSprite().visible = false;
+                levels[currentLevel].map(
+                    function (object) {
+                        switch (object.type) {
+                            case 'player':
+                                player = createPlayer(loader.resources.player.texture, game);
+                                gameScene.container.addChild(player.getSprite());
+                                break;
+                            case 'coffee':
+                                var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,
+                                    function collideFn(collideObj, eventObj) {
+                                        if (collideObj.id === 'player') {
+                                            collideObj.speed = 200;
+                                            setTimeout(function () {
+                                                collideObj.speed = 500
+                                            }, 2000);
+                                            eventObj.getSprite().visible = false;
+                                        }
+                                    }, {x: object.x, y: object.y});
+                                gameScene.container.addChild(newObject.getSprite());
+                                break;
+                            case 'workmate':
+                                var newWorkmate = createWorkmate(1, loader.resources.workmate.texture, game, {
+                                    x: object.x,
+                                    y: object.y
+                                });
+                                workmates.push(newWorkmate);
+                                gameScene.container.addChild(newWorkmate.getSprite());
                         }
-                }, {x: 3, y: 3});
 
-
-                workmates.push(createWorkmate(1, loader.resources.workmate.texture, game, {x:6, y:3}));
-                workmates.push(createWorkmate(2, loader.resources.workmate.texture, game, {x:8, y:4}));
-
-                gameScene.container.addChild(player.getSprite());
-                gameScene.container.addChild(coffee.getSprite());
-                workmates.map(function(workmate) {gameScene.container.addChild(workmate.getSprite());} );
-
+                    }
+                );
             },
             init: function init() {
                 renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
