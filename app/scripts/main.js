@@ -12,6 +12,7 @@ requirejs([ "vendor/pixijs/pixi.min", "scripts/feierabend/game.js", "vendor/howl
     var $menuButtons = $('.menu .buttons li');
     var $menu = $('.menu');
     var $canvas = $('canvas');
+    var gameAvailable = false;
 
     // If a Button Click
     $menuButtons.on('click', function() {
@@ -26,19 +27,29 @@ requirejs([ "vendor/pixijs/pixi.min", "scripts/feierabend/game.js", "vendor/howl
                 });
             });
             // Init the game...
-            feierabend.init();
+            if(!gameAvailable) {
+                feierabend.init();
+                gameAvailable = true;
+            }
         } else if($(this).attr("id") == "highscoreButton") {
             // do something....
         }
 
     });
 
-    // This function is not complete
-    // This function should play a click sound if the user enters a button with the mouse
+    $('html').on("keydown", function (event) {
+        if(event.which == '27') {
+            // close the game
+            $canvas.slideUp(600, function() {
+                // Then open the Menu
+                $menu.slideDown(600, function() {
+                });
+            });
+        }
+    });
+
     $menuButtons.mouseenter(function() {
-        var sound = new Howl({
-            urls: ['../sound/click.wav']
-        });
+        var sound = document.getElementById('click');
         sound.play();
     });
 

@@ -74,6 +74,7 @@ define(['scripts/feierabend/player.js',
         };
 
         var togglePause = function() {
+            console.log("togglePause");
             if(isPaused) {
                 isPaused = false;
                 stage.removeChild(pauseScene.container);
@@ -134,7 +135,7 @@ define(['scripts/feierabend/player.js',
                 pauseScene.container.y = gameHeight/2 - pauseScene.container.height /2;
 
                 this.changeGameState(GAMESTATE.INGAME);
-                togglePause();
+                isPaused = true;
                 render();
 
                 window.addEventListener('keydown', function (event) {
