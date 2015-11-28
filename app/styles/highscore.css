@@ -1,6 +1,7 @@
 body {
     background-color: lightgray;
     min-width: 1000px;
+    font-family: "Nueva Std", sans;
 }
 
 #highscore-lists {
@@ -20,34 +21,51 @@ body {
         .highscore-list-name {
             position: absolute;
             width: 100%;
-            text-align: center;
          }
 
 #mitarbeiter_des_monats {
-    height: 500px;
+    height: 615px;
+    width: 700px;
 }
     #mitarbeiter_des_monats-border {
         background-image: url("../img/mitarbeiter_des_monats.svg");
     }
         #mitarbeiter_des_monats-name {
-            font-size: 6em;
+            font-size: 4em;
             font-weight: bold;
             font-style: italic;
-            top: 65%;
+            top: 39%;
+            text-align: center;
+        }
+        #mitarbeiter_des_monats-punkte {
+            bottom: 11%;
+            width: 100%;
+            font-size: 4em;
+            font-weight: bold;
+            font-style: italic;
+            text-align: center;
+            position: absolute;
+            transform: rotate(4deg);
         }
 
 #der_rest {
     height: 400px;
     width: 400px;
+    left: 2%;
 }
     #der_rest-zettel {
-        background-image: url("../img/der_rest_zettel.svg");
+        background-image: url("../img/der_rest.svg");
     }
         #der_rest-name {
-            top: 30%;
+            top: 15%;
+            left: 25%;
+            font-family: "Courier New", "Nueva Std", sans;
         }
-        #der_rest-name li {
-            transform: rotate(7.5deg);
-            line-height: 25px;
+        #der_rest-name table {
+            transform: rotate(11deg);
+            line-height: 30px;
             list-style-type: none;
         }
+            #der_rest-name td {
+                padding: 0 6px;
+            }
