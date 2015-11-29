@@ -5,14 +5,14 @@ function showHighscoreList () {
     //Test
     localStorage["1"] = JSON.stringify(["8Zeichen", 27364]);
     localStorage["2"] = JSON.stringify(["mindest.", 22339]);
-    localStorage["3"] = JSON.stringify(["sonst", 22339]);
-    localStorage["4"] = JSON.stringify(["geht die", 22339]);
-    localStorage["5"] = JSON.stringify(["Schrift", 22339]);
-    localStorage["6"] = JSON.stringify(["über das", 22339]);
-    localStorage["7"] = JSON.stringify(["das", 22339]);
-    localStorage["8"] = JSON.stringify(["Schild", 22339]);
-    localStorage["9"] = JSON.stringify(["hinaus", 22339]);
-    localStorage["10"] = JSON.stringify(["WAS GEHT", 22339]);
+    localStorage["3"] = JSON.stringify(["sonst", 18331]);
+    localStorage["4"] = JSON.stringify(["geht die", 16276]);
+    localStorage["5"] = JSON.stringify(["Schrift", 15783]);
+    localStorage["6"] = JSON.stringify(["über das", 10231]);
+    localStorage["7"] = JSON.stringify(["das", 6032]);
+    localStorage["8"] = JSON.stringify(["Schild", 2391]);
+    localStorage["9"] = JSON.stringify(["hinaus", 673]);
+    localStorage["10"] = JSON.stringify(["WAS GEHT", 562]);
     //
 
     //Show #1

@@ -7,6 +7,7 @@ define([], function () {
         var DIRECTION= {DOWN: 0, LEFT: 1, TOP: 2, RIGHT: 3};
         var direction= 0;
         var onGridTile = null;
+        var path = [];
 
         var movable = {
             changeDirection: function changeDirection(change) {
@@ -17,13 +18,45 @@ define([], function () {
                     newDirection = DIRECTION.DOWN;
                 }
                 direction = newDirection;
+                this.setDirection(direction);
                 return direction;
+            },
+            setDirection: function setDirection(dir) {
+                this.getSprite().rotation = dir * (Math.PI * 0.5);
             },
             setOnGrid: function setOnGrid(tile) {
                 onGridTile = tile;
+                path.push({'tile': tile, 'direction':direction});
+            },
+            getPathMovement: function getTileOnPath(offset) {
+                if(offset) {
+                    return path[path.length - 1 - offset];
+                } else {
+                    return path[path.length - 1];
+                }
+            },
+            moveSpriteTo: function moveSpriteTo(sprite, moveToTile) {
+                if(onGridTile === null)
+                    onGridTile = this.enteredGridTile;
+
+                onGridTile.leave(this);
+                moveToTile.enter(this);
+
+                var moveX = moveToTile.getPos().x;
+                var moveY = moveToTile.getPos().y;
+
+                sprite.position.x = moveX + (sprite.width/2);
+                sprite.position.y = moveY + (sprite.height/2);
+                onGridTile = moveToTile;
+
+
+                path.push({'tile': onGridTile, 'direction':direction});
             },
             moveSprite: function moveSprite(sprite) {
                 var moveToTile;
+
+                if(onGridTile === null)
+                    onGridTile = this.enteredGridTile;
 
                 if (direction === DIRECTION.DOWN) {
                     moveToTile = onGridTile.getSouth();
@@ -35,14 +68,9 @@ define([], function () {
                     moveToTile = onGridTile.getEast();
                 }
                 //moveToTile
-
-                var moveX = moveToTile.getPos().x;
-                var moveY = moveToTile.getPos().y;
-
-
-                sprite.position.x = moveX + (sprite.width/2);
-                sprite.position.y = moveY + (sprite.height/2);
-                onGridTile = moveToTile;
+                if(moveToTile !== null) {
+                    this.moveSpriteTo(sprite, moveToTile);
+                }
             }
         };
         return Object.create(movable);

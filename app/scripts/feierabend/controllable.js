@@ -5,11 +5,11 @@ define(function() {
 
             switch (keyCode) {
                 case 37: // arrow left
-                    sprite.rotation = this.changeDirection(-1) * (Math.PI * 0.5);
+                    this.changeDirection(-1);
                     break;
                 case 39: // arrow right
                     // Do something for "right arrow" key press.
-                    sprite.rotation = this.changeDirection(1) * (Math.PI * 0.5);
+                    this.changeDirection(1);
                     break;
                 default:
                     return; // Quit when this doesn't handle the key event.
