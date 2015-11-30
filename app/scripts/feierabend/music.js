@@ -1,6 +1,6 @@
 define(["vendor/howler/howler.min.js"], function (howler) {
   var bgMusic = new howler.Howl({
-    urls: ['scripts/feierabend/Snake2.wav'],
+    urls: ['audio/background-music.wav'],
     autoplay: false,
     loop: true,
     volume: 0.5,
