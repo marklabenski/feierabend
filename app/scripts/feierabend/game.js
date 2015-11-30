@@ -204,12 +204,11 @@ define(['scripts/feierabend/player.js',
         return gameInstance;
     };
 
-
     var grid = createGrid(gridSize, gameWidth, gameHeight);
 
     var game = createGame(grid);
     loader.once('complete', $.proxy(game.init, game));
-    loader.load();
 
-    return game;
+
+    return loader;
 });

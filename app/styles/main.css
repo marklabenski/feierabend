@@ -22,7 +22,7 @@ body {
 }
 
 canvas {
-    display: none;
+    /*display: none;*/
 }
 
 .debug-grid.hidden {

@@ -28,7 +28,7 @@ requirejs([ "vendor/pixijs/pixi.min", "scripts/feierabend/game.js", "vendor/howl
             });
             // Init the game...
             if(!gameAvailable) {
-                feierabend.init();
+                feierabend.load();
                 gameAvailable = true;
             }
         } else if($(this).attr("id") == "highscoreButton") {
