@@ -4,9 +4,12 @@
  */
     // pixi exposes a premade instance for you to use.
 
-requirejs(["scripts/feierabend/game.js", "vendor/jquery/jquery-2.1.4.min.js"], function(game) {
+requirejs([
+    "scripts/feierabend/game.js",
+    "scripts/feierabend/music.js",
+    "vendor/jquery/jquery-2.1.4.min.js",
+], function(game, playMusic) {
     window.feierabend = game;
 
-    //feierabend.init();
-
+    var bgMusic = playMusic('backgroundMusic');
 });
