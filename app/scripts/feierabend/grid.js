@@ -57,8 +57,6 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
                 return string;
             }
         };
-
-
         gridInstance = gridInstance || Object.create(grid);
         gridInstance.init();
         return gridInstance;

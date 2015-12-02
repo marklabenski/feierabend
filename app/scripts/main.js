@@ -6,13 +6,10 @@
 
 
 requirejs([
-    "vendor/pixijs/pixi.min",
     "scripts/feierabend/game.js",
     "scripts/feierabend/music.js",
     "vendor/jquery/jquery-2.1.4.min.js",
-], function(pixi, game, playMusic) {
-    window.feierabend = game;
-
+], function(game, playMusic) {
     var bgMusic = playMusic('backgroundMusic');
 
     window.feierabend = game;

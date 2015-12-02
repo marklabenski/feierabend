@@ -21,7 +21,7 @@ define(['scripts/feierabend/viewable.js', 'scripts/feierabend/collectable.js', '
                 if(followingPlayer) {
                     var followMovement1 = followingPlayer.getPathMovement(positionInQueue);
                     var followMovement2 = followingPlayer.getPathMovement(positionInQueue+1);
-                    this.setDirection(followMovement1.direction);
+                    this.setRotationByDirection(followMovement1.direction);
                     this.moveSpriteTo(this.getSprite(), followMovement2.tile);
                 }
             },

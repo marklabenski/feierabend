@@ -18,8 +18,9 @@ define(['scripts/feierabend/player.js',
             {type: 'player', id: 'player', x: 0, y: 0},
             {type: 'coffee', id: 'coffee1', x: 3, y: 3},
             {type: 'coffee', id: 'coffee2', x: 3, y: 8},
+            {type: 'coffee', id: 'coffee2', x: 3, y: 9},
             {type: 'workmate', id: '1', x: 5, y: 8},
-            {type: 'workmate', id: '2', x: 8, y: 8}
+            {type: 'workmate', id: '2', x: 8, y: 8},
         ]
     ];
 
@@ -44,7 +45,7 @@ define(['scripts/feierabend/player.js',
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
-        var player, coffee, workmates = [];
+        var player, workmates = [];
         var counters = {};
 
         assets.map(function (asset) {
@@ -71,7 +72,6 @@ define(['scripts/feierabend/player.js',
         var render = function render(timestamp) {
             requestAnimationFrame(render);
             var onPlayerMove = onElapsed(player.speed, timestamp);
-            var afterPlayerMove = onElapsed(player.speed + 1, timestamp);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
@@ -81,8 +81,6 @@ define(['scripts/feierabend/player.js',
                             workmates.map(function (workmate) {
                                 workmate.move();
                             });
-                        });
-                        afterPlayerMove(function () {
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     }
@@ -109,6 +107,10 @@ define(['scripts/feierabend/player.js',
             getGridSize: function getGridSize() {
                 return gridSize;
             },
+            getGrid: function getGrid() {
+                return grid;
+            },
+
             changeGameState: function changeGameState(stateString) {
                 stage.removeChildren();
                 if (GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
@@ -117,9 +119,6 @@ define(['scripts/feierabend/player.js',
                 switch (gameState) {
                     case GAMESTATE.INGAME:
                         currentScenes = [pauseScene, gameScene];
-                        break;
-                    default:
-                        //something
                         break;
                 }
 
@@ -130,9 +129,7 @@ define(['scripts/feierabend/player.js',
             pause: function pauseGame() {
                 togglePause();
             },
-            getGrid: function getGrid() {
-                return grid;
-            },
+
             createLevel: function createLevel() {
                 levels[currentLevel].map(
                     function (object) {
@@ -147,7 +144,10 @@ define(['scripts/feierabend/player.js',
                                         if (collideObj.id === 'player') {
                                             collideObj.speed = 200;
                                             setTimeout(function () {
-                                                collideObj.speed = 500
+                                                collideObj.speed = 500;
+                                                //hello michael put your awesome music code here: !
+                                                //hallo michael putze dein musicalischen kot hier: !
+
                                             }, 2000);
                                             eventObj.getSprite().visible = false;
                                         }
@@ -185,7 +185,6 @@ define(['scripts/feierabend/player.js',
                 togglePause();
                 render();
 
-
                 window.addEventListener('keydown', function (event) {
                     if (!isPaused) {
                         player.changeDirectionByKeyCode(event.keyCode);
@@ -208,7 +207,6 @@ define(['scripts/feierabend/player.js',
 
     var game = createGame(grid);
     loader.once('complete', $.proxy(game.init, game));
-
 
     return loader;
 });
