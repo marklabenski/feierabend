@@ -1,6 +1,6 @@
 define(["vendor/howler/howler.min.js"], function (howler) {
   var bgMusic = new howler.Howl({
-    urls: ['audio/background-music.wav'],
+    urls: ['audio/background-music.wav', 'audio/background-music-schnell.wav],
     autoplay: false,
     loop: true,
     volume: 0.5,

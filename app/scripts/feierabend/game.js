@@ -143,8 +143,10 @@ define(['scripts/feierabend/player.js',
                                     function collideFn(collideObj, eventObj) {
                                         if (collideObj.id === 'player') {
                                             collideObj.speed = 200;
+                                            var bgMusic = playMusic('background-music-fast');
                                             setTimeout(function () {
                                                 collideObj.speed = 500;
+                                                var bgMusic = playMusic('background-music');
                                                 //hello michael put your awesome music code here: !
                                                 //hallo michael putze dein musicalischen kot hier: !
 
