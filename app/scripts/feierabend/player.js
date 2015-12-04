@@ -27,11 +27,3 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js', '
     };
 
 });
-
-
-meinObject = {hallo: 123};
-meinObject2 = {coolerArray: [3,2,1]};
-meinNeuesObject = $.extend({}, meinObject, meinObject2);
-
-
-meinObject.coolerArray[0];

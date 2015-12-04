@@ -2,27 +2,15 @@
  * Created by marklabenski on 31.10.15.
  */
 
-define(['scripts/feierabend/player.js',
-    'scripts/feierabend/scene.js',
+define([ 'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
-    'scripts/feierabend/collectable.js',
-    'scripts/feierabend/workmate.js',
+    'scripts/feierabend/level.js',
     'vendor/pixijs/pixi.min'
-], function (createPlayer, createScene, createGrid, createCollectable, createWorkmate) {
+], function (createScene, createGrid, createLevel) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
     var loader = PIXI.loader;
-    var levels = [
-        [
-            {type: 'player', id: 'player', x: 0, y: 0},
-            {type: 'coffee', id: 'coffee1', x: 3, y: 3},
-            {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-            {type: 'coffee', id: 'coffee2', x: 3, y: 9},
-            {type: 'workmate', id: '1', x: 5, y: 8},
-            {type: 'workmate', id: '2', x: 8, y: 8},
-        ]
-    ];
 
 
     var createGame = function createGame(_grid) {
@@ -36,7 +24,7 @@ define(['scripts/feierabend/player.js',
         var gameInstance;
         var gameScene;
         var pauseScene;
-        var currentLevel = 0;
+		var currentLevel = 0;
         var currentScenes = [gameScene, pauseScene];
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame'};
@@ -130,50 +118,18 @@ define(['scripts/feierabend/player.js',
                 togglePause();
             },
 
-            createLevel: function createLevel() {
-                levels[currentLevel].map(
-                    function (object) {
-                        switch (object.type) {
-                            case 'player':
-                                player = createPlayer(loader.resources.player.texture, game);
-                                gameScene.container.addChild(player.getSprite());
-                                break;
-                            case 'coffee':
-                                var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,
-                                    function collideFn(collideObj, eventObj) {
-                                        if (collideObj.id === 'player') {
-                                            collideObj.speed = 200;
-                                            setTimeout(function () {
-                                                collideObj.speed = 500;
-                                                //hello michael put your awesome music code here: !
-                                                //hallo michael putze dein musicalischen kot hier: !
-
-                                            }, 2000);
-                                            eventObj.getSprite().visible = false;
-                                        }
-                                    }, {x: object.x, y: object.y});
-                                gameScene.container.addChild(newObject.getSprite());
-                                break;
-                            case 'workmate':
-                                var newWorkmate = createWorkmate(1, loader.resources.workmate.texture, game, {
-                                    x: object.x,
-                                    y: object.y
-                                });
-                                workmates.push(newWorkmate);
-                                gameScene.container.addChild(newWorkmate.getSprite());
-                        }
-
-                    }
-                );
-            },
             init: function init() {
-                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
+                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
                 document.body.appendChild(renderer.view);
 
                 gameScene = createScene();
                 pauseScene = createScene();
-
-                this.createLevel();
+				
+				// creates Level with the index "currentLevel"
+				// Level objects are defined in level.js in "levels"
+                var level = createLevel(currentLevel, loader, game, gameScene, renderer);
+                player = level[0]; // player Object
+                workmates = level[1]; // workmates as Array
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;
