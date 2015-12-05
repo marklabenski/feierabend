@@ -6,7 +6,8 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/collectable.js',
     'scripts/feierabend/workmate.js',
     'scripts/feierabend/viewable.js',
-], function (createPlayer, createCollectable, createWorkmate, createViewable) {
+    'scripts/feierabend/music.js',
+], function (createPlayer, createCollectable, createWorkmate, createViewable, playMusic) {
 
 
     var levels = [
