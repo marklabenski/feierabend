@@ -10,19 +10,15 @@ html, body {
     height: 100%;
 }
 
-html {
-    display: table;
-    margin: auto;
-}
-
 body {
     font-family: sans-serif;
-    display: table-cell;
-    vertical-align: middle;
+    background: url("../img/body_bg.jpg") no-repeat;
 }
 
 canvas {
     /*display: none;*/
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 .debug-grid.hidden {
