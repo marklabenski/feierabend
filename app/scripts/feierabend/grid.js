@@ -44,7 +44,7 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
                 return tiles[x][y];
             },
             visualize: function visualize() {
-                var string = '<div style="float:left;z-index:1000;position:absolute; left:0; right:0;">';
+                var string = '<div style="width: 800px; margin: 0 auto;z-index:1000;position:absolute; left:0; right:0;">';
                 for (var x = 0; x < (sceneWidth / tileSize); x += 1) {
                     string += '<div style="display:inline-block;">';
 

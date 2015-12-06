@@ -16,13 +16,14 @@ define(['scripts/feierabend/player.js',
             {type: 'player', id: 'player', x: 0, y: 0},
             {type: 'coffee', id: 'coffee1', x: 3, y: 3},
             {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-            {type: 'coffee', id: 'coffee2', x: 3, y: 9},
+            {type: 'coffee', id: 'coffee3', x: 3, y: 9},
             {type: 'workmate', id: '1', x: 5, y: 8},
             {type: 'workmate', id: '2', x: 8, y: 8},
         ]
     ];
 	
 	var workmates = [];
+
 	
     return function createLevel(currentLevel, loader, game, gameScene, renderer)  {
 
@@ -48,9 +49,10 @@ define(['scripts/feierabend/player.js',
                                     var bgMusic = playMusic('background-music-fast');
                                     setTimeout(function () {
                                         collideObj.speed = 500;
+
                                         var bgMusic = playMusic('background-music');
-                                        //hello michael put your awesome music code here: !
-                                        //hallo michael putze dein musicalischen kot hier: !
+                                        //TODO: hello michael put your awesome music code here: !
+                                        //TODO: hallo michael putze dein musicalischen kot hier: !
 
                                     }, 2000);
                                     eventObj.getSprite().visible = false;
