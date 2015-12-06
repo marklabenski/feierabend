@@ -1,4 +1,6 @@
-define(['scripts/feierabend/viewable.js', 'scripts/feierabend/collectable.js', 'scripts/feierabend/movable.js'], function (createViewable, createCollectable, createMovable) {
+define(['scripts/feierabend/viewable.js',
+        'scripts/feierabend/collectable.js',
+        'scripts/feierabend/movable.js'], function (createViewable, createCollectable, createMovable) {
     return function createWorkmate(number, texture, game, enterGrid) {
         var followingPlayer = null;
         var positionInQueue = 0;
@@ -26,6 +28,7 @@ define(['scripts/feierabend/viewable.js', 'scripts/feierabend/collectable.js', '
                 }
             },
         };
+
 
         var workmateInstance = Object.create(Workmate);
         workmateInstance = $.extend({}, createCollectable('workmate' + number, texture, game, collideFn, enterGrid), workmateInstance, createMovable(game));

@@ -36,6 +36,11 @@ define([ 'scripts/feierabend/scene.js',
         var player, workmates = [];
         var counters = {};
 
+        var scoreDiv = $("#score");
+        var score = 0;
+        var steps = 0;
+
+
         assets.map(function (asset) {
             loader.add(asset.name, asset.file);
         });
@@ -66,7 +71,18 @@ define([ 'scripts/feierabend/scene.js',
                     if (!isPaused) {
                         onPlayerMove(function () {
                             player.move();
+
+
+                            //Score
+                            score += 1+player.workmatesFollowing.length; //TODO: Wieso kann ich auf die player-Eigenschaft "workmatesFollowing" zugreifen? Vielleicht weilin level.js player.js drinne is?
+                            scoreDiv.text(score);
+                            steps++;
+                            console.log(steps);
+
+
+
                             workmates.map(function (workmate) {
+                                //TODO: Warum wird das hier immer 2 mal aufgerufen?
                                 workmate.move();
                             });
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();

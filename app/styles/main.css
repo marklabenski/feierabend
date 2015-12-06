@@ -21,6 +21,15 @@ canvas {
     margin-right: 30%;
 }
 
+#score {
+    background-color: #5e5e5e;
+    padding: 20px 10px;
+    font-size: 2em;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+}
+
 .debug-grid.hidden {
     display:none !important;
 
