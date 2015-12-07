@@ -20,7 +20,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
 
   return function playAudio(audioString) {
     var audios = { footstep: footstep, drinkCoffee: drinkCoffee };
-    if(music.hasOwnProperty(audioString)) {
+    if(audios.hasOwnProperty(audioString)) {
 
       audioToPlay = audios[audioString];
       audioToPlay.play();

@@ -5,8 +5,9 @@
 define([ 'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
     'scripts/feierabend/level.js',
+    'scripts/feierabend/audio.js',
     'vendor/pixijs/pixi.min'
-], function (createScene, createGrid, createLevel) {
+], function (createScene, createGrid, createLevel, playAudio) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -71,6 +72,7 @@ define([ 'scripts/feierabend/scene.js',
                     if (!isPaused) {
                         onPlayerMove(function () {
                             player.move();
+                            playAudio("footstep");
 
 
                             //Score

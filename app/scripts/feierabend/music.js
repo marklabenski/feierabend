@@ -3,7 +3,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     urls: ['audio/background-music.wav', 'audio/background-music-schnell.wav'],
     autoplay: false,
     loop: true,
-    volume: 0.5,
+    volume: 0.2,
     onend: function () {
       //console.log('Finished!');
     }

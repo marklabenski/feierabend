@@ -7,7 +7,8 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/workmate.js',
     'scripts/feierabend/viewable.js',
     'scripts/feierabend/music.js',
-], function (createPlayer, createCollectable, createWorkmate, createViewable, playMusic) {
+    'scripts/feierabend/audio.js',
+], function (createPlayer, createCollectable, createWorkmate, createViewable, playMusic, playAudio) {
 
 
     var levels = [
@@ -47,6 +48,7 @@ define(['scripts/feierabend/player.js',
                                 if (collideObj.id === 'player') {
                                     collideObj.speed = 200;
                                     var bgMusic = playMusic('background-music-fast');
+                                    playAudio("drinkCoffee");
                                     setTimeout(function () {
                                         collideObj.speed = 500;
 
