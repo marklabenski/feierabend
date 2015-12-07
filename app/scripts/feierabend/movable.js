@@ -7,6 +7,7 @@ define([], function () {
         var DIRECTION= {DOWN: 0, LEFT: 1, TOP: 2, RIGHT: 3};
         var direction= 0;
         var onGridTile = null;
+        //TODO: limit path length
         var path = [];
 
         var movable = {
@@ -18,17 +19,18 @@ define([], function () {
                     newDirection = DIRECTION.DOWN;
                 }
                 direction = newDirection;
-                this.setDirection(direction);
+                this.setRotationByDirection(direction);
                 return direction;
             },
-            setDirection: function setDirection(dir) {
-                this.getSprite().rotation = dir * (Math.PI * 0.5);
+            setRotationByDirection: function setRotationByDirection(dir) {
+                this.getSprite().rotation = dir * (Math.PI / 2);
             },
             setOnGrid: function setOnGrid(tile) {
                 onGridTile = tile;
                 path.push({'tile': tile, 'direction':direction});
             },
-            getPathMovement: function getTileOnPath(offset) {
+            //whoa! A fucking time machine!
+            getPathMovement: function getPathMovement(offset) {
                 if(offset) {
                     return path[path.length - 1 - offset];
                 } else {
@@ -47,9 +49,8 @@ define([], function () {
 
                 sprite.position.x = moveX + (sprite.width/2);
                 sprite.position.y = moveY + (sprite.height/2);
+
                 onGridTile = moveToTile;
-
-
                 path.push({'tile': onGridTile, 'direction':direction});
             },
             moveSprite: function moveSprite(sprite) {

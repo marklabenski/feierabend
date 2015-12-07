@@ -2,27 +2,15 @@
  * Created by marklabenski on 31.10.15.
  */
 
-define(['scripts/feierabend/player.js',
-    'scripts/feierabend/scene.js',
+define([ 'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
-    'scripts/feierabend/collectable.js',
-    'scripts/feierabend/workmate.js',
-    'scripts/feierabend/music.js',
-    'vendor/pixijs/pixi.min',
-], function (createPlayer, createScene, createGrid, createCollectable, createWorkmate, playMusic){
+    'scripts/feierabend/level.js',
+    'vendor/pixijs/pixi.min'
+], function (createScene, createGrid, createLevel) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
     var loader = PIXI.loader;
-    var levels = [
-        [
-            {type: 'player', id: 'player', x: 0, y: 0},
-            {type: 'coffee', id: 'coffee1', x: 3, y: 3},
-            {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-            {type: 'workmate', id: '1', x: 5, y: 8},
-            {type: 'workmate', id: '2', x: 8, y: 8}
-        ]
-    ];
 
 
     var createGame = function createGame(_grid) {
@@ -36,7 +24,7 @@ define(['scripts/feierabend/player.js',
         var gameInstance;
         var gameScene;
         var pauseScene;
-        var currentLevel = 0;
+		var currentLevel = 0;
         var currentScenes = [gameScene, pauseScene];
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame'};
@@ -45,8 +33,13 @@ define(['scripts/feierabend/player.js',
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
-        var player, coffee, workmates = [];
+        var player, workmates = [];
         var counters = {};
+
+        var scoreDiv = $("#score");
+        var score = 0;
+        var steps = 0;
+
 
         assets.map(function (asset) {
             loader.add(asset.name, asset.file);
@@ -72,18 +65,26 @@ define(['scripts/feierabend/player.js',
         var render = function render(timestamp) {
             requestAnimationFrame(render);
             var onPlayerMove = onElapsed(player.speed, timestamp);
-            var afterPlayerMove = onElapsed(player.speed + 1, timestamp);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
                     if (!isPaused) {
                         onPlayerMove(function () {
                             player.move();
+
+
+                            //Score
+                            score += 1+player.workmatesFollowing.length; //TODO: Wieso kann ich auf die player-Eigenschaft "workmatesFollowing" zugreifen? Vielleicht weilin level.js player.js drinne is?
+                            scoreDiv.text(score);
+                            steps++;
+                            console.log(steps);
+
+
+
                             workmates.map(function (workmate) {
+                                //TODO: Warum wird das hier immer 2 mal aufgerufen?
                                 workmate.move();
                             });
-                        });
-                        afterPlayerMove(function () {
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     }
@@ -110,6 +111,10 @@ define(['scripts/feierabend/player.js',
             getGridSize: function getGridSize() {
                 return gridSize;
             },
+            getGrid: function getGrid() {
+                return grid;
+            },
+
             changeGameState: function changeGameState(stateString) {
                 stage.removeChildren();
                 if (GAMESTATE[stateString.toUpperCase()] === stateString.toLowerCase())
@@ -118,9 +123,6 @@ define(['scripts/feierabend/player.js',
                 switch (gameState) {
                     case GAMESTATE.INGAME:
                         currentScenes = [pauseScene, gameScene];
-                        break;
-                    default:
-                        //something
                         break;
                 }
 
@@ -131,52 +133,19 @@ define(['scripts/feierabend/player.js',
             pause: function pauseGame() {
                 togglePause();
             },
-            getGrid: function getGrid() {
-                return grid;
-            },
-            createLevel: function createLevel() {
-                levels[currentLevel].map(
-                    function (object) {
-                        switch (object.type) {
-                            case 'player':
-                                player = createPlayer(loader.resources.player.texture, game);
-                                gameScene.container.addChild(player.getSprite());
-                                break;
-                            case 'coffee':
-                                var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,
-                                    function collideFn(collideObj, eventObj) {
-                                        if (collideObj.id === 'player') {
-                                            collideObj.speed = 200;
-                                           playMusic("backgroundMusicFast");
-                                            setTimeout(function () {
-                                                collideObj.speed = 500
-                                                playMusic("backgroundMusic");
-                                            }, 2000);
-                                            eventObj.getSprite().visible = false;
-                                        }
-                                    }, {x: object.x, y: object.y});
-                                gameScene.container.addChild(newObject.getSprite());
-                                break;
-                            case 'workmate':
-                                var newWorkmate = createWorkmate(1, loader.resources.workmate.texture, game, {
-                                    x: object.x,
-                                    y: object.y
-                                });
-                                workmates.push(newWorkmate);
-                                gameScene.container.addChild(newWorkmate.getSprite());
-                        }
 
-                    }
-                );
-            },
             init: function init() {
-                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight, {backgroundColor: 0x1099bb});
+                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
                 document.body.appendChild(renderer.view);
 
                 gameScene = createScene();
                 pauseScene = createScene();
-
-                this.createLevel();
+				
+				// creates Level with the index "currentLevel"
+				// Level objects are defined in level.js in "levels"
+                var level = createLevel(currentLevel, loader, game, gameScene, renderer);
+                player = level[0]; // player Object
+                workmates = level[1]; // workmates as Array
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;
@@ -187,7 +156,6 @@ define(['scripts/feierabend/player.js',
                 this.changeGameState(GAMESTATE.INGAME);
                 togglePause();
                 render();
-
 
                 window.addEventListener('keydown', function (event) {
                     if (!isPaused) {
@@ -211,7 +179,6 @@ define(['scripts/feierabend/player.js',
 
     var game = createGame(grid);
     loader.once('complete', $.proxy(game.init, game));
-
 
     return loader;
 });
