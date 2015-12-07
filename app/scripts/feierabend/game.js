@@ -135,6 +135,7 @@ define([ 'scripts/feierabend/scene.js',
             pause: function pauseGame() {
                 togglePause();
             },
+
             init: function init() {
                 renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
                 document.body.appendChild(renderer.view);

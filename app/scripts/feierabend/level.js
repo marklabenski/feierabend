@@ -49,13 +49,10 @@ define(['scripts/feierabend/player.js',
                                     collideObj.speed = 200;
                                     var bgMusic = playMusic('background-music-fast');
                                     playAudio("drinkCoffee");
+                                    playMusic('backgroundMusicFast');
                                     setTimeout(function () {
                                         collideObj.speed = 500;
-
-                                        var bgMusic = playMusic('background-music');
-                                        //TODO: hello michael put your awesome music code here: !
-                                        //TODO: hallo michael putze dein musicalischen kot hier: !
-
+                                        playMusic('backgroundMusic');
                                     }, 2000);
                                     eventObj.getSprite().visible = false;
                                 }
