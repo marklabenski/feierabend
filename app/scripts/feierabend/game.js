@@ -6,8 +6,9 @@ define([ 'scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
     'scripts/feierabend/level.js',
     'scripts/feierabend/audio.js',
-    'vendor/pixijs/pixi.min'
-], function (createScene, createGrid, createLevel, playAudio) {
+    'scripts/feierabend/score.js',
+    'vendor/pixijs/pixi.min',
+], function (createScene, createGrid, createLevel, playAudio, score) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -36,11 +37,6 @@ define([ 'scripts/feierabend/scene.js',
         var gameState = GAMESTATE.INGAME;
         var player, workmates = [];
         var counters = {};
-
-        var scoreDiv = $("#score");
-        var score = 0;
-        var steps = 0;
-
 
         assets.map(function (asset) {
             loader.add(asset.name, asset.file);
@@ -74,17 +70,11 @@ define([ 'scripts/feierabend/scene.js',
                             player.move();
                             playAudio("footstep");
 
-
                             //Score
-                            score += 1+player.workmatesFollowing.length; //TODO: Wieso kann ich auf die player-Eigenschaft "workmatesFollowing" zugreifen? Vielleicht weilin level.js player.js drinne is?
-                            scoreDiv.text(score);
-                            steps++;
-                            console.log(steps);
-
-
+                            score.update(1 + player.workmatesFollowing.length);
+                            score.doStep();
 
                             workmates.map(function (workmate) {
-                                //TODO: Warum wird das hier immer 2 mal aufgerufen?
                                 workmate.move();
                             });
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
