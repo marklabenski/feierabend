@@ -20,18 +20,22 @@ define([ 'scripts/feierabend/scene.js',
             {name: 'player', file: 'img/player.png'},
             {name: 'coffee', file: 'img/coffee.png'},
             {name: 'workmate', file: 'img/workmate.png'},
+			{name: 'door', file: 'img/door.png'},
         ];
 
         var renderer = null;
         var gameInstance;
         var gameScene;
         var pauseScene;
+		var winScene;
 		var currentLevel = 0;
-        var currentScenes = [gameScene, pauseScene];
+        var currentScenes = [gameScene, pauseScene, winScene];
         var stage = new PIXI.Container();
-        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame'};
+        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish'};
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
+		var winText = new PIXI.Text("Level Complete \nCongratulations!", {font: "20px Arial", fill: "red"});
         var isPaused = false;
+		var finishLevel = false;
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
@@ -78,9 +82,27 @@ define([ 'scripts/feierabend/scene.js',
                                 workmate.move();
                             });
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
+							
+							// Pause the game with ESC
+							$('html').on("keydown", function (event) {
+								var canvas = $('canvas');
+								var menu = $('.menu');
+								if (event.which == '27') {
+									// close the game
+									canvas.slideUp(600, function () {
+										// Then open the Menu
+										menu.slideDown(600, function () {
+										});
+									});
+								}
+							});
+							
                         });
                     }
-                    break;
+					break;
+				case GAMESTATE.FINISH:
+					stage.addChild(winScene.container);
+					break;
             }
             renderer.render(stage);
         };
@@ -115,6 +137,9 @@ define([ 'scripts/feierabend/scene.js',
                 switch (gameState) {
                     case GAMESTATE.INGAME:
                         currentScenes = [pauseScene, gameScene];
+						break;
+					case GAMESTATE.FINISH:
+						currentScenes = [gameScene, winScene];
                         break;
                 }
 
@@ -127,11 +152,13 @@ define([ 'scripts/feierabend/scene.js',
             },
 
             init: function init() {
-                renderer = PIXI.autoDetectRenderer(gameWidth, gameHeight);
-                document.body.appendChild(renderer.view);
-
+				
+				renderer = PIXI.autoDetectRenderer(800, 600);
+				document.body.appendChild(renderer.view);
+				
                 gameScene = createScene();
                 pauseScene = createScene();
+                winScene = createScene();
 				
 				// creates Level with the index "currentLevel"
 				// Level objects are defined in level.js in "levels"
@@ -144,6 +171,15 @@ define([ 'scripts/feierabend/scene.js',
                 pauseScene.container.height = 200;
                 pauseScene.container.x = gameWidth / 2 - pauseScene.container.width / 2;
                 pauseScene.container.y = gameHeight / 2 - pauseScene.container.height / 2;
+				
+				
+				winScene.container.addChild(winText);
+				winScene.container.width = 400;
+				winScene.container.height = 200;
+				winScene.container.x = gameWidth / 2 - winScene.container.width / 2;
+				winScene.container.y = gameHeight / 2 - winScene.container.height / 2;
+
+					
 
                 this.changeGameState(GAMESTATE.INGAME);
                 togglePause();
