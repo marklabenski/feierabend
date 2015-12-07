@@ -7,8 +7,9 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/grid.js',
     'scripts/feierabend/collectable.js',
     'scripts/feierabend/workmate.js',
-    'vendor/pixijs/pixi.min'
-], function (createPlayer, createScene, createGrid, createCollectable, createWorkmate) {
+    'scripts/feierabend/music.js',
+    'vendor/pixijs/pixi.min',
+], function (createPlayer, createScene, createGrid, createCollectable, createWorkmate, playMusic){
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -146,8 +147,10 @@ define(['scripts/feierabend/player.js',
                                     function collideFn(collideObj, eventObj) {
                                         if (collideObj.id === 'player') {
                                             collideObj.speed = 200;
+                                           playMusic("backgroundMusicFast");
                                             setTimeout(function () {
                                                 collideObj.speed = 500
+                                                playMusic("backgroundMusic");
                                             }, 2000);
                                             eventObj.getSprite().visible = false;
                                         }
