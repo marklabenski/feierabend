@@ -1,9 +1,12 @@
 /**
  * Created by marklabenski on 31.10.15.
  */
-define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js', 'scripts/feierabend/viewable.js'], function(movable, controllable, createViewable) {
+define(['scripts/feierabend/movable.js',
+        'scripts/feierabend/controllable.js',
+        'scripts/feierabend/viewable.js'], function(movable, controllable, createViewable) {
     return function createPlayer(texture, game) {
         var playerInstance;
+
 
         //init with texture
 
@@ -11,7 +14,7 @@ define(['scripts/feierabend/movable.js', 'scripts/feierabend/controllable.js', '
             id: 'player',
             speed: 500,
             workmatesFollowing: [],
-            enteredGridTile: null,
+            enteredGridTile: [],
             move: function() {
                 this.moveSprite(this.getSprite());
             },

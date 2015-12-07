@@ -15,22 +15,28 @@ requirejs([
     window.feierabend = game;
 
     // get jQuery References
-    var $menuButtons = $('.menu .buttons li');
-    var $menu = $('.menu');
-    var $canvas = $('canvas');
+    var menuButtons = $('.menu .buttons li');
+    var menu = $('.menu');
+    var canvas = $('canvas'); //Es existiert zu diesem Zeitpunkt noch kein Canvas-Objekt :(
     var gameAvailable = false;
+    var score = $("#score");
 
     // If a Button Click
-    $menuButtons.on('click', function () {
+    menuButtons.on('click', function () {
         //Check which button is clicked...
 
         // Start Game Button
         if ($(this).attr("id") == "startButton") {
             // Close the menu with a slideUp
-            $menu.slideUp(600, function () {
+            menu.slideUp(600, function () {
                 // Then open the Game
-                $canvas.slideDown(600, function () {
-                });
+                score.text(0);
+                score.slideToggle(1200);
+                /*
+                Dieser Teil funktioniert nicht, weil die canvas-Variable leer is
+                canvas.hide(600, function () {
+                })
+                */
             });
             // Init the game...
             if (!gameAvailable) {
@@ -46,15 +52,15 @@ requirejs([
     $('html').on("keydown", function (event) {
         if (event.which == '27') {
             // close the game
-            $canvas.slideUp(600, function () {
+            canvas.slideUp(600, function () {
                 // Then open the Menu
-                $menu.slideDown(600, function () {
+                menu.slideDown(600, function () {
                 });
             });
         }
     });
 
-    $menuButtons.mouseenter(function () {
+    menuButtons.mouseenter(function () {
         var sound = document.getElementById('click');
         sound.play();
     });
