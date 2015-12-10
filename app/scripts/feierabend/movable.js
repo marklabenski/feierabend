@@ -64,6 +64,15 @@ define([], function () {
                 this.gridPos = onGridTile.getGridPos();
 
             },
+            setRandomDirection: function setRandomDirection() {
+                var rand = Math.random();
+                if(rand >= 0.5) {
+                    this.changeDirection(+1);
+                } else {
+                    this.changeDirection(-1);
+                }
+                this.setRotationByDirection(direction);
+            },
             moveSprite: function moveSprite(sprite) {
                 var moveToTile;
 
@@ -81,13 +90,7 @@ define([], function () {
                 }
                 //moveToTile
                 if(moveToTile === null) {
-                    var rand = Math.random();
-                    if(rand >= 0.5) {
-                        direction += 1;
-                    } else {
-                        direction -= 1;
-                    }
-                    this.setRotationByDirection(direction);
+                    this.setRandomDirection();
                     this.moveSprite(sprite);
                 } else {
                     this.moveSpriteTo(sprite, moveToTile);

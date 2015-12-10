@@ -18,6 +18,7 @@ define(['scripts/feierabend/scene.js',
     var createGame = function createGame(_grid) {
         var assets = [
             {name: 'player', file: 'img/player.png'},
+            {name: 'boss', file: 'img/boss.png'},
             {name: 'coffee', file: 'img/coffee.png'},
             {name: 'workmate', file: 'img/workmate.png'},
             {name: 'door', file: 'img/door.png'},
@@ -29,6 +30,7 @@ define(['scripts/feierabend/scene.js',
             [
                 //{type: 'background', x: 0, y:0},
                 {type: 'player', id: 'player', x: 0, y: 0},
+                {type: 'boss', id: 'boss', x: 9, y: 10},
                 {type: 'coffee', id: 'coffee1', x: 3, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 3, y: 8},
                 {type: 'coffee', id: 'coffee3', x: 3, y: 9},
@@ -72,7 +74,7 @@ define(['scripts/feierabend/scene.js',
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
-        var player, workmates = [];
+        var player, workmates = [], boss;
         var counters = {};
 
         assets.map(function (asset) {
@@ -100,12 +102,16 @@ define(['scripts/feierabend/scene.js',
             requestAnimationFrame(render);
             var onPlayerMove = onElapsed(player.speed, timestamp);
             var saveTimer = onElapsed(2000, timestamp);
+            var onBossMove = onElapsed(1500, timestamp);
 
             saveTimer(saveFn);
 
             switch (gameState) {
                 case GAMESTATE.INGAME:
                     if (!isPaused) {
+                        onBossMove(function() {
+                            boss.move();
+                        });
                         onPlayerMove(function () {
                             player.move();
                             playAudio("footstep");
@@ -233,6 +239,7 @@ define(['scripts/feierabend/scene.js',
                 currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer);
                 player = currentLevel.player; // player Object
                 workmates = currentLevel.workmates; // workmates as Array
+                boss = currentLevel.boss;
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;

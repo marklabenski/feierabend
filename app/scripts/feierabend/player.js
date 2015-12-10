@@ -16,8 +16,6 @@ define(['scripts/feierabend/movable.js',
             enteredGridTile: [],
             move: function() {
                 this.moveSprite(this.getSprite());
-
-
             },
             changeDirectionByKeyCode: function(keyCode) {
                 this.changeSpriteDirectionByKeyCode(keyCode, this.getSprite());

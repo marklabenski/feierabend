@@ -4,15 +4,17 @@
 
 define(['scripts/feierabend/player.js',
     'scripts/feierabend/collectable.js',
+    'scripts/feierabend/boss.js',
     'scripts/feierabend/workmate.js',
     'scripts/feierabend/viewable.js',
     'scripts/feierabend/music.js',
     'scripts/feierabend/audio.js',
-], function (createPlayer, createCollectable, createWorkmate, createViewable, playMusic, playAudio) {
+], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio) {
     return function createLevel(level, loader, game, gameScene, renderer) {
         var childrenToAdd = [];
         var workmates = [];
         var player;
+        var boss;
         var levelObjects = [];
         var followPlayer = [];
         var hiddenObjects = [];
@@ -50,7 +52,7 @@ define(['scripts/feierabend/player.js',
             function (object) {
                 switch (object.type) {
                     case 'background':
-                        var background = createViewable(object.id, loader.resources.background.texture, game.getGrid(), {x: object.x, y: object.y});
+                        //var background = createViewable(object.id, loader.resources.background.texture, game.getGrid(), {x: object.x, y: object.y});
                         //PIXI.Sprite.fromImage();
                         /* background.width = renderer.width;
                         background.height = renderer.height;*/
@@ -61,6 +63,10 @@ define(['scripts/feierabend/player.js',
                     case 'player':
                         player = createPlayer(loader.resources.player.texture, game, {x: object.x, y: object.y});
                         addLevelObject(player);
+                        break;
+                    case 'boss':
+                        boss = createBoss(loader.resources.boss.texture, game, {x: object.x, y: object.y});
+                        addLevelObject(boss);
                         break;
                     case 'coffee':
                         var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,
@@ -146,7 +152,7 @@ define(['scripts/feierabend/player.js',
 
 
 
-        return {levelObjects: levelObjects, player: player, workmates: workmates};
+        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss};
     }
 
 });
