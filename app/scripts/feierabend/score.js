@@ -3,8 +3,23 @@
  * Date: 05.12.2015
  */
 
-define(['scripts/feierabend/collectable.js', 'scripts/feierabend/level.js'], function (createCollectable, createLevel) {
+define([], function () {
+    var scoreDiv = document.querySelector("#score");
+    var score = 0;
+    var steps = 0;
 
-    //TODO: Bin nich sicher ob es Sinn macht eine eigene Score.js-Datei zu verwenden :O
+    var render = function render() {
+        scoreDiv.innerHTML = score;
+    };
 
+    var Score = {
+        update: function update(updateAmount) {
+            score += updateAmount;
+            render();
+        },
+        doStep: function doStep() {
+            steps++;
+        }
+    };
+    return Object.create(Score);
 });
