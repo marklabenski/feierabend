@@ -1,12 +1,12 @@
 define(['scripts/feierabend/viewable.js',
         'scripts/feierabend/collectable.js',
         'scripts/feierabend/movable.js'], function (createViewable, createCollectable, createMovable) {
-    return function createWorkmate(number, texture, game, enterGrid) {
+    return function createWorkmate(id, texture, game, enterGrid) {
         var followingPlayer = null;
         var positionInQueue = 0;
-        var followPlayer = function followPlayer(player) {
+        var follow = function follow(player) {
             positionInQueue = player.workmatesFollowing.length;
-            player.workmatesFollowing.push('workmate' + number);
+            player.workmatesFollowing.push(id);
             followingPlayer = player;
         };
         var collideFn = function collideFn(collideObj, thisWorkmate) {
@@ -14,12 +14,13 @@ define(['scripts/feierabend/viewable.js',
                 if(followingPlayer) {
                     //console.log('player hits ' + thisWorkmate.id);
                 } else {
-                    followPlayer(collideObj);
+                    follow(collideObj);
                 }
             }
         };
         var Workmate = {
             isSolid: true,
+            follow: follow,
             move: function move() {
                 if(followingPlayer) {
                     var queuePosDirection = followingPlayer.getPathMovement(positionInQueue);
@@ -32,7 +33,7 @@ define(['scripts/feierabend/viewable.js',
 
 
         var workmateInstance = Object.create(Workmate);
-        workmateInstance = $.extend({}, createCollectable('workmate' + number, texture, game, collideFn, enterGrid), workmateInstance, createMovable(game));
+        workmateInstance = $.extend({}, createCollectable(id, texture, game, collideFn, enterGrid), workmateInstance, createMovable(game));
         return workmateInstance;
     };
 

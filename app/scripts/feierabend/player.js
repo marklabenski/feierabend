@@ -4,30 +4,31 @@
 define(['scripts/feierabend/movable.js',
         'scripts/feierabend/controllable.js',
         'scripts/feierabend/viewable.js'], function(movable, controllable, createViewable) {
-    return function createPlayer(texture, game) {
+    return function createPlayer(texture, game, pos) {
         var playerInstance;
 
 
         //init with texture
 
         var Player = {
-            id: 'player',
             speed: 500,
             workmatesFollowing: [],
             enteredGridTile: [],
             move: function() {
                 this.moveSprite(this.getSprite());
+
+
             },
             changeDirectionByKeyCode: function(keyCode) {
                 this.changeSpriteDirectionByKeyCode(keyCode, this.getSprite());
             }
         };
-        var viewable = createViewable(texture, game.getGrid(), {x: 0, y:0});
+        var viewable = createViewable('player', texture, game.getGrid(), {x: pos.x, y:pos.y});
         viewable.init();
-        var composedPlayer = $.extend({}, Player, movable(game), viewable, controllable);
-        var playerInstance = Object.create(composedPlayer);
 
-        return playerInstance;
+        var composedPlayer = $.extend({}, Object.create(Player), movable(game), viewable, controllable);
+
+        return composedPlayer;
     };
 
 });

@@ -11,6 +11,15 @@ define([], function () {
         var path = [];
 
         var movable = {
+            getPath: function getPath() {
+                return path;
+            },
+            getOnGridTile: function getGridPos() {
+                return onGridTile;
+            },
+            setPath: function setPath(_path) {
+                path = _path;
+            },
             changeDirection: function changeDirection(change) {
                 var newDirection = direction + change;
                 if (direction === DIRECTION.DOWN && change === -1) {
@@ -52,6 +61,8 @@ define([], function () {
 
                 onGridTile = moveToTile;
                 path.push({'tile': onGridTile, 'direction':direction});
+                this.gridPos = onGridTile.getGridPos();
+
             },
             moveSprite: function moveSprite(sprite) {
                 var moveToTile;

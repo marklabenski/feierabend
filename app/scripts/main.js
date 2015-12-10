@@ -41,7 +41,7 @@ requirejs([
             if (!gameAvailable) {
 				score.text(0);
 				score.show(1200);
-                feierabend.load();
+                feierabend.loader.load();
                 gameAvailable = true;
             }
         } else if ($(this).attr("id") == "highscoreButton") {

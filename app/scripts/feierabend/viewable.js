@@ -2,12 +2,19 @@
  * Created by marklabenski on 26.11.15.
  */
 define([], function () {
-    return function createViewable(texture, grid, gridPos) {
+    return function createViewable(id, texture, grid, gridPos) {
         var sprite;
         //init with texture
 
         var Viewable = {
+            id: id,
             enteredGridTile: null,
+            gridPos: gridPos,
+            visible: true,
+            hide: function hide() {
+                this.visible = false;
+                sprite.visible = false;
+            },
             init: function init() {
                 if (texture) {
                     sprite = new PIXI.Sprite(texture);
