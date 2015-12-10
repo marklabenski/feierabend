@@ -66,10 +66,10 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-                                    collideObj.speed = 200;
+                                   
                                     playAudio("workOnPaper");
                                     setTimeout(function () {
-                                        collideObj.speed = 100;
+                                        
                                         playMusic('backgroundMusic');
                                     }, 2000);
                                     eventObj.getSprite().visible = false;
@@ -82,10 +82,10 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.notebook.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-                                    collideObj.speed = 200;
+                                   
                                     playAudio("workOnNotebook");
                                     setTimeout(function () {
-                                        collideObj.speed = 100;
+                                       
                                         playMusic('backgroundMusic');
                                     }, 2000);
                                     eventObj.getSprite().visible = false;
