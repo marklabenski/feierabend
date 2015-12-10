@@ -80,9 +80,19 @@ define([], function () {
                     moveToTile = onGridTile.getEast();
                 }
                 //moveToTile
-                if(moveToTile !== null) {
+                if(moveToTile === null) {
+                    var rand = Math.random();
+                    if(rand >= 0.5) {
+                        direction += 1;
+                    } else {
+                        direction -= 1;
+                    }
+                    this.setRotationByDirection(direction);
+                    this.moveSprite(sprite);
+                } else {
                     this.moveSpriteTo(sprite, moveToTile);
                 }
+
             }
         };
         return Object.create(movable);
