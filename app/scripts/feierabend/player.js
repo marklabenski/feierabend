@@ -22,10 +22,11 @@ define(['scripts/feierabend/movable.js',
                 this.changeSpriteDirectionByKeyCode(keyCode, this.getSprite());
             }
         };
-
-        var composedPlayer = $.extend({}, Player, createViewable(texture, game, {x: 0, y:0}), movable(game), controllable);
+        var viewable = createViewable(texture, game.getGrid(), {x: 0, y:0});
+        viewable.init();
+        var composedPlayer = $.extend({}, Player, movable(game), viewable, controllable);
         var playerInstance = Object.create(composedPlayer);
-        playerInstance.init();
+
         return playerInstance;
     };
 

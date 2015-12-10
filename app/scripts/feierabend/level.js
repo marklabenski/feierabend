@@ -22,7 +22,7 @@ define(['scripts/feierabend/player.js',
             {type: 'workmate', id: '2', x: 8, y: 8},
         ]
     ];
-	
+	var player;
 	var workmates = [];
 
 	

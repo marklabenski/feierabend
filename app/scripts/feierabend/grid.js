@@ -11,6 +11,13 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
         var tiles = [];
 
         var grid = {
+            getSize: function getSize() {
+
+                return {width: sceneWidth, height: sceneHeight};
+            },
+            getTileSize: function getTileSize() {
+                return tileSize;
+            },
             init: function init() {
                 for (var x = 0; x < (sceneWidth / tileSize); x += 1) {
                     tiles.push([]);

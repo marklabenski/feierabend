@@ -15,7 +15,7 @@ define(['scripts/feierabend/viewable.js'], function (createViewable) {
         };
 
         var collectableInstance = Object.create(Collectable);
-        collectableInstance = $.extend({}, collectableInstance, createViewable(texture, game, gridPos));
+        collectableInstance = $.extend({}, collectableInstance, createViewable(texture, game.getGrid(), gridPos));
         collectableInstance.init();
         return collectableInstance;
     };
