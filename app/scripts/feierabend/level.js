@@ -21,6 +21,8 @@ define(['scripts/feierabend/player.js',
             {type: 'workmate', id: '1', x: 5, y: 8},
             {type: 'workmate', id: '2', x: 8, y: 8},
 			{type: 'door', id: 'door', x: 15, y: 11},
+            {type: 'paperjam', id: 'paper1', x: 4, y: 4},
+            {type: 'notebook', id: 'notebook1', x: 7, y: 7},
         ]
     ];
 	var player;
@@ -59,6 +61,40 @@ define(['scripts/feierabend/player.js',
                             }, {x: object.x, y: object.y});
                         gameScene.container.addChild(newObject.getSprite());
                         break;
+                        
+                         case 'paperjam':
+                        var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+                                    collideObj.speed = 200;
+                                    playAudio("workOnPaper");
+                                    setTimeout(function () {
+                                        collideObj.speed = 100;
+                                        playMusic('backgroundMusic');
+                                    }, 2000);
+                                    eventObj.getSprite().visible = false;
+                                }
+                            }, {x: object.x, y: object.y});
+                        gameScene.container.addChild(newObject.getSprite());
+                        break;
+                        
+                        case 'notebook':
+                        var newObject = createCollectable(object.id, loader.resources.notebook.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+                                    collideObj.speed = 200;
+                                    playAudio("workOnNotebook");
+                                    setTimeout(function () {
+                                        collideObj.speed = 100;
+                                        playMusic('backgroundMusic');
+                                    }, 2000);
+                                    eventObj.getSprite().visible = false;
+                                }
+                            }, {x: object.x, y: object.y});
+                        gameScene.container.addChild(newObject.getSprite());
+                        break;
+                        
+                        
 					case 'door':
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {

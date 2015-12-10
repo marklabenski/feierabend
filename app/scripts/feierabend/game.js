@@ -21,6 +21,8 @@ define([ 'scripts/feierabend/scene.js',
             {name: 'coffee', file: 'img/coffee.png'},
             {name: 'workmate', file: 'img/workmate.png'},
 			{name: 'door', file: 'img/door.png'},
+            {name: 'paperjam', file: 'img/paperjam.png'},
+            {name: 'notebook', file: 'img/notebook.png'},
         ];
 
         var renderer = null;
