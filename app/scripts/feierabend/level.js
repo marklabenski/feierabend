@@ -13,13 +13,14 @@ define(['scripts/feierabend/player.js',
 
     var levels = [
         [
-            {type: 'background', img: '././img/bg.jpg'},
+            {type: 'background', img: '././img/ground.jpg'},
             {type: 'player', id: 'player', x: 0, y: 0},
             {type: 'coffee', id: 'coffee1', x: 3, y: 3},
             {type: 'coffee', id: 'coffee2', x: 3, y: 8},
             {type: 'coffee', id: 'coffee3', x: 3, y: 9},
             {type: 'workmate', id: '1', x: 5, y: 8},
             {type: 'workmate', id: '2', x: 8, y: 8},
+			{type: 'door', id: 'door', x: 15, y: 11},
         ]
     ];
 	var player;
@@ -47,7 +48,6 @@ define(['scripts/feierabend/player.js',
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
                                     collideObj.speed = 200;
-                                    var bgMusic = playMusic('background-music-fast');
                                     playAudio("drinkCoffee");
                                     playMusic('backgroundMusicFast');
                                     setTimeout(function () {
@@ -57,6 +57,17 @@ define(['scripts/feierabend/player.js',
                                     eventObj.getSprite().visible = false;
                                 }
                             }, {x: object.x, y: object.y});
+                        gameScene.container.addChild(newObject.getSprite());
+                        break;
+					case 'door':
+                        var newObject = createCollectable(object.id, loader.resources.door.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+									// play here a win audio
+									game.changeGameState("FINISH");
+                                }
+                            }, {x: object.x, y: object.y});
+						
                         gameScene.container.addChild(newObject.getSprite());
                         break;
                     case 'workmate':
