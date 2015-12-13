@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <title>Feierabend - ein "Snake"-Spiel für 9to5-Worker</title>
     <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <link rel="stylesheet" type="text/css" href="styles/highscore.css">
 </head>
 <body>
 
-<div id="score"></div>
-<!--
-TODO: Wozu ist das hier?
-Das Canvas-Objekt wird doch per PIXI erzeugt.
-<canvas id="game-canvas">
-
-</canvas>
--->
-
 <script src="vendor/requirejs/require.js"></script>
-
 <script src="scripts/main.js"></script>
 
-<div class="menu">
+<!-- Game -->
+<div id="score"></div>
+
+<!-- Menu -->
+<div id="menu" class="menu">
     <ul class="buttons">
         <li class="menuButton" id="startButton"><img src="img/buttonStart.png"></li>
-        <a href="html/highscore.html"><li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li></a>
+        <a href="#highscore-lists"><li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li></a>
     </ul>
 </div>
 
@@ -32,11 +27,34 @@ Das Canvas-Objekt wird doch per PIXI erzeugt.
     Your browser does not support the audio element.
 </audio>
 
+<!-- Highscore -->
+<main id="highscore-lists">
+    <section class="highscore-list" id="mitarbeiter_des_monats">
+        <div class="highscore-list-border" id="mitarbeiter_des_monats-border">
+            <div class="highscore-list-name" id="mitarbeiter_des_monats-name"></div>
+            <div id="mitarbeiter_des_monats-points"></div>
+        </div>
+    </section>
+    <section class="highscore-list" id="der_rest">
+        <div class="highscore-list-border" id="der_rest-zettel">
+            <div class="highscore-list-name" id="der_rest-name">
+                <table>
+
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+<!--<div href="#menu" id="zurueck-button"></div>-->
+
+<!-- Debug -->
 <div class="debug-grid hidden"></div>
 <div class="debug-panel">
     <h3>DEBUG PANEL</h3>
     <label for="display-debug-grid">debug grid</label>
     <input id="display-debug-grid" type="checkbox" onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/>
 </div>
+
+
 </body>
 </html>
