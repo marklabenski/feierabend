@@ -17,6 +17,13 @@ define([], function () {
             score += updateAmount;
             render();
         },
+        setScore: function setScore(_score) {
+            score = _score;
+            render();
+        },
+        getScore: function getScore() {
+            return score;
+        },
         doStep: function doStep() {
             steps++;
         }

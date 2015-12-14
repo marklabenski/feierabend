@@ -1,5 +1,3 @@
-showHighscoreList();
-
 function showHighscoreList () {
 
     //Test
@@ -19,7 +17,7 @@ function showHighscoreList () {
     if (localStorage.getItem("1") != null) {
         console.log(localStorage.getItem("1"));
         $("#mitarbeiter_des_monats-name").text(JSON.parse(localStorage[1])[0]);
-        $("#mitarbeiter_des_monats-punkte").text(JSON.parse(localStorage[1])[1]);
+        $("#mitarbeiter_des_monats-points").text(JSON.parse(localStorage[1])[1]);
     }
     else
         $("#mitarbeiter_des_monats-name").text("Niemand...");

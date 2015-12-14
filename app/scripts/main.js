@@ -8,7 +8,10 @@
 requirejs([
     "scripts/feierabend/game.js",
     "scripts/feierabend/music.js",
+    "scripts/feierabend/highscore.js",
+    "scripts/feierabend/highscore.js",
     "vendor/jquery/jquery-2.1.4.min.js",
+    "vendor/smothScrolling/smothScrolling.js",
 ], function(game, playMusic) {
 	
     var bgMusic = playMusic('backgroundMusic');
@@ -19,6 +22,8 @@ requirejs([
     var menuButtons = $('.menu .buttons li');
     var menu = $('.menu');
     var score = $("#score");
+
+    var scorelist = $("#highscore-lists");
 	
     var gameAvailable = false;
 
@@ -28,6 +33,9 @@ requirejs([
 
         // Start Game Button
         if ($(this).attr("id") == "startButton") {
+            // Close the Highscorelist
+            scorelist.hide();
+
             // Close the menu with a slideUp
             menu.slideUp(600, function () {
 				
@@ -41,7 +49,7 @@ requirejs([
             if (!gameAvailable) {
 				score.text(0);
 				score.show(1200);
-                feierabend.load();
+                feierabend.loader.load();
                 gameAvailable = true;
             }
         } else if ($(this).attr("id") == "highscoreButton") {
@@ -54,5 +62,8 @@ requirejs([
         var sound = document.getElementById('click');
         sound.play();
     });
-	
+
+    showHighscoreList();
+    initSmothScrolling ();
+
 });
