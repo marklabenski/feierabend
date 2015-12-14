@@ -13,8 +13,8 @@ define(['scripts/feierabend/player.js',
     return function createLevel(level, loader, game, gameScene, renderer) {
         var childrenToAdd = [];
         var workmates = [];
-        var player;
-        var boss;
+        var player = null;
+        var boss = null;
         var levelObjects = [];
         var followPlayer = [];
         var hiddenObjects = [];
@@ -149,6 +149,8 @@ define(['scripts/feierabend/player.js',
         childrenToAdd.map(function(child) {
             gameScene.container.addChild(child);
         });
+
+
 
 
 
