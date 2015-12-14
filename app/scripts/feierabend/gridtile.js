@@ -1,5 +1,5 @@
 define([], function () {
-    return function createGridTile(_x, _y) {
+    return function createGridTile(_x, _y, tileSize) {
 
         var posX = _x;
         var posY = _y;
@@ -74,6 +74,9 @@ define([], function () {
                 }
             },
             getPos: function () {
+                return {x: posX * tileSize, y: posY * tileSize}
+            },
+            getGridPos: function() {
                 return {x: posX, y: posY}
             },
             visualize: function() {

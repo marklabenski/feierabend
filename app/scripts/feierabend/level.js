@@ -4,75 +4,155 @@
 
 define(['scripts/feierabend/player.js',
     'scripts/feierabend/collectable.js',
+    'scripts/feierabend/boss.js',
     'scripts/feierabend/workmate.js',
     'scripts/feierabend/viewable.js',
     'scripts/feierabend/music.js',
     'scripts/feierabend/audio.js',
-], function (createPlayer, createCollectable, createWorkmate, createViewable, playMusic, playAudio) {
+], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio) {
+    return function createLevel(level, loader, game, gameScene, renderer) {
+        var childrenToAdd = [];
+        var workmates = [];
+        var player;
+        var boss;
+        var levelObjects = [];
+        var followPlayer = [];
+        var hiddenObjects = [];
 
+        if(game.hasBeenSaved) {
+            level.map(function (object) {
+                game.getLoadedObjects().map(function(loadedObject) {
+                    if(object.id === loadedObject.id) {
+                        object.x = loadedObject.gridPos.x;
+                        object.y = loadedObject.gridPos.y;
+                        if (loadedObject.id === 'player') {
+                            followPlayer = loadedObject.workmatesFollowing;
+                        }
+                        if (loadedObject.visible === false) {
+                            hiddenObjects.push(object.id);
+                        }
+                    }
 
-    var levels = [
-        [
-            {type: 'background', img: '././img/bg.jpg'},
-            {type: 'player', id: 'player', x: 0, y: 0},
-            {type: 'coffee', id: 'coffee1', x: 3, y: 3},
-            {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-            {type: 'coffee', id: 'coffee3', x: 3, y: 9},
-            {type: 'workmate', id: '1', x: 5, y: 8},
-            {type: 'workmate', id: '2', x: 8, y: 8},
-        ]
-    ];
-	
-	var workmates = [];
+                });
+            });
+        }
 
-	
-    return function createLevel(currentLevel, loader, game, gameScene, renderer)  {
+        var addLevelObject = function addLevelObject(object) {
+            if(hiddenObjects.indexOf(object.id) != -1) {
+                object.hide();
+                if(object.hasOwnProperty('collected') && object.collected) {
+                    object.collect();
+                }
+            }
+            levelObjects.push(object);
 
-        levels[currentLevel].map(
+            childrenToAdd.push(object.getSprite());
+        };
+        level.map(
             function (object) {
-
                 switch (object.type) {
                     case 'background':
-                        var background = PIXI.Sprite.fromImage(object.img);
-                        background.width = renderer.width;
-                        background.height = renderer.height;
-                        gameScene.container.addChild(background);
+                        //var background = createViewable(object.id, loader.resources.background.texture, game.getGrid(), {x: object.x, y: object.y});
+                        //PIXI.Sprite.fromImage();
+                        /* background.width = renderer.width;
+                        background.height = renderer.height;*/
+
+                        //addLevelObject(background);
+
                         break;
                     case 'player':
-                        player = createPlayer(loader.resources.player.texture, game);
-                        gameScene.container.addChild(player.getSprite());
+                        player = createPlayer(loader.resources.player.texture, game, {x: object.x, y: object.y});
+                        addLevelObject(player);
+                        break;
+                    case 'boss':
+                        boss = createBoss(loader.resources.boss.texture, game, {x: object.x, y: object.y});
+                        addLevelObject(boss);
                         break;
                     case 'coffee':
                         var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
                                     collideObj.speed = 200;
-                                    var bgMusic = playMusic('background-music-fast');
                                     playAudio("drinkCoffee");
                                     playMusic('backgroundMusicFast');
                                     setTimeout(function () {
                                         collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
-                                    eventObj.getSprite().visible = false;
+                                    eventObj.hide();
+
                                 }
                             }, {x: object.x, y: object.y});
-                        gameScene.container.addChild(newObject.getSprite());
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'paperjam':
+                        var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+
+                                    playAudio("workOnPaper");
+                                    setTimeout(function () {
+
+                                        playMusic('backgroundMusic');
+                                    }, 2000);
+                                    eventObj.hide();
+                                }
+                            }, {x: object.x, y: object.y});
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'notebook':
+                        var newObject = createCollectable(object.id, loader.resources.notebook.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+
+                                    playAudio("workOnNotebook");
+                                    setTimeout(function () {
+
+                                        playMusic('backgroundMusic');
+                                    }, 2000);
+                                    eventObj.hide();
+                                }
+                            }, {x: object.x, y: object.y});
+
+                        addLevelObject(newObject);
+                        break;
+                    case 'door':
+                        var newObject = createCollectable(object.id, loader.resources.door.texture, game,
+                            function collideFn(collideObj, eventObj) {
+                                if (collideObj.id === 'player') {
+                                    // play here a win audio
+                                    game.changeGameState("FINISH");
+                                }
+                            }, {x: object.x, y: object.y});
+
+                        addLevelObject(newObject);
                         break;
                     case 'workmate':
-                        var newWorkmate = createWorkmate(1, loader.resources.workmate.texture, game, {
+                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, {
                             x: object.x,
                             y: object.y
                         });
+                        if(followPlayer.indexOf(object.id) != -1) {
+                            newWorkmate.follow(player);
+                        }
                         workmates.push(newWorkmate);
-                        gameScene.container.addChild(newWorkmate.getSprite());
+                        addLevelObject(newWorkmate);
                 }
 
             }
         );
 
-        return [player, workmates];
+        childrenToAdd.map(function(child) {
+            gameScene.container.addChild(child);
+        });
 
+
+
+        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss};
     }
 
 });
