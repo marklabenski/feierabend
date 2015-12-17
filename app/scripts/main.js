@@ -21,7 +21,7 @@ requirejs([
     // get jQuery References
     var menuButtons = $('.menu .buttons li');
     var menu = $('.menu');
-    var score = $("#score");
+    var score = $("#infoPanel");
 
     var scorelist = $("#highscore-lists");
 	
@@ -47,7 +47,7 @@ requirejs([
             });
             // Init the game...
             if (!gameAvailable) {
-				score.text(0);
+				//score.text(0);
 				score.show(1200);
                 feierabend.loader.load();
                 gameAvailable = true;

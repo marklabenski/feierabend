@@ -198,11 +198,12 @@ define(['scripts/feierabend/scene.js',
 					levelText.y = 20;
 					gameScene.container.addChild(levelText);
 					grid = createGrid(gridSize, gameWidth, gameHeight);
-                    currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer);
+                    currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer, score);
                     levelText.text = "Level: " + (currentLevelNum + 1);
                     player = currentLevel.player; // player Object
                     workmates = currentLevel.workmates; // workmates as Array
                     boss = currentLevel.boss;
+					score = currentLevel.score;
                 }
             },
 
@@ -269,7 +270,7 @@ define(['scripts/feierabend/scene.js',
                             playAudio("footstep");
 
                             //Score
-                            score.update(1 + player.workmatesFollowing.length);
+                            score.update(1 + player.workmatesFollowing.length, false);
                             score.doStep();
 
                             workmates.map(function (workmate) {

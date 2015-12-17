@@ -10,7 +10,7 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/music.js',
     'scripts/feierabend/audio.js',
 ], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio) {
-    return function createLevel(level, loader, game, gameScene, renderer) {
+    return function createLevel(level, loader, game, gameScene, renderer, score) {
         var childrenToAdd = [];
         var workmates = [];
         var player = null;
@@ -73,6 +73,7 @@ define(['scripts/feierabend/player.js',
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
                                     collideObj.speed = 200;
+                                    score.update(7, true);
                                     playAudio("drinkCoffee");
                                     playMusic('backgroundMusicFast');
                                     setTimeout(function () {
@@ -91,10 +92,11 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-
+                                    score.update(-7, true);
+                                    collideObj.speed = 800;
                                     playAudio("workOnPaper");
                                     setTimeout(function () {
-
+                                        collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
                                     eventObj.hide();
@@ -154,7 +156,7 @@ define(['scripts/feierabend/player.js',
 
 
 
-        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss};
+        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss, score: score};
     }
 
 });

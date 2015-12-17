@@ -7,12 +7,17 @@
     <link rel="stylesheet" type="text/css" href="styles/highscore.css">
 </head>
 <body>
-
 <script src="vendor/requirejs/require.js"></script>
 <script src="scripts/main.js"></script>
 
 <!-- Game -->
-<div id="score"></div>
+<div id="infoPanel">
+    <div class="infoPanelContent" id="info1">0</div>
+    <div class="infoPanelContent" id="info2">0</div>
+    <div class="infoPanelContent" id="score">Score: 0</div>
+    <div class="infoPanelContent" id="state">State: 1</div>
+</div>
+
 
 <!-- Menu -->
 <div id="menu" class="menu">
@@ -52,7 +57,8 @@
 <div class="debug-panel">
     <h3>DEBUG PANEL</h3>
     <label for="display-debug-grid">debug grid</label>
-    <input id="display-debug-grid" type="checkbox" onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/>
+    <input id="display-debug-grid" type="checkbox" onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/><br>
+    <button onclick="localStorage.clear()">Clear Storage</button>
 </div>
 
 

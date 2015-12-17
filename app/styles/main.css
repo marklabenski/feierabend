@@ -82,13 +82,31 @@ canvas {
 }
 
 /*Score*/
-#score {
+#infoPanel {
     width:800px;
     margin: 0 auto;
     background-color: #5e5e5e;
-    padding: 10px 0;
     font-size: 2em;
     text-align: center;
     font-weight: bold;
     display: none;
+    overflow: hidden;
+}
+
+.infoPanelContent {
+    border: solid 1px;
+    float: left;
+    width: 198px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+.boni {
+    color: #35802f;
+    border-color: black;
+}
+
+.mali {
+    color: #ff212a;
+    border-color: black;
 }
