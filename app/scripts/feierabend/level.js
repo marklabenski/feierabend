@@ -92,9 +92,12 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-                                    score.update(-7, true);
-                                    collideObj.speed = 800;
+                                    score.update(-10, true);
+                                    collideObj.speed = 850;
                                     playAudio("workOnPaper");
+									
+									var filter = new PIXI.filters.GrayFilter();
+									filter.gray = 0.5;
                                     setTimeout(function () {
                                         collideObj.speed = 500;
                                         playMusic('backgroundMusic');
@@ -110,10 +113,11 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.notebook.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-
+									score.update(-6, true);
+									collideObj.speed = 650;
                                     playAudio("workOnNotebook");
                                     setTimeout(function () {
-
+                                        collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
                                     eventObj.hide();

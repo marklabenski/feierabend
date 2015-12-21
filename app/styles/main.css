@@ -28,10 +28,9 @@ img {
 div.menu {
     width: 800px;
     height: 600px;
-    background-image: url("../img/BackgroundMenu.jpg");
+    background-image: url("../img/BackgroundMenu.png");
     margin:0 auto;
     text-align: center;
-    border: 1px solid #000000;
 }
 
 ul.buttons {
@@ -98,11 +97,11 @@ canvas {
     float: left;
     width: 198px;
     margin: 0 auto;
-    padding: 10px 0;
+    padding: 7px 0;
 }
 
 .boni {
-    color: #35802f;
+    color: #64FE2E;
     border-color: black;
 }
 

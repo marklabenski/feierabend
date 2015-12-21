@@ -11,6 +11,7 @@ define(["vendor/jquery/jquery-2.1.4.min.js"], function () {
     var currentGettingValue = 1;
     var boniMaliValue = 0;
     var isBoniMali = false;
+	var stateString = "";
 
     var render = function render() {
 
@@ -20,11 +21,13 @@ define(["vendor/jquery/jquery-2.1.4.min.js"], function () {
 
             if(boniMaliValue > 0) {
                 $stateDiv.addClass("boni");
+				stateString = "State: +" + currentGettingValue + " +" + boniMaliValue;
             } else {
                 $stateDiv.addClass("mali");
+				stateString = "State: +" + currentGettingValue + " " + boniMaliValue;
             }
 
-            $stateDiv.text("State: +" + currentGettingValue + " " + boniMaliValue);
+            $stateDiv.text(stateString);
 
             setTimeout(function () {
                 $stateDiv.text("State: +" + currentGettingValue);
