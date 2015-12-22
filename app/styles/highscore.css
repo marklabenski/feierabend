@@ -1,8 +1,6 @@
 #highscore-lists {
-    width: 100%
-}
-#highscore-lists {
-    margin-top: 290px;
+    width: 70%;
+    float: left;
 }
 
 .highscore-list {
@@ -22,6 +20,9 @@
          }
 
 #mitarbeiter_des_monats {
+    margin-top: 160px;
+    float: left;
+    margin-left: 700px;
     height: 615px;
     width: 700px;
 }
@@ -47,6 +48,8 @@
         }
 
 #der_rest {
+    margin-top: 120px;
+    float: left;
     height: 400px;
     width: 400px;
     left: 2%;

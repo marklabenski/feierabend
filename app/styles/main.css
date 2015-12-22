@@ -16,7 +16,7 @@ body {
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-    background-repeat: repeat-y;
+    background-repeat: repeat-x;
 }
 
 img {
@@ -25,20 +25,30 @@ img {
 }
 
 /*Menu*/
-div.menu {
-    width: 800px;
+#mainpage {
+    width: 2800px;
+}
+
+#menu {
+    width: 30%;
+    float: left;
     height: 600px;
     background-image: url("../img/BackgroundMenu.png");
-    margin:0 auto;
+    background-repeat: no-repeat;
     text-align: center;
 }
 
 ul.buttons {
-    padding-top: 200px;
-    padding-right: 20px;
-    width: 183px;
     display: block;
-    margin: 0 auto;
+    margin: 200px 0 0 300px;
+    width: 183px;
+}
+ul.buttons > li {
+    transform: rotate(20deg);
+}
+ul.buttons > a li {
+    transform: rotate(-6deg);
+    margin-left: 19px;
 }
 
 ul.buttons li {

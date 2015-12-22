@@ -20,35 +20,37 @@
 
 
 <!-- Menu -->
-<div id="menu" class="menu">
-    <ul class="buttons">
-        <li class="menuButton" id="startButton"><img src="img/buttonStart.png"></li>
-        <a href="#highscore-lists"><li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li></a>
-    </ul>
-</div>
+<main id="mainpage">
+    <div id="menu" class="menu">
+        <ul class="buttons">
+            <li class="menuButton" id="startButton"><img src="img/buttonStart.png"></li>
+            <a href="#highscore-lists"><li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li></a>
+        </ul>
+    </div>
 
-<audio id="click">
-    <source src="audio/click.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
+    <audio id="click">
+        <source src="audio/click.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-<!-- Highscore -->
-<main id="highscore-lists">
-    <section class="highscore-list" id="mitarbeiter_des_monats">
-        <div class="highscore-list-border" id="mitarbeiter_des_monats-border">
-            <div class="highscore-list-name" id="mitarbeiter_des_monats-name"></div>
-            <div id="mitarbeiter_des_monats-points"></div>
-        </div>
-    </section>
-    <section class="highscore-list" id="der_rest">
-        <div class="highscore-list-border" id="der_rest-zettel">
-            <div class="highscore-list-name" id="der_rest-name">
-                <table>
-
-                </table>
+    <!-- Highscore -->
+    <div id="highscore-lists">
+        <section class="highscore-list" id="mitarbeiter_des_monats">
+            <div class="highscore-list-border" id="mitarbeiter_des_monats-border">
+                <div class="highscore-list-name" id="mitarbeiter_des_monats-name"></div>
+                <div id="mitarbeiter_des_monats-points"></div>
             </div>
-        </div>
-    </section>
+        </section>
+        <section class="highscore-list" id="der_rest">
+            <div class="highscore-list-border" id="der_rest-zettel">
+                <div class="highscore-list-name" id="der_rest-name">
+                    <table>
+
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
 </main>
 <!--<div href="#menu" id="zurueck-button"></div>-->
 
