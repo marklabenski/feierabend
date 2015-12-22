@@ -7,51 +7,53 @@
 html, body {
     width: 100%;
     height: 100%;
+    background: url("../img/body_bg.jpg");
+    background-size: 1320px 880px;
+    min-width: 1045px;
 }
 
 body {
     font-family: "Nueva Std", sans;
-    background: url("../img/body_bg.jpg") no-repeat;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-    background-repeat: repeat-x;
 }
 
 img {
-    max-width: 800px;
-    height: auto;
+}
+
+#mainpage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 /*Menu*/
-#mainpage {
-    width: 2800px;
-}
-
 #menu {
-    width: 30%;
-    float: left;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#background-menu {
+    position: absolute;
+    width: 800px;
     height: 600px;
     background-image: url("../img/BackgroundMenu.png");
     background-repeat: no-repeat;
-    text-align: center;
+    margin: 50px 0 0 250px;
 }
 
-ul.buttons {
+#menu ul.buttons {
+    position: absolute;
     display: block;
-    margin: 200px 0 0 300px;
-    width: 183px;
+    padding: 200px 0 0 300px;
 }
-ul.buttons > li {
+#menu ul.buttons > li {
     transform: rotate(20deg);
 }
-ul.buttons > a li {
+#menu ul.buttons > a li {
     transform: rotate(-6deg);
     margin-left: 19px;
 }
 
-ul.buttons li {
+#menu ul.buttons li {
     list-style: none;
     margin-bottom: 17px;
     padding: 10px 15px;
@@ -59,7 +61,7 @@ ul.buttons li {
     opacity: 0.9;
 }
 
-ul.buttons li:hover {
+#menu ul.buttons li:hover {
     opacity: 1.0;
 }
 

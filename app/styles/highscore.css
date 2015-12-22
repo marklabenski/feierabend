@@ -1,11 +1,13 @@
 #highscore-lists {
-    width: 70%;
-    float: left;
+    position: absolute;
+    top: 0;
+    left: 1500px;
+    width: 100%;
+    height: 100%;
 }
 
 .highscore-list {
-    position: relative;
-    margin: 0 auto;
+    position: absolute;
 }
     .highscore-list-border {
         position: absolute;
@@ -16,13 +18,10 @@
     }
         .highscore-list-name {
             position: absolute;
-            width: 100%;
          }
 
 #mitarbeiter_des_monats {
-    margin-top: 160px;
-    float: left;
-    margin-left: 700px;
+    left: 200px;
     height: 615px;
     width: 700px;
 }
@@ -35,6 +34,7 @@
             font-style: italic;
             top: 39%;
             text-align: center;
+            width: 100%;
         }
         #mitarbeiter_des_monats-points {
             bottom: 11%;
@@ -48,11 +48,11 @@
         }
 
 #der_rest {
-    margin-top: 120px;
-    float: left;
+    position: absolute;
+    left: 900px;
+    margin-top: 320px;
     height: 400px;
     width: 400px;
-    left: 2%;
 }
     #der_rest-zettel {
         background-image: url("../img/der_rest.svg");
@@ -71,15 +71,14 @@
                 padding: 0 6px;
             }
 
-/*
+
 #zurueck-button {
     position: absolute;
-    top: 0;
-    left: 0;
+    width: 250px;
+    height: 200px;
+    margin-top: 10px;
+    left: 26px;
     background-image: url("../img/zurueck-button_1.svg");
     background-repeat: no-repeat;
     background-position: center;
-    width: 100%;
-    height: 100%;
 }
-*/

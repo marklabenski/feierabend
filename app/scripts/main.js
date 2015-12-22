@@ -20,7 +20,7 @@ requirejs([
 
     // get jQuery References
     var menuButtons = $('.menu .buttons li');
-    var menu = $('.menu');
+    var mainpage = $('#mainpage');
     var score = $("#infoPanel");
 
     var scorelist = $("#highscore-lists");
@@ -37,7 +37,7 @@ requirejs([
             scorelist.hide();
 
             // Close the menu with a slideUp
-            menu.slideUp(600, function () {
+            mainpage.slideUp(600, function () {
 				
 				if(gameAvailable) {
 					var canvas = $('canvas');
@@ -53,7 +53,7 @@ requirejs([
                 gameAvailable = true;
             }
         } else if ($(this).attr("id") == "highscoreButton") {
-			// do something...
+
         }
 
     });
