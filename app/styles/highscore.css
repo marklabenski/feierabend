@@ -1,3 +1,4 @@
+/*Highscore*/
 #highscore-lists {
     position: absolute;
     top: 0;
@@ -82,3 +83,58 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+/*Highscore Entry*/
+#entry-highscore {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 350px;
+    height: 450px;
+    background-color: white;
+    transform: rotate(-7deg);
+    display: none; /*kommt weg*/
+}
+
+#entry-highscore_points {
+    padding: 23px 26px;
+    font-size: 2em;
+}
+    #entry-highscore_points_points {
+        font-weight: bold;
+        font-style: italic;
+        font-size: 2em;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+#entry-highscore_signature {
+}
+    #signature {
+        box-sizing: border-box;
+        width: 100%;
+        border: none;
+        background-color: #f1f1f1;
+        font-size: 1.3em;
+        padding: 5px 4px 5px 16px;
+        border-bottom: 2px dotted black;
+        margin-top: 130px;
+    }
+    #entry-highscore_signature label {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 1.3em;
+    }
+
+#entry-highscore_send {
+    margin-top: 10px;
+    text-align: center;
+}
+    #entry-highscore_send input {
+        border: none;
+        font-size: 1.4em;
+        padding: 6px 10px;
+    }
