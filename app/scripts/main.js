@@ -20,8 +20,8 @@ requirejs([
 
     // get jQuery References
     var menuButtons = $('.menu .buttons li');
-    var menu = $('.menu');
-    var score = $("#score");
+    var mainpage = $('#mainpage');
+    var score = $("#infoPanel");
 
     var scorelist = $("#highscore-lists");
 	
@@ -37,7 +37,7 @@ requirejs([
             scorelist.hide();
 
             // Close the menu with a slideUp
-            menu.slideUp(600, function () {
+            mainpage.slideUp(600, function () {
 				
 				if(gameAvailable) {
 					var canvas = $('canvas');
@@ -47,13 +47,13 @@ requirejs([
             });
             // Init the game...
             if (!gameAvailable) {
-				score.text(0);
+				//score.text(0);
 				score.show(1200);
                 feierabend.loader.load();
                 gameAvailable = true;
             }
         } else if ($(this).attr("id") == "highscoreButton") {
-			// do something...
+
         }
 
     });
