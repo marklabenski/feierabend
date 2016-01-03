@@ -25,11 +25,26 @@ define(['scripts/feierabend/scene.js',
             {name: 'paperjam', file: 'img/paperjam.png'},
             {name: 'notebook', file: 'img/notebook.png'},
             {name: 'background', file: 'img/ground.jpg'},
+            {name: 'wand', file: 'img/wall.jpg'},
         ];
         var levels = [
             [
                 //{type: 'background', x: 0, y:0},
-                {type: 'player', id: 'player', x: 0, y: 0},
+                
+              /* 
+              Schleife die das Spielfeld umrundet und jedem Randfeld die Wand zuweist.
+              Leider wird das mit der Benennung nichts da ja jedes Objekt eine ID braucht.
+              
+                for (var i=0; i<gameWidth; i++)
+                {
+                    {type: 'wall', id: 'wall', x: i, y: 0},
+                   {type: 'wall', id: 'wall', x: 
+                */
+                
+                
+                
+                
+                {type: 'player', id: 'player', x: 1, y: 1},
                 {type: 'boss', id: 'boss', x: 9, y: 10},
                 {type: 'coffee', id: 'coffee1', x: 3, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 3, y: 8},
