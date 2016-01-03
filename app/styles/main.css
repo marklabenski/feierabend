@@ -120,3 +120,81 @@ canvas {
     color: #ff212a;
     border-color: black;
 }
+
+.nameInput {
+    font-size: 50px;
+    font-family: Arial;
+    background-color: rgba(120,120,120,1);
+    color: black;
+    font-weight: bold;
+    width: 300px;
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #000000;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-top: -41.5px;
+    margin-left: -162px;
+    z-index: 10;
+}
+
+.confirmNameButton {
+    font-size: 15px;
+    font-family: Arial;
+    background-color: rgba(80,80,80, 0.9);
+    color: #1b1b1b;
+    font-weight: bold;
+    width: 120px;
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #000000;
+    position: absolute;
+    top: 45%;
+    left: 55%;
+    margin-top: -41.5px;
+    margin-left: -162px;
+    z-index: 10;
+}
+
+.confirmNameButton:HOVER {
+    font-size: 15px;
+    cursor: pointer;
+    font-family: Arial;
+    background-color: rgba(100,100,100, 1);
+    color: #1b1b1b;
+    font-weight: bold;
+    width: 120px;
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #000000;
+    position: absolute;
+    top: 45%;
+    left: 55%;
+    margin-top: -41.5px;
+    margin-left: -162px;
+    z-index: 10;
+}
+
+.confirmNameButton:active {
+    font-size: 15px;
+    font-family: Arial;
+    cursor: pointer;
+    background-color: rgba(130,130,130, 1);
+    color: #1b1b1b;
+    font-weight: bold;
+    width: 120px;
+    padding: 10px;
+    border: solid 2px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #000000;
+    position: absolute;
+    top: 45%;
+    left: 55%;
+    margin-top: -41.5px;
+    margin-left: -162px;
+    z-index: 10;
+}

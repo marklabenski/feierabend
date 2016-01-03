@@ -58,7 +58,7 @@ requirejs([
 
     });
 
-    menuButtons.mouseenter(function () {
+    menuButtons.click(function () {
         var sound = document.getElementById('click');
         sound.play();
     });

@@ -15,7 +15,6 @@ define(['scripts/feierabend/scene.js',
     var loader = PIXI.loader;
 	var grid;
 
-
     var createGame = function createGame(_grid) {
         var assets = [
             {name: 'player', file: 'img/player.png'},
@@ -72,19 +71,23 @@ define(['scripts/feierabend/scene.js',
         var pauseScene;
         var winScene;
         var currentLevel = null;
-        var currentLevelNum = 0;
+        var currentLevelNum = 1;
         var currentScenes = [gameScene, pauseScene, winScene];
         var stage = new PIXI.Container();
-        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish'};
+        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend'};
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
         var winText = new PIXI.Text("Level Complete \nCongratulations!", {font: "20px Arial", fill: "red"});
         var levelText = new PIXI.Text("Level: " + currentLevelNum, {font:"15px Arial", fill:"red"});
         var isPaused = false;
         var finishLevel = false;
+        var gameEnd = false;
+        var nameInput;
+        var confirmNameButton;
         var saveFn = undefined;
         var levelBeginTime;
         var levelEndTime;
         var deltaTime;
+
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
@@ -296,12 +299,34 @@ define(['scripts/feierabend/scene.js',
                     }
                     break;
                 case GAMESTATE.FINISH:
-                    //stage.addChild(winScene.container);
-                    //stage.removeChild(winScene.container);
                     currentLevelNum += 1;
-                    finishLevel = true;
-                    game.initLevel(currentLevelNum);
-                    game.changeGameState("INGAME");
+                    if(levels[currentLevelNum] != null) {
+                        //stage.addChild(winScene.container);
+                        //stage.removeChild(winScene.container);
+                        finishLevel = true;
+                        game.initLevel(currentLevelNum);
+                        game.changeGameState("INGAME");
+                    } else {
+                        game.changeGameState("GAMEEND");
+                        gameEnd = true;
+                    }
+                    break;
+                case GAMESTATE.GAMEEND:
+                    if(gameEnd) {
+                        nameInput = document.createElement("input");
+                        nameInput.setAttribute('type', 'text');
+                        nameInput.setAttribute('placeholder', 'Type name');
+                        nameInput.setAttribute('class', 'nameInput');
+                        document.body.appendChild(nameInput);
+
+                        confirmNameButton = document.createElement("button");
+                        confirmNameButton.setAttribute('type', 'button');
+                        confirmNameButton.innerHTML = "CONFIRM";
+                        confirmNameButton.setAttribute('class', 'confirmNameButton');
+                        confirmNameButton.setAttribute('onclick', "alert('Clicked! Here a function that save the score in the highscorelist! ')");
+                        document.body.appendChild(confirmNameButton);
+                        gameEnd = false;
+                    }
                     break;
             }
             renderer.render(stage);
