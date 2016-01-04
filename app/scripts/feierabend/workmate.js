@@ -33,7 +33,7 @@ define(['scripts/feierabend/viewable.js',
             if (collideObj.id === 'player') {
                 if(followingPlayer) {
                     console.log('player hits ' + thisWorkmate.id);
-                    collideObj.unfollowPlayer(thisWorkmate.id);
+                    collideObj.unfollow(thisWorkmate.id);
                     followingPlayer = null;
                 } else {
                     workmateInstance.follow(collideObj);
