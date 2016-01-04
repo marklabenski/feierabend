@@ -42,12 +42,13 @@ define(['scripts/feierabend/viewable.js',
                 } else {
                     // any number between 1 and 3 
                     var x = Math.floor(Math.random()*3) +1;
+                    
                     switch (x) {
-                        case 1:  playAudio("workmateM1");
+                        case 1:  playAudio("workmate"+gender.toUpperCase()+"1");
                         break;
-                        case 2:  playAudio("workmateM2");
+                        case 2:  playAudio("workmate"+gender.toUpperCase()+"2");
                         break;
-                        case 3:  playAudio("workmateM3");
+                        case 3:  playAudio("workmate"+gender.toUpperCase()+"3");
                         break;
                     }
                     workmateInstance.follow(collideObj);

@@ -156,7 +156,7 @@ define(['scripts/feierabend/player.js',
                         
                     case 'workmate':
                         var gender;
-                        if(object.hasOwnPropery('gender')) {
+                        if(object.hasOwnProperty('gender')) {
                             gender = object.gender;
                         } else {
                             gender = 'm'
@@ -168,7 +168,7 @@ define(['scripts/feierabend/player.js',
                         });
                         
                       
-                        var tilingSprite = new PIXI.extras.TilingSprite(texture, 60, 60);
+                        var tilingSprite = new PIXI.extras.TilingSprite(loader.resources.workmate.texture, 60, 60);
 
 
                         newWorkmate.changeSprite(new PIXI.Sprite(loader.resources.wall.texture));
