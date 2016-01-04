@@ -31,7 +31,7 @@ define(['scripts/feierabend/scene.js',
         var levels = [
             [
                 //{type: 'background', x: 0, y:0},
-                {type: 'player', id: 'player', x: 0, y: 0},
+                {type: 'player', id: 'player', x: 1, y: 1},
                 {type: 'boss', id: 'boss', x: 9, y: 10},
                 {type: 'coffee', id: 'coffee1', x: 3, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 3, y: 8},
@@ -43,7 +43,7 @@ define(['scripts/feierabend/scene.js',
                 {type: 'notebook', id: 'notebook1', x: 7, y: 7},
             ],
             [
-                {type: 'player', id: 'player', x: 0, y: 0},
+                {type: 'player', id: 'player', x: 1, y: 1},
                 {type: 'boss', id: 'boss', x: 9, y: 3},
                 {type: 'coffee', id: 'coffee1', x: 8, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 1, y: 8},
@@ -56,7 +56,6 @@ define(['scripts/feierabend/scene.js',
         var maxX = (gameWidth/gridSize) - 1;
         var maxY = (gameHeight/gridSize) - 1;
         levels.map(function(currentLevel) {
-
             for(var i=0; i <= maxX;i++) {
                 currentLevel.push({type: 'wall', id:'wall_' + i + '_' + '0', x: i, y: 0});
                 currentLevel.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
@@ -66,7 +65,6 @@ define(['scripts/feierabend/scene.js',
                 currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + i, x: 0, y: i});
                 currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + i, x: maxX, y: i});
             }
-
         });
 
 
