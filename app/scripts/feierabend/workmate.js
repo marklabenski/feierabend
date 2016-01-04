@@ -1,10 +1,11 @@
 define(['scripts/feierabend/viewable.js',
         'scripts/feierabend/collectable.js',
-        'scripts/feierabend/movable.js'], function (createViewable, createCollectable, createMovable) {
-    return function createWorkmate(id, texture, game, enterGrid) {
+        'scripts/feierabend/movable.js',
+       'scripts/feierabend/audio.js'], function (createViewable, createCollectable, createMovable, playAudio) {
+    return function createWorkmate(id, texture, game, _gender, enterGrid) {
         var followingPlayer = null;
         var queuePosition = 0;
-
+        var gender = _gender;
 
         var Workmate = {
             changeQueuePos: function changeQueuePos(change) {
@@ -39,6 +40,16 @@ define(['scripts/feierabend/viewable.js',
                     collideObj.unfollow(thisWorkmate);
                     followingPlayer = null;
                 } else {
+                    // any number between 1 and 3 
+                    var x = Math.floor(Math.random()*3) +1;
+                    switch (x) {
+                        case 1:  playAudio("workmateM1");
+                        break;
+                        case 2:  playAudio("workmateM2");
+                        break;
+                        case 3:  playAudio("workmateM3");
+                        break;
+                    }
                     workmateInstance.follow(collideObj);
                 }
             }
