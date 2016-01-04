@@ -21,11 +21,15 @@ define(['scripts/feierabend/movable.js',
                 this.changeSpriteDirectionByKeyCode(keyCode, this.getSprite());
             },
             unfollow: function (workmate) {
-                var index = this.workmatesFollowing.indexOf(workmate);
-                this.workmatesFollowing.splice(index, 1);
-                this.workmatesFollowing.map(function (workmate) {
-                    workmate.changeQueuePos(-1);
+                var workmateIndex = this.workmatesFollowing.indexOf(workmate);
+                //this.workmatesFollowing.splice(index, 1);
+                var workmates = this.workmatesFollowing;
+                workmates.map(function (workmate, index) {
+                    if(index >= workmateIndex) {
+                        workmate.stopFollowing();
+                    }
                 });
+                workmates.splice(workmateIndex, workmates.length);
             },
             follow: function (workmate) {
                 this.workmatesFollowing.push(workmate);

@@ -32,7 +32,6 @@ define(['scripts/feierabend/scene.js',
         ];
         var levels = [
             [
-                //{type: 'background', x: 0, y:0},
                 {type: 'player', id: 'player', x: 1, y: 1},
                 {type: 'boss', id: 'boss', x: 9, y: 10},
                 {type: 'coffee', id: 'coffee1', x: 3, y: 3},
@@ -49,8 +48,14 @@ define(['scripts/feierabend/scene.js',
                 {type: 'boss', id: 'boss', x: 9, y: 3},
                 {type: 'coffee', id: 'coffee1', x: 8, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 1, y: 8},
-                {type: 'workmate', id: '1', x: 5, y: 8},
-                {type: 'workmate', id: '2', x: 8, y: 8},
+                {type: 'workmate', id: '1', x: 3, y: 8},
+                {type: 'workmate', id: '2', x: 4, y: 8},
+                {type: 'workmate', id: '3', x: 5, y: 8},
+                {type: 'workmate', id: '4', x: 6, y: 8},
+                {type: 'workmate', id: '5', x: 7, y: 8},
+                {type: 'workmate', id: '6', x: 8, y: 8},
+                {type: 'workmate', id: '7', x: 9, y: 8},
+                {type: 'workmate', id: '8', x: 10, y: 8},
                 {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
             ]
         ];

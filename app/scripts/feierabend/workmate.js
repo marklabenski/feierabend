@@ -11,6 +11,9 @@ define(['scripts/feierabend/viewable.js',
                 queuePosition = queuePosition + change;
                 return queuePosition;
             },
+            stopFollowing: function stopFollowing() {
+                followingPlayer = null;
+            },
             follow: function follow(player) {
 
                 player.follow(this);
@@ -33,8 +36,7 @@ define(['scripts/feierabend/viewable.js',
 
             if (collideObj.id === 'player') {
                 if(followingPlayer) {
-                    console.log('player hits ' + thisWorkmate.id);
-                    collideObj.unfollow(thisWorkmate.id);
+                    collideObj.unfollow(thisWorkmate);
                     followingPlayer = null;
                 } else {
                     workmateInstance.follow(collideObj);

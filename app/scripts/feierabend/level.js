@@ -150,10 +150,21 @@ define(['scripts/feierabend/player.js',
                         addLevelObject(newObject);
                         break;
                     case 'workmate':
-                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, {
+                        var texture = loader.resources.workmate.texture;
+
+                        var newWorkmate = createWorkmate(object.id, texture, game, {
                             x: object.x,
                             y: object.y
                         });
+                        var tilingSprite = new PIXI.extras.TilingSprite(texture, 60, 60);
+
+
+                        newWorkmate.changeSprite(new PIXI.Sprite(loader.resources.wall.texture));
+                        newWorkmate.changeSprite(tilingSprite);
+
+                        /*tilingSprite.tilePosition.x += 1;
+                        tilingSprite.tilePosition.y += 1;*/
+
                         if(followPlayer.indexOf(object.id) != -1) {
                             newWorkmate.follow(player);
                         }
