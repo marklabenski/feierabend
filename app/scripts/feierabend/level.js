@@ -67,6 +67,7 @@ define(['scripts/feierabend/player.js',
                     case 'boss':
                         boss = createBoss(loader.resources.boss.texture, game, {x: object.x, y: object.y});
                         addLevelObject(boss);
+                        //playAudio('boss');
                         break;
                     case 'coffee':
                         var newObject = createCollectable(object.id, loader.resources.coffee.texture, game,

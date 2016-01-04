@@ -7,8 +7,10 @@ define(['scripts/feierabend/scene.js',
     'scripts/feierabend/level.js',
     'scripts/feierabend/audio.js',
     'scripts/feierabend/score.js',
+    'scripts/feierabend/countdown.js',
     'vendor/pixijs/pixi.min',
-], function (createScene, createGrid, createLevel, playAudio, score) {
+
+], function (createScene, createGrid, createLevel, playAudio, score, createCountDown) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -116,6 +118,7 @@ define(['scripts/feierabend/scene.js',
         var gameState = GAMESTATE.INGAME;
         var player, workmates = [], boss;
         var counters = {};
+        var countDown = createCountDown(0,15);
 
         assets.map(function (asset) {
             loader.add(asset.name, asset.file);
@@ -244,7 +247,16 @@ define(['scripts/feierabend/scene.js',
                 winScene = createScene();
 
                 this.load();
-                this.initLevel(currentLevelNum);
+
+                countDown.start();
+
+                // creates Level with the index "currentLevel"
+                // Level objects are defined in level.js in "levels"
+                currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer);
+                player = currentLevel.player; // player Object
+                workmates = currentLevel.workmates; // workmates as Array
+                boss = currentLevel.boss;
+
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;

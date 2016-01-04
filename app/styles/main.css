@@ -100,6 +100,7 @@ canvas {
     text-align: center;
     font-weight: bold;
     display: none;
+
     overflow: hidden;
 }
 
@@ -197,4 +198,31 @@ canvas {
     margin-top: -41.5px;
     margin-left: -162px;
     z-index: 10;
+
+}
+
+/*Countdown*/
+#processbar {
+	width: 19%;
+	margin-top:-40px;
+	margin-left: 27%;
+    padding: 4px 5px;
+    height: 20px;
+	border-radius: 5px;
+	background-color: #764d16;	
+	box-shadow: inset 3px 0px 10px rgba(0,0,0,0.1);	
+    position: absolute;
+}
+
+
+#processbar .finish {
+	height: 20px;
+	width: 100%;
+	border-radius: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	margin-top: -9px;
+	background-color: #8ac320;
+	box-shadow: inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #79aa1e , 0 7px 0 #628c14;
+
 }
