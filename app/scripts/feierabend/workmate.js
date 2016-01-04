@@ -9,6 +9,7 @@ define(['scripts/feierabend/viewable.js',
         var Workmate = {
             changeQueuePos: function changeQueuePos(change) {
                 queuePosition = queuePosition + change;
+                return queuePosition;
             },
             follow: function follow(player) {
 
