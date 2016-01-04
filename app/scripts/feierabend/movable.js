@@ -11,6 +11,15 @@ define([], function () {
         var path = [];
 
         var movable = {
+            getPath: function getPath() {
+                return path;
+            },
+            getOnGridTile: function getGridPos() {
+                return onGridTile;
+            },
+            setPath: function setPath(_path) {
+                path = _path;
+            },
             changeDirection: function changeDirection(change) {
                 var newDirection = direction + change;
                 if (direction === DIRECTION.DOWN && change === -1) {
@@ -52,6 +61,17 @@ define([], function () {
 
                 onGridTile = moveToTile;
                 path.push({'tile': onGridTile, 'direction':direction});
+                this.gridPos = onGridTile.getGridPos();
+
+            },
+            setRandomDirection: function setRandomDirection() {
+                var rand = Math.random();
+                if(rand >= 0.5) {
+                    this.changeDirection(+1);
+                } else {
+                    this.changeDirection(-1);
+                }
+                this.setRotationByDirection(direction);
             },
             moveSprite: function moveSprite(sprite) {
                 var moveToTile;
@@ -69,9 +89,13 @@ define([], function () {
                     moveToTile = onGridTile.getEast();
                 }
                 //moveToTile
-                if(moveToTile !== null) {
+                if(moveToTile === null) {
+                    this.setRandomDirection();
+                    this.moveSprite(sprite);
+                } else {
                     this.moveSpriteTo(sprite, moveToTile);
                 }
+
             }
         };
         return Object.create(movable);

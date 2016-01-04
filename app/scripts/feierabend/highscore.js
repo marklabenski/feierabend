@@ -1,6 +1,4 @@
-showHighscoreList();
-
-function showHighscoreList () {
+function showHighscoreList() {
 
     //Test
     localStorage["1"] = JSON.stringify(["8Zeichen", 27364]);
@@ -15,24 +13,25 @@ function showHighscoreList () {
     localStorage["10"] = JSON.stringify(["WAS GEHT", 562]);
     //
 
+    //Aktueller Score
+    //JSON.parse(localStorage["Feierabend_v0.1"])["score"];
+
     //Show #1
     if (localStorage.getItem("1") != null) {
         console.log(localStorage.getItem("1"));
         $("#mitarbeiter_des_monats-name").text(JSON.parse(localStorage[1])[0]);
-        $("#mitarbeiter_des_monats-punkte").text(JSON.parse(localStorage[1])[1]);
+        $("#mitarbeiter_des_monats-points").text(JSON.parse(localStorage[1])[1]);
     }
     else
         $("#mitarbeiter_des_monats-name").text("Niemand...");
 
     //Show #2 - #10
-    for (var i = 2; i <= localStorage.length && i < 11 ; i++) {
-        console.log(localStorage.getItem(i));
-        $("#der_rest-name table").append("<tr>"+"<td>#"+i+"</td><td>"+JSON.parse(localStorage[i])[0]+"</td><td>"+JSON.parse(localStorage[i])[1]+"</td></tr>");
+    for (var i = 2; i <= localStorage.length && i < 11; i++) {
+
+        $("#der_rest-name table").append("<tr>" + "<td>#" + i + "</td><td>" + JSON.parse(localStorage[i])[0] + "</td><td>" + JSON.parse(localStorage[i])[1] + "</td></tr>");
     }
 
     //Test-end
     //
 
 }
-
-

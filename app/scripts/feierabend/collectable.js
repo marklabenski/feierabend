@@ -4,9 +4,10 @@ define(['scripts/feierabend/viewable.js'], function (createViewable) {
         //init with texture
 
         var Collectable = {
-            id: id,
+            collected: false,
             collect: function collect() {
                 this.getGridTile().leave(this);
+                this.collected = true;
             },
             collideFn: function collideFn(collideObj) {
                 collide(collideObj, this);
@@ -15,7 +16,7 @@ define(['scripts/feierabend/viewable.js'], function (createViewable) {
         };
 
         var collectableInstance = Object.create(Collectable);
-        collectableInstance = $.extend({}, collectableInstance, createViewable(texture, game, gridPos));
+        collectableInstance = $.extend({}, collectableInstance, createViewable(id, texture, game.getGrid(), gridPos));
         collectableInstance.init();
         return collectableInstance;
     };

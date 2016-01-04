@@ -1,15 +1,14 @@
-body {
-    background-color: lightgray;
-    min-width: 1000px;
-    font-family: "Nueva Std", sans;
+/*Highscore*/
+#highscore-lists {
+    position: absolute;
+    top: 0;
+    left: 1500px;
+    width: 100%;
+    height: 100%;
 }
 
-#highscore-lists {
-    width: 100%
-}
 .highscore-list {
-    position: relative;
-    margin: 0 auto;
+    position: absolute;
 }
     .highscore-list-border {
         position: absolute;
@@ -20,10 +19,10 @@ body {
     }
         .highscore-list-name {
             position: absolute;
-            width: 100%;
          }
 
 #mitarbeiter_des_monats {
+    left: 200px;
     height: 615px;
     width: 700px;
 }
@@ -36,8 +35,9 @@ body {
             font-style: italic;
             top: 39%;
             text-align: center;
+            width: 100%;
         }
-        #mitarbeiter_des_monats-punkte {
+        #mitarbeiter_des_monats-points {
             bottom: 11%;
             width: 100%;
             font-size: 4em;
@@ -49,9 +49,11 @@ body {
         }
 
 #der_rest {
+    position: absolute;
+    left: 900px;
+    margin-top: 320px;
     height: 400px;
     width: 400px;
-    left: 2%;
 }
     #der_rest-zettel {
         background-image: url("../img/der_rest.svg");
@@ -69,3 +71,70 @@ body {
             #der_rest-name td {
                 padding: 0 6px;
             }
+
+
+#zurueck-button {
+    position: absolute;
+    width: 250px;
+    height: 200px;
+    margin-top: 10px;
+    left: 26px;
+    background-image: url("../img/zurueck-button_1.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/*Highscore Entry*/
+#entry-highscore {
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 350px;
+    height: 450px;
+    background-color: white;
+    transform: rotate(-7deg);
+    display: none; /*kommt weg*/
+}
+
+#entry-highscore_points {
+    padding: 23px 26px;
+    font-size: 2em;
+}
+    #entry-highscore_points_points {
+        font-weight: bold;
+        font-style: italic;
+        font-size: 2em;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+#entry-highscore_signature {
+}
+    #signature {
+        box-sizing: border-box;
+        width: 100%;
+        border: none;
+        background-color: #f1f1f1;
+        font-size: 1.3em;
+        padding: 5px 4px 5px 16px;
+        border-bottom: 2px dotted black;
+        margin-top: 130px;
+    }
+    #entry-highscore_signature label {
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 1.3em;
+    }
+
+#entry-highscore_send {
+    margin-top: 10px;
+    text-align: center;
+}
+    #entry-highscore_send input {
+        border: none;
+        font-size: 1.4em;
+        padding: 6px 10px;
+    }

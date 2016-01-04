@@ -8,18 +8,24 @@
 requirejs([
     "scripts/feierabend/game.js",
     "scripts/feierabend/music.js",
+    "scripts/feierabend/highscore.js",
+    "scripts/feierabend/highscore.js",
     "vendor/jquery/jquery-2.1.4.min.js",
+    "vendor/smothScrolling/smothScrolling.js",
 ], function(game, playMusic) {
+	
     var bgMusic = playMusic('backgroundMusic');
 
     window.feierabend = game;
 
     // get jQuery References
     var menuButtons = $('.menu .buttons li');
-    var menu = $('.menu');
-    var canvas = $('canvas'); //Es existiert zu diesem Zeitpunkt noch kein Canvas-Objekt :(
+    var mainpage = $('#mainpage');
+    var score = $("#infoPanel");
+
+    var scorelist = $("#highscore-lists");
+	
     var gameAvailable = false;
-    var score = $("#score");
 
     // If a Button Click
     menuButtons.on('click', function () {
@@ -27,41 +33,37 @@ requirejs([
 
         // Start Game Button
         if ($(this).attr("id") == "startButton") {
+            // Close the Highscorelist
+            scorelist.hide();
+
             // Close the menu with a slideUp
-            menu.slideUp(600, function () {
-                // Then open the Game
-                score.text(0);
-                score.slideToggle(1200);
-                /*
-                Dieser Teil funktioniert nicht, weil die canvas-Variable leer is
-                canvas.hide(600, function () {
-                })
-                */
+            mainpage.slideUp(600, function () {
+				
+				if(gameAvailable) {
+					var canvas = $('canvas');
+					canvas.slideDown(1000);
+				}
+                
             });
             // Init the game...
             if (!gameAvailable) {
-                feierabend.load();
+				//score.text(0);
+				score.show(1200);
+                feierabend.loader.load();
                 gameAvailable = true;
             }
         } else if ($(this).attr("id") == "highscoreButton") {
-            // do something....
+
         }
 
     });
 
-    $('html').on("keydown", function (event) {
-        if (event.which == '27') {
-            // close the game
-            canvas.slideUp(600, function () {
-                // Then open the Menu
-                menu.slideDown(600, function () {
-                });
-            });
-        }
-    });
-
-    menuButtons.mouseenter(function () {
+    menuButtons.click(function () {
         var sound = document.getElementById('click');
         sound.play();
     });
+
+    showHighscoreList();
+    initSmothScrolling ();
+
 });

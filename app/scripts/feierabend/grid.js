@@ -11,12 +11,19 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
         var tiles = [];
 
         var grid = {
+            getSize: function getSize() {
+
+                return {width: sceneWidth, height: sceneHeight};
+            },
+            getTileSize: function getTileSize() {
+                return tileSize;
+            },
             init: function init() {
                 for (var x = 0; x < (sceneWidth / tileSize); x += 1) {
                     tiles.push([]);
 
                     for (var y = 0; y < (sceneHeight / tileSize); y += 1) {
-                        var newTile = gridTile(x * tileSize, y * tileSize);
+                        var newTile = gridTile(x, y, tileSize);
                         //cant set neighbors for first tile
                         if (x > 0) {
                             // set me to east neighbor for western tiles
@@ -37,6 +44,15 @@ define(['scripts/feierabend/gridtile.js'], function (gridTile) {
             },
             getTileByPosition: function getTileByPosition(x, y) {
                 return tiles[(x /_tileSize)][(y/_tileSize)];
+            },
+            getPositionOfTile: function getPositionOfTile(tile) {
+                tiles.map(function(tileRow, rowIndex) {
+                    tileRow.map(function(tileCol, colIndex) {
+                        if(tileCol === tile) {
+                            return {x: rowIndex, y:colIndex};
+                        }
+                    });
+                })
             },
             getTileAt: function getTileAt() {
                 var x = arguments[0] || 0;
