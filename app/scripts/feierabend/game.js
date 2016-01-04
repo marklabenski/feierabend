@@ -25,6 +25,8 @@ define(['scripts/feierabend/scene.js',
             {name: 'paperjam', file: 'img/paperjam.png'},
             {name: 'notebook', file: 'img/notebook.png'},
             {name: 'background', file: 'img/floor.png'},
+            {name: 'wall', file: 'img/wall.png'},
+
         ];
         var levels = [
             [
@@ -50,6 +52,23 @@ define(['scripts/feierabend/scene.js',
                 {type: 'door', id: 'door', x: 15, y: 11},
             ]
         ];
+
+        var maxX = (gameWidth/gridSize) - 1;
+        var maxY = (gameHeight/gridSize) - 1;
+        levels.map(function(currentLevel) {
+
+            for(var i=0; i <= maxX;i++) {
+                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + '0', x: i, y: 0});
+                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
+            }
+
+            for(var i=1; i <= maxY-1;i++) {
+                currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + i, x: 0, y: i});
+                currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + i, x: maxX, y: i});
+            }
+
+        });
+
 
         var Url = {
             get get(){
