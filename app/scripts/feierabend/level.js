@@ -121,6 +121,7 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+                        
                     case 'door':
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {
@@ -132,21 +133,57 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
-                    case 'workmate':
+                        
+                    case 'workmateM':
                         var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, {
                             x: object.x,
                             y: object.y
                         });
                         if(followPlayer.indexOf(object.id) != -1) {
+                            var min = 1;
+                            var max = 3;
+                            var x = (Math.random() * (max - min)) + min;
+                            switch (x) {
+                            case '1':  playAudio("workmateM1");
+                            break;
+                            case '2':  playAudio("workmateM2");
+                            break;
+                            case '3':  playAudio("workmateM3");
+                            break;
                             newWorkmate.follow(player);
                         }
                         workmates.push(newWorkmate);
                         addLevelObject(newWorkmate);
+                        break;
+                            
+                        case 'workmateW':
+                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, {
+                            x: object.x,
+                            y: object.y
+                        });
+                        if(followPlayer.indexOf(object.id) != -1) {
+                            var min = 1;
+                            var max = 3;
+                            var x = (Math.random() * (max - min)) + min;
+                            switch (x) {
+                            case '1':  playAudio("workmateW1");
+                            break;
+                            case '2':  playAudio("workmateW2");
+                            break;
+                            case '3':  playAudio("workmateW3");
+                            break;
+                            newWorkmate.follow(player);
+                        }
+                        workmates.push(newWorkmate);
+                        addLevelObject(newWorkmate);
+                        break;
+                            
+                            
                 }
 
             }
         );
-
+                
         childrenToAdd.map(function(child) {
             gameScene.container.addChild(child);
         });

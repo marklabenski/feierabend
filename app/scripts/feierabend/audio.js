@@ -42,12 +42,42 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     loop:false,
   });
 
-  var officeAtmosphere = new howler.Howl({
-    urls:['audio/officeAtmosphere.mp3'],
-    volume:1,
-    loop:true,
-
+  var workmateM1 = new howler.Howl({
+    urls:['audio/workmateM1.mp3'],
+      volume: 1.5,
+      loop:false,
   });
+    
+    var workmateM2 = new howler.Howl({
+    urls:['audio/workmateM2.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+    
+    var workmateM3 = new howler.Howl({
+    urls:['audio/workmateM3.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+      
+   var workmateW1 = new howler.Howl({
+    urls:['audio/workmateW1.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+    
+    var workmateW2 = new howler.Howl({
+    urls:['audio/workmateW2.mp3'],
+      volume: 1.5,
+      loop:false,
+  }); 
+    
+    var workmateW3 = new howler.Howl({
+    urls:['audio/workmateW3.mp3'],
+      volume: 1.5,
+      loop:false,
+  }); 
+      
 
 
 
