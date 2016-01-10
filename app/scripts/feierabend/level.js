@@ -157,11 +157,7 @@ define(['scripts/feierabend/player.js',
                             x: object.x,
                             y: object.y
                         });
-                        var tilingSprite = new PIXI.extras.TilingSprite(texture, 60, 60);
 
-
-                        newWorkmate.changeSprite(new PIXI.Sprite(loader.resources.wall.texture));
-                        newWorkmate.changeSprite(tilingSprite);
 
                         /*tilingSprite.tilePosition.x += 1;
                         tilingSprite.tilePosition.y += 1;*/

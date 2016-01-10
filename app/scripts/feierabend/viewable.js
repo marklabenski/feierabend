@@ -4,6 +4,7 @@
 define([], function () {
     return function createViewable(id, texture, grid, gridPos) {
         var sprite;
+        var animation;
         //init with texture
 
         var Viewable = {
@@ -29,6 +30,7 @@ define([], function () {
 
                 sprite.position.x = this.enteredGridTile.getPos().x + sprite.width / 2;
                 sprite.position.y = this.enteredGridTile.getPos().y + sprite.height / 2;
+                return sprite;
             },
             init: function init() {
                 if (texture) {
