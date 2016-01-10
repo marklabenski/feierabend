@@ -31,6 +31,9 @@ define(['scripts/feierabend/movable.js',
                 });
                 workmates.splice(workmateIndex, workmates.length);
             },
+            loseLastWorkmate: function () {
+                this.unfollow(this.workmatesFollowing[this.workmatesFollowing.length-1]);
+            },
             follow: function (workmate) {
                 this.workmatesFollowing.push(workmate);
             },

@@ -1,3 +1,4 @@
+//noinspection SpellCheckingInspection,JSFileReferences
 /**
  * Created by marklabenski on 31.10.15.
  */
@@ -14,6 +15,7 @@ define(['scripts/feierabend/scene.js',
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
+    //noinspection AmdModulesDependencies
     var loader = PIXI.loader;
 	var grid;
 
@@ -69,9 +71,9 @@ define(['scripts/feierabend/scene.js',
                 currentLevel.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
             }
 
-            for(var i=1; i <= maxY-1;i++) {
-                currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + i, x: 0, y: i});
-                currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + i, x: maxX, y: i});
+            for(var v=1; v <= maxY-1;v++) {
+                currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + v, x: 0, y: v});
+                currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + v, x: maxX, y: v});
             }
         });
 
@@ -89,6 +91,7 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
+        //noinspection JSUnresolvedVariable
         var SAVE_KEY = Url.get.saveKey || 'Feierabend_v0.1';
         var renderer = null;
         var gameInstance;
@@ -96,13 +99,21 @@ define(['scripts/feierabend/scene.js',
         var pauseScene;
         var winScene;
         var currentLevel = null;
-        var currentLevelNum = 1;
+        var currentLevelNum = 0;
+
+
+
 		var $levelInfo = $("#level");
+        //noinspection JSUnusedAssignment
         var currentScenes = [gameScene, pauseScene, winScene];
+        //noinspection AmdModulesDependencies
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend'};
+        //noinspection AmdModulesDependencies
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
+        //noinspection AmdModulesDependencies
         var winText = new PIXI.Text("Level Complete \nCongratulations!", {font: "20px Arial", fill: "red"});
+        //noinspection AmdModulesDependencies
         var levelText = new PIXI.Text("Level: " + currentLevelNum, {font:"15px Arial", fill:"red"});
         var isPaused = false;
         var finishLevel = false;
@@ -114,6 +125,7 @@ define(['scripts/feierabend/scene.js',
         var levelEndTime;
         var deltaTime;
 
+        var fadeOutObjects = [];
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
@@ -142,6 +154,24 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
+        var fadeOuts = function() {
+
+            if(fadeOutObjects.length >= 1) {
+
+                fadeOutObjects.map(function(fadeOutObj) {
+                    var sprite = fadeOutObj.getSprite();
+                    if(sprite.alpha > 0.05) {
+                        sprite.alpha-= 0.01;
+                    }
+                    else {
+                        fadeOutObj.hide();
+                        fadeOutObjects.splice(fadeOutObjects.indexOf(fadeOutObj, 1));
+                    }
+
+                });
+            }
+        };
+
         var game = {
             hasBeenSaved: false,
             save: function save() {
@@ -163,14 +193,14 @@ define(['scripts/feierabend/scene.js',
                 }
 
             },
+            fadeOutObject: function fadeOutObject(obj) {
+                fadeOutObjects.push(obj);
+            },
             getLoadedObjects: function getLoadedObjects() {
                 return loadedLevelObjects;
             },
             getBounds: function getBounds() {
                 return {x: gameWidth, y: gameHeight};
-            },
-            getGridSize: function getGridSize() {
-                return gridSize;
             },
             getGrid: function getGrid() {
                 return grid;
@@ -218,27 +248,28 @@ define(['scripts/feierabend/scene.js',
                     this.resetAssets();
                     // creates Level with the index "currentLevel"
                     // Level objects are defined in level.js in "levels"
-					gameScene.container.removeChildren();
-					
-					var bgSprite = new PIXI.Sprite(loader.resources.background.texture);
-					bgSprite.width = gameWidth;
-					bgSprite.height = gameHeight;
-					gameScene.container.addChild(bgSprite);
-					levelText.x = 10;
-					levelText.y = 20;
-					gameScene.container.addChild(levelText);
-					grid = createGrid(gridSize, gameWidth, gameHeight);
+                    gameScene.container.removeChildren();
+                    //noinspection AmdModulesDependencies
+                    var bgSprite = new PIXI.Sprite(loader.resources.background.texture);
+                    bgSprite.width = gameWidth;
+                    bgSprite.height = gameHeight;
+                    gameScene.container.addChild(bgSprite);
+                    levelText.x = 10;
+                    levelText.y = 20;
+                    gameScene.container.addChild(levelText);
+                    grid = createGrid(gridSize, gameWidth, gameHeight);
                     currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer, score);
                     $levelInfo.text("Level: " + (currentLevelNum + 1));
                     player = currentLevel.player; // player Object
                     workmates = currentLevel.workmates; // workmates as Array
                     boss = currentLevel.boss;
-					score = currentLevel.score;
+					          score = currentLevel.score;
                 }
             },
 
             init: function init() {
                 saveFn = this.save;
+                //noinspection AmdModulesDependencies
                 renderer = PIXI.autoDetectRenderer(800, 600);
                 document.body.appendChild(renderer.view);
 
@@ -248,8 +279,8 @@ define(['scripts/feierabend/scene.js',
                 winScene = createScene();
 
                 this.load();
-				this.initLevel(currentLevelNum);
-				
+				        this.initLevel(currentLevelNum);
+
                 countDown.start();
 
 
@@ -310,23 +341,9 @@ define(['scripts/feierabend/scene.js',
                                 workmate.move();
                             });
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
-
-                            // Pause the game with ESC
-                            $('html').on("keydown", function (event) {
-                                var canvas = $('canvas');
-                                var menu = $('.menu');
-                                if (event.which == '27') {
-                                    // close the game
-                                    canvas.slideUp(600, function () {
-                                        // Then open the Menu
-                                        menu.slideDown(600, function () {
-                                        });
-                                    });
-                                }
-                            });
-
                         });
                     }
+                    fadeOuts();
                     break;
                 case GAMESTATE.FINISH:
                     currentLevelNum += 1;
@@ -365,6 +382,7 @@ define(['scripts/feierabend/scene.js',
 
         var loadedLevelObjects = [];
 
+        //noinspection JSUnusedAssignment
         gameInstance = gameInstance || Object.create(game);
         return gameInstance;
     };
@@ -372,6 +390,8 @@ define(['scripts/feierabend/scene.js',
     grid = createGrid(gridSize, gameWidth, gameHeight);
 
     var game = createGame(grid);
+
+    //noinspection AmdModulesDependencies
     loader.once('complete', $.proxy(game.init, game));
 
     return {game: game, loader: loader};
