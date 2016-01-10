@@ -87,6 +87,7 @@
 /*Highscore Entry*/
 #entry-highscore {
     position: absolute;
+    background-image: url("../img/tile.png");
     top: 20%;
     left: 0;
     right: 0;

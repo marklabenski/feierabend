@@ -30,19 +30,42 @@ img {
     width: 100%;
     height: 100%;
 }
+
+#uhr {
+    position: absolute;
+    display: block;
+    width: 210px;
+    height: auto;
+    top: 17px;
+    right: 0;
+    left: 340px;
+}
+
+#feierabend_papier {
+    position: absolute;
+    display: block;
+    width: 340px;
+    height: auto;
+    right: 0;
+    left: 580px;
+}
+
 #background-menu {
     position: absolute;
-    width: 800px;
-    height: 600px;
+    width: 707px;
+    height: 537px;
     background-image: url("../img/BackgroundMenu.png");
     background-repeat: no-repeat;
-    margin: 50px 0 0 250px;
+    top: 250px;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
 }
 
 #menu ul.buttons {
     position: absolute;
     display: block;
-    padding: 200px 0 0 300px;
+    padding: 170px 0 0 260px;
 }
 #menu ul.buttons > li {
     transform: rotate(20deg);
