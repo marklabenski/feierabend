@@ -344,6 +344,7 @@ define(['scripts/feierabend/scene.js',
                 case GAMESTATE.GAMEEND:
                     if(gameEnd) {
 						$('#entry-highscore').css("display", "block");
+                        $('#entry-highscore_points_points').append(JSON.parse(localStorage['Feierabend_v0.1'])['score']);
                         gameEnd = false;
 					}
                     break;
