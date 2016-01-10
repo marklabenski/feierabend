@@ -15,6 +15,9 @@ define(['scripts/feierabend/viewable.js',
             stopFollowing: function stopFollowing() {
                 followingPlayer = null;
                 tilingSprite.tilePosition.y = 50;
+                this.collideFn = function() {};
+                var _this = this;
+                window.setTimeout(function() { game.fadeOutObject(_this); }, 500);
             },
             follow: function follow(player) {
 
@@ -42,7 +45,7 @@ define(['scripts/feierabend/viewable.js',
                     this.setRotationByDirection(queuePosDirection.direction);
                     this.moveSpriteTo(this.getSprite(), queuePosMovement.tile);
                 }
-                //this.animate('walking');
+
             },
         };
 

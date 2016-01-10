@@ -125,6 +125,7 @@ define(['scripts/feierabend/scene.js',
         var levelEndTime;
         var deltaTime;
 
+        var fadeOutObjects = [];
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
@@ -153,6 +154,24 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
+        var fadeOuts = function() {
+
+            if(fadeOutObjects.length >= 1) {
+
+                fadeOutObjects.map(function(fadeOutObj) {
+                    var sprite = fadeOutObj.getSprite();
+                    if(sprite.alpha > 0.05) {
+                        sprite.alpha-= 0.01;
+                    }
+                    else {
+                        fadeOutObj.hide();
+                        fadeOutObjects.splice(fadeOutObjects.indexOf(fadeOutObj, 1));
+                    }
+
+                });
+            }
+        };
+
         var game = {
             hasBeenSaved: false,
             save: function save() {
@@ -173,6 +192,9 @@ define(['scripts/feierabend/scene.js',
                     this.changeGameState(GAMESTATE.INGAME)
                 }
 
+            },
+            fadeOutObject: function fadeOutObject(obj) {
+                fadeOutObjects.push(obj);
             },
             getLoadedObjects: function getLoadedObjects() {
                 return loadedLevelObjects;
@@ -257,7 +279,7 @@ define(['scripts/feierabend/scene.js',
                 winScene = createScene();
 
                 this.load();
-				this.initLevel(currentLevelNum);
+				        this.initLevel(currentLevelNum);
 
                 countDown.start();
 
@@ -321,6 +343,7 @@ define(['scripts/feierabend/scene.js',
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     }
+                    fadeOuts();
                     break;
                 case GAMESTATE.FINISH:
                     currentLevelNum += 1;
