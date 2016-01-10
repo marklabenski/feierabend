@@ -100,6 +100,10 @@ define(['scripts/feierabend/scene.js',
         var winScene;
         var currentLevel = null;
         var currentLevelNum = 1;
+
+
+
+		var $levelInfo = $("#level");
         //noinspection JSUnusedAssignment
         var currentScenes = [gameScene, pauseScene, winScene];
         //noinspection AmdModulesDependencies
@@ -233,7 +237,7 @@ define(['scripts/feierabend/scene.js',
 					gameScene.container.addChild(levelText);
 					grid = createGrid(gridSize, gameWidth, gameHeight);
                     currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer, score);
-                    levelText.text = "Level: " + (currentLevelNum + 1);
+                    $levelInfo.text("Level: " + (currentLevelNum + 1));
                     player = currentLevel.player; // player Object
                     workmates = currentLevel.workmates; // workmates as Array
                     boss = currentLevel.boss;
@@ -253,15 +257,9 @@ define(['scripts/feierabend/scene.js',
                 winScene = createScene();
 
                 this.load();
-
+				this.initLevel(currentLevelNum);
+				
                 countDown.start();
-
-                // creates Level with the index "currentLevel"
-                // Level objects are defined in level.js in "levels"
-                currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer);
-                player = currentLevel.player; // player Object
-                workmates = currentLevel.workmates; // workmates as Array
-                boss = currentLevel.boss;
 
 
                 pauseScene.container.addChild(pauseText);
@@ -354,20 +352,9 @@ define(['scripts/feierabend/scene.js',
                     break;
                 case GAMESTATE.GAMEEND:
                     if(gameEnd) {
-                        nameInput = document.createElement("input");
-                        nameInput.setAttribute('type', 'text');
-                        nameInput.setAttribute('placeholder', 'Type name');
-                        nameInput.setAttribute('class', 'nameInput');
-                        document.body.appendChild(nameInput);
-
-                        confirmNameButton = document.createElement("button");
-                        confirmNameButton.setAttribute('type', 'button');
-                        confirmNameButton.innerHTML = "CONFIRM";
-                        confirmNameButton.setAttribute('class', 'confirmNameButton');
-                        confirmNameButton.setAttribute('onclick', "alert('Clicked! Here a function that save the score in the highscorelist! ')");
-                        document.body.appendChild(confirmNameButton);
+						$('#entry-highscore').css("display", "block");
                         gameEnd = false;
-                    }
+					}
                     break;
             }
             renderer.render(stage);
