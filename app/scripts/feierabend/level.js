@@ -122,6 +122,7 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+                        
                     case 'door':
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {
@@ -133,6 +134,7 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+
                     case 'wall':
                         var newObject = createViewable(
                             object.id,
@@ -145,28 +147,29 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+                    
+                        
                     case 'workmate':
-                        var texture = loader.resources.workmate.texture;
+                        var gender;
+                        if(object.hasOwnProperty('gender')) {
+                            gender = object.gender;
+                        } else {
+                            gender = 'm'
+                        }
+                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, gender, {
 
-                        var newWorkmate = createWorkmate(object.id, texture, game, {
                             x: object.x,
                             y: object.y
                         });
-
-
-                        /*tilingSprite.tilePosition.x += 1;
-                        tilingSprite.tilePosition.y += 1;*/
-
-                        if(followPlayer.indexOf(object.id) != -1) {
-                            newWorkmate.follow(player);
-                        }
+                        
                         workmates.push(newWorkmate);
                         addLevelObject(newWorkmate);
+                        break;
                 }
 
             }
         );
-
+                
         childrenToAdd.map(function(child) {
             gameScene.container.addChild(child);
         });
