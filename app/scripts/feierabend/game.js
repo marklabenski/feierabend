@@ -227,6 +227,9 @@ define(['scripts/feierabend/scene.js',
             pause: function pauseGame() {
                 togglePause();
             },
+            isGamePaused: function() {
+                return isPaused;
+            },
 
             resetAssets: function resetAssets() {
                 player = null;
