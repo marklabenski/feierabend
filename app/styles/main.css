@@ -227,7 +227,6 @@ canvas {
 /*Countdown*/
 #processbar {
 	width: 19%;
-	margin-top:-40px;
 	margin-left: 27%;
     padding: 4px 5px;
     height: 20px;
