@@ -4,6 +4,7 @@
 define([], function () {
     return function createViewable(id, texture, grid, gridPos) {
         var sprite;
+        var animation;
         //init with texture
 
         var Viewable = {
@@ -15,21 +16,27 @@ define([], function () {
                 this.visible = false;
                 sprite.visible = false;
             },
+            changeSprite: function changeSprite(newSprite) {
+                sprite = newSprite;
+
+                sprite.width = grid.getTileSize();
+                sprite.height = grid.getTileSize();
+
+                sprite.anchor.x = 0.5;
+                sprite.anchor.y = 0.5;
+
+                this.enteredGridTile = grid.getTileAt(gridPos.x, gridPos.y);
+                this.enteredGridTile.enter(this);
+
+                sprite.position.x = this.enteredGridTile.getPos().x + sprite.width / 2;
+                sprite.position.y = this.enteredGridTile.getPos().y + sprite.height / 2;
+                return sprite;
+            },
             init: function init() {
                 if (texture) {
                     sprite = new PIXI.Sprite(texture);
 
-                    sprite.width = grid.getTileSize();
-                    sprite.height = grid.getTileSize();
-
-                    sprite.anchor.x = 0.5;
-                    sprite.anchor.y = 0.5;
-
-                    this.enteredGridTile = grid.getTileAt(gridPos.x, gridPos.y);
-                    this.enteredGridTile.enter(this);
-
-                    sprite.position.x = this.enteredGridTile.getPos().x + sprite.width / 2;
-                    sprite.position.y = this.enteredGridTile.getPos().y + sprite.height / 2;
+                    this.changeSprite(sprite);
                 }
             },
             getGridTile: function getGridTile() {

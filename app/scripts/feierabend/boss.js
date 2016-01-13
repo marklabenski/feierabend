@@ -1,6 +1,8 @@
 define(['scripts/feierabend/viewable.js',
     'scripts/feierabend/movable.js'], function (createViewable, createMovable) {
     return function createBoss(texture, game, enterGrid) {
+        var tilingSprite = new PIXI.extras.TilingSprite(texture, 50, 50);
+        var animationStep = 0;
         var collideFn = function collideFn(collideObj, thisObj) {
             /*if (collideObj.id === 'player') {
                 if(followingPlayer) {
@@ -16,6 +18,11 @@ define(['scripts/feierabend/viewable.js',
            /* changeDirection: function changeDirection() {
                 this.setRandomDirection();
             },*/
+            animate: function animate() {
+                var animationFrame = animationStep++ % 3;
+
+                tilingSprite.tilePosition.x = animationFrame * 50;
+            },
             move: function move() {
                 if(hasMovedRecently) {
                     this.setRandomDirection();
@@ -23,6 +30,7 @@ define(['scripts/feierabend/viewable.js',
                 } else {
                     this.moveSprite(this.getSprite());
                     hasMovedRecently = true;
+                    this.animate();
                 }
 
             },
@@ -33,6 +41,15 @@ define(['scripts/feierabend/viewable.js',
 
         var bossInstance = Object.create(Boss);
         bossInstance = $.extend({}, viewable, bossInstance, createMovable(game));
+
+
+        tilingSprite.tileScale.x = 0.78;
+        tilingSprite.tileScale.y = 0.78;
+        tilingSprite.tilePosition.x = 100;
+        tilingSprite.tilePosition.y = 0;
+
+        bossInstance.changeSprite(tilingSprite);
+
         return bossInstance;
     };
 

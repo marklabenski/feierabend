@@ -10,11 +10,11 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/music.js',
     'scripts/feierabend/audio.js',
 ], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio) {
-    return function createLevel(level, loader, game, gameScene, renderer) {
+    return function createLevel(level, loader, game, gameScene, renderer, score) {
         var childrenToAdd = [];
         var workmates = [];
-        var player;
-        var boss;
+        var player = null;
+        var boss = null;
         var levelObjects = [];
         var followPlayer = [];
         var hiddenObjects = [];
@@ -51,15 +51,6 @@ define(['scripts/feierabend/player.js',
         level.map(
             function (object) {
                 switch (object.type) {
-                    case 'background':
-                        //var background = createViewable(object.id, loader.resources.background.texture, game.getGrid(), {x: object.x, y: object.y});
-                        //PIXI.Sprite.fromImage();
-                        /* background.width = renderer.width;
-                        background.height = renderer.height;*/
-
-                        //addLevelObject(background);
-
-                        break;
                     case 'player':
                         player = createPlayer(loader.resources.player.texture, game, {x: object.x, y: object.y});
                         addLevelObject(player);
@@ -74,14 +65,15 @@ define(['scripts/feierabend/player.js',
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
                                     collideObj.speed = 200;
+                                    score.update(7, true);
                                     playAudio("drinkCoffee");
                                     playMusic('backgroundMusicFast');
                                     setTimeout(function () {
                                         collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
-                                    eventObj.hide();
-
+                                    game.fadeOutObject(eventObj);
+                                    this.collideFn = function() {};
                                 }
                             }, {x: object.x, y: object.y});
 
@@ -92,13 +84,19 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.paperjam.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-
+                                    score.update(-10, true);
+                                    collideObj.speed = 850;
                                     playAudio("workOnPaper");
+									
+									                  var filter = new PIXI.filters.GrayFilter();
+									                  filter.gray = 0.5;
                                     setTimeout(function () {
-
+                                        collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
-                                    eventObj.hide();
+                                    game.fadeOutObject(eventObj);
+                                    collideObj.loseLastWorkmate();
+                                    this.collideFn = function() {};
                                 }
                             }, {x: object.x, y: object.y});
 
@@ -109,18 +107,22 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.notebook.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-
+                                    score.update(-6, true);
+									                  collideObj.speed = 650;
                                     playAudio("workOnNotebook");
                                     setTimeout(function () {
-
+                                        collideObj.speed = 500;
                                         playMusic('backgroundMusic');
                                     }, 2000);
-                                    eventObj.hide();
+                                    game.fadeOutObject(eventObj);
+                                    collideObj.loseLastWorkmate();
+                                    this.collideFn = function() {};
                                 }
                             }, {x: object.x, y: object.y});
 
                         addLevelObject(newObject);
                         break;
+                        
                     case 'door':
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {
@@ -132,28 +134,51 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+
+                    case 'wall':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.wall.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+                    
+                        
                     case 'workmate':
-                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, {
+                        var gender;
+                        if(object.hasOwnProperty('gender')) {
+                            gender = object.gender;
+                        } else {
+                            gender = 'm'
+                        }
+                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, gender, {
+
                             x: object.x,
                             y: object.y
                         });
-                        if(followPlayer.indexOf(object.id) != -1) {
-                            newWorkmate.follow(player);
-                        }
+                        
                         workmates.push(newWorkmate);
                         addLevelObject(newWorkmate);
+                        break;
                 }
 
             }
         );
-
+                
         childrenToAdd.map(function(child) {
             gameScene.container.addChild(child);
         });
 
 
 
-        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss};
+
+
+        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss, score: score};
     }
 
 });

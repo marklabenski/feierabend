@@ -1,3 +1,4 @@
+//noinspection SpellCheckingInspection,JSFileReferences
 /**
  * Created by marklabenski on 31.10.15.
  */
@@ -14,10 +15,13 @@ define(['scripts/feierabend/scene.js',
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
+    //noinspection AmdModulesDependencies
     var loader = PIXI.loader;
-
+	var grid;
 
     var createGame = function createGame(_grid) {
+        var maxX = (gameWidth/gridSize) - 1;
+        var maxY = (gameHeight/gridSize) - 1;
         var assets = [
             {name: 'player', file: 'img/player.png'},
             {name: 'boss', file: 'img/boss.png'},
@@ -26,23 +30,53 @@ define(['scripts/feierabend/scene.js',
             {name: 'door', file: 'img/door.png'},
             {name: 'paperjam', file: 'img/paperjam.png'},
             {name: 'notebook', file: 'img/notebook.png'},
-            {name: 'background', file: 'img/ground.jpg'},
+            {name: 'background', file: 'img/floor.png'},
+            {name: 'wall', file: 'img/wall.png'},
+
         ];
         var levels = [
             [
-                //{type: 'background', x: 0, y:0},
-                {type: 'player', id: 'player', x: 0, y: 0},
+                {type: 'player', id: 'player', x: 1, y: 1},
                 {type: 'boss', id: 'boss', x: 9, y: 10},
                 {type: 'coffee', id: 'coffee1', x: 3, y: 3},
                 {type: 'coffee', id: 'coffee2', x: 3, y: 8},
                 {type: 'coffee', id: 'coffee3', x: 3, y: 9},
                 {type: 'workmate', id: 'workmate1', x: 5, y: 8},
                 {type: 'workmate', id: 'workmate2', x: 8, y: 8},
-                {type: 'door', id: 'door', x: 15, y: 11},
+                {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
                 {type: 'paperjam', id: 'paper1', x: 4, y: 4},
                 {type: 'notebook', id: 'notebook1', x: 7, y: 7},
+            ],
+            [
+                {type: 'player', id: 'player', x: 1, y: 1},
+                {type: 'boss', id: 'boss', x: 9, y: 3},
+                {type: 'coffee', id: 'coffee1', x: 8, y: 3},
+                {type: 'coffee', id: 'coffee2', x: 1, y: 8},
+                {type: 'workmate', id: '1', x: 3, y: 8, gender: 'w'},
+                {type: 'workmate', id: '2', x: 4, y: 8},
+                {type: 'workmate', id: '3', x: 5, y: 8, gender: 'w'},
+                {type: 'workmate', id: '4', x: 6, y: 8},
+                {type: 'workmate', id: '5', x: 7, y: 8},
+                {type: 'workmate', id: '6', x: 8, y: 8, gender: 'w'},
+                {type: 'workmate', id: '7', x: 9, y: 8},
+                {type: 'workmate', id: '8', x: 10, y: 8},
+                {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
             ]
         ];
+
+
+        levels.map(function(currentLevel) {
+            for(var i=0; i <= maxX;i++) {
+                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + '0', x: i, y: 0});
+                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
+            }
+
+            for(var v=1; v <= maxY-1;v++) {
+                currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + v, x: 0, y: v});
+                currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + v, x: maxX, y: v});
+            }
+        });
+
 
         var Url = {
             get get(){
@@ -57,6 +91,7 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
+        //noinspection JSUnresolvedVariable
         var SAVE_KEY = Url.get.saveKey || 'Feierabend_v0.1';
         var renderer = null;
         var gameInstance;
@@ -65,14 +100,32 @@ define(['scripts/feierabend/scene.js',
         var winScene;
         var currentLevel = null;
         var currentLevelNum = 0;
+
+
+
+		var $levelInfo = $("#level");
+        //noinspection JSUnusedAssignment
         var currentScenes = [gameScene, pauseScene, winScene];
+        //noinspection AmdModulesDependencies
         var stage = new PIXI.Container();
-        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish'};
+        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend'};
+        //noinspection AmdModulesDependencies
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
+        //noinspection AmdModulesDependencies
         var winText = new PIXI.Text("Level Complete \nCongratulations!", {font: "20px Arial", fill: "red"});
+        //noinspection AmdModulesDependencies
+        var levelText = new PIXI.Text("Level: " + currentLevelNum, {font:"15px Arial", fill:"red"});
         var isPaused = false;
         var finishLevel = false;
+        var gameEnd = false;
+        var nameInput;
+        var confirmNameButton;
         var saveFn = undefined;
+        var levelBeginTime;
+        var levelEndTime;
+        var deltaTime;
+
+        var fadeOutObjects = [];
 
         var grid = _grid;
         var gameState = GAMESTATE.INGAME;
@@ -101,69 +154,23 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
-        var render = function render(timestamp) {
-            requestAnimationFrame(render);
-            var onPlayerMove = onElapsed(player.speed, timestamp);
-            var saveTimer = onElapsed(2000, timestamp);
-            var onBossMove = onElapsed(1500, timestamp);
+        var fadeOuts = function() {
 
-            saveTimer(saveFn);
+            if(fadeOutObjects.length >= 1) {
 
-            switch (gameState) {
-                case GAMESTATE.INGAME:
-                    if (!isPaused) {
-                        onBossMove(function() {
-                            boss.move();
-                        });
-                        onPlayerMove(function () {
-                            player.move();
-                            playAudio("footstep");
-
-                            //Score
-                            score.update(1 + player.workmatesFollowing.length);
-                            score.doStep();
-
-                            workmates.map(function (workmate) {
-                                workmate.move();
-                            });
-                            document.querySelector('.debug-grid').innerHTML = grid.visualize();
-
-                            // Pause the game with ESC
-                            $('html').on("keydown", function (event) {
-                                var canvas = $('canvas');
-                                var menu = $('.menu');
-                                if (event.which == '27') {
-                                    // close the game
-                                    canvas.slideUp(600, function () {
-                                        // Then open the Menu
-                                        menu.slideDown(600, function () {
-                                        });
-                                    });
-                                }
-                            });
-
-                        });
+                fadeOutObjects.map(function(fadeOutObj) {
+                    var sprite = fadeOutObj.getSprite();
+                    if(sprite.alpha > 0.05) {
+                        sprite.alpha-= 0.01;
                     }
-                    break;
-                case GAMESTATE.FINISH:
-                    stage.addChild(winScene.container);
-                    break;
-            }
-            renderer.render(stage);
-        };
+                    else {
+                        fadeOutObj.hide();
+                        fadeOutObjects.splice(fadeOutObjects.indexOf(fadeOutObj, 1));
+                    }
 
-        var togglePause = function togglePause() {
-            if (isPaused) {
-                isPaused = false;
-                stage.removeChild(pauseScene.container);
-            }
-            else {
-                isPaused = true;
-                stage.addChild(pauseScene.container);
+                });
             }
         };
-
-        var loadedLevelObjects = [];
 
         var game = {
             hasBeenSaved: false,
@@ -186,14 +193,14 @@ define(['scripts/feierabend/scene.js',
                 }
 
             },
+            fadeOutObject: function fadeOutObject(obj) {
+                fadeOutObjects.push(obj);
+            },
             getLoadedObjects: function getLoadedObjects() {
                 return loadedLevelObjects;
             },
             getBounds: function getBounds() {
                 return {x: gameWidth, y: gameHeight};
-            },
-            getGridSize: function getGridSize() {
-                return gridSize;
             },
             getGrid: function getGrid() {
                 return grid;
@@ -221,30 +228,61 @@ define(['scripts/feierabend/scene.js',
                 togglePause();
             },
 
+            resetAssets: function resetAssets() {
+                player = null;
+                workmates = null;
+                boss = null;
+            },
+
+            initLevel: function initLevel(currentLevelNum) {
+                if(levels[currentLevelNum] != null) {
+                    if(finishLevel) {
+                        // end Time measure
+                        levelEndTime = new Date().getTime();
+                        // needed time for currentLevel in seconds
+                        deltaTime = (levelEndTime - levelBeginTime) / 1000;
+                        finishLevel = false;
+                    }
+                    // start Time measure
+                    levelBeginTime = new Date().getTime();
+                    this.resetAssets();
+                    // creates Level with the index "currentLevel"
+                    // Level objects are defined in level.js in "levels"
+                    gameScene.container.removeChildren();
+                    //noinspection AmdModulesDependencies
+                    var bgSprite = new PIXI.Sprite(loader.resources.background.texture);
+                    bgSprite.width = gameWidth;
+                    bgSprite.height = gameHeight;
+                    gameScene.container.addChild(bgSprite);
+                    levelText.x = 10;
+                    levelText.y = 20;
+                    gameScene.container.addChild(levelText);
+                    grid = createGrid(gridSize, gameWidth, gameHeight);
+                    currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer, score);
+                    $levelInfo.text("Level: " + (currentLevelNum + 1));
+                    player = currentLevel.player; // player Object
+                    workmates = currentLevel.workmates; // workmates as Array
+                    boss = currentLevel.boss;
+					          score = currentLevel.score;
+                }
+            },
+
             init: function init() {
                 saveFn = this.save;
+                //noinspection AmdModulesDependencies
                 renderer = PIXI.autoDetectRenderer(800, 600);
                 document.body.appendChild(renderer.view);
 
                 gameScene = createScene();
-                var bgSprite = new PIXI.Sprite(loader.resources.background.texture);
-                bgSprite.width = gameWidth;
-                bgSprite.height = gameHeight;
-                gameScene.container.addChild(bgSprite);
 
                 pauseScene = createScene();
                 winScene = createScene();
 
                 this.load();
+				        this.initLevel(currentLevelNum);
 
                 countDown.start();
 
-                // creates Level with the index "currentLevel"
-                // Level objects are defined in level.js in "levels"
-                currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer);
-                player = currentLevel.player; // player Object
-                workmates = currentLevel.workmates; // workmates as Array
-                boss = currentLevel.boss;
 
                 pauseScene.container.addChild(pauseText);
                 pauseScene.container.width = 400;
@@ -277,13 +315,83 @@ define(['scripts/feierabend/scene.js',
             }
         };
 
+        var render = function render(timestamp) {
+            requestAnimationFrame(render);
+            var onPlayerMove = onElapsed(player.speed, timestamp);
+            var saveTimer = onElapsed(2000, timestamp);
+            var onBossMove = onElapsed(1500, timestamp);
+
+            saveTimer(saveFn);
+
+            switch (gameState) {
+                case GAMESTATE.INGAME:
+                    if (!isPaused) {
+                        onBossMove(function() {
+                            boss.move();
+                        });
+                        onPlayerMove(function () {
+                            player.move();
+                            playAudio("footstep");
+
+                            //Score
+                            score.update(1 + player.workmatesFollowing.length, false);
+                            score.doStep();
+
+                            workmates.map(function (workmate) {
+                                workmate.move();
+                            });
+                            document.querySelector('.debug-grid').innerHTML = grid.visualize();
+                        });
+                    }
+                    fadeOuts();
+                    break;
+                case GAMESTATE.FINISH:
+                    currentLevelNum += 1;
+                    if(levels[currentLevelNum] != null) {
+                        //stage.addChild(winScene.container);
+                        //stage.removeChild(winScene.container);
+                        finishLevel = true;
+                        game.initLevel(currentLevelNum);
+                        game.changeGameState("INGAME");
+                    } else {
+                        game.changeGameState("GAMEEND");
+                        gameEnd = true;
+                    }
+                    break;
+                case GAMESTATE.GAMEEND:
+                    if(gameEnd) {
+						$('#entry-highscore').css("display", "block");
+                        $('#entry-highscore_points_points').append(JSON.parse(localStorage['Feierabend_v0.1'])['score']);
+                        gameEnd = false;
+					}
+                    break;
+            }
+            renderer.render(stage);
+        };
+
+        var togglePause = function togglePause() {
+            if (isPaused) {
+                isPaused = false;
+                stage.removeChild(pauseScene.container);
+            }
+            else {
+                isPaused = true;
+                stage.addChild(pauseScene.container);
+            }
+        };
+
+        var loadedLevelObjects = [];
+
+        //noinspection JSUnusedAssignment
         gameInstance = gameInstance || Object.create(game);
         return gameInstance;
     };
 
-    var grid = createGrid(gridSize, gameWidth, gameHeight);
+    grid = createGrid(gridSize, gameWidth, gameHeight);
 
     var game = createGame(grid);
+
+    //noinspection AmdModulesDependencies
     loader.once('complete', $.proxy(game.init, game));
 
     return {game: game, loader: loader};
