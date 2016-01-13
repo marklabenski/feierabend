@@ -11,7 +11,7 @@ define(['scripts/feierabend/scene.js',
     'scripts/feierabend/countdown.js',
     'vendor/pixijs/pixi.min',
 
-], function (createScene, createGrid, createLevel, playAudio, score, createCountDown) {
+], function (createScene, createGrid, createLevel, playAudio, score) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -35,45 +35,53 @@ define(['scripts/feierabend/scene.js',
 
         ];
         var levels = [
-            [
-                {type: 'player', id: 'player', x: 1, y: 1},
-                {type: 'boss', id: 'boss', x: 9, y: 10},
-                {type: 'coffee', id: 'coffee1', x: 3, y: 3},
-                {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-                {type: 'coffee', id: 'coffee3', x: 3, y: 9},
-                {type: 'workmate', id: 'workmate1', x: 5, y: 8},
-                {type: 'workmate', id: 'workmate2', x: 8, y: 8},
-                {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
-                {type: 'paperjam', id: 'paper1', x: 4, y: 4},
-                {type: 'notebook', id: 'notebook1', x: 7, y: 7},
-            ],
-            [
-                {type: 'player', id: 'player', x: 1, y: 1},
-                {type: 'boss', id: 'boss', x: 9, y: 3},
-                {type: 'coffee', id: 'coffee1', x: 8, y: 3},
-                {type: 'coffee', id: 'coffee2', x: 1, y: 8},
-                {type: 'workmate', id: '1', x: 3, y: 8, gender: 'w'},
-                {type: 'workmate', id: '2', x: 4, y: 8},
-                {type: 'workmate', id: '3', x: 5, y: 8, gender: 'w'},
-                {type: 'workmate', id: '4', x: 6, y: 8},
-                {type: 'workmate', id: '5', x: 7, y: 8},
-                {type: 'workmate', id: '6', x: 8, y: 8, gender: 'w'},
-                {type: 'workmate', id: '7', x: 9, y: 8},
-                {type: 'workmate', id: '8', x: 10, y: 8},
-                {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
-            ]
+            {
+                timer: 200,
+                objects: [
+                    {type: 'player', id: 'player', x: 1, y: 1},
+                    {type: 'boss', id: 'boss', x: 9, y: 10},
+                    {type: 'coffee', id: 'coffee1', x: 3, y: 3},
+                    {type: 'coffee', id: 'coffee2', x: 3, y: 8},
+                    {type: 'coffee', id: 'coffee3', x: 3, y: 9},
+                    {type: 'workmate', id: 'workmate1', x: 5, y: 8},
+                    {type: 'workmate', id: 'workmate2', x: 8, y: 8},
+                    {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+                    {type: 'paperjam', id: 'paper1', x: 4, y: 4},
+                    {type: 'notebook', id: 'notebook1', x: 7, y: 7},
+                ]
+            },
+            {
+                timer: 150,
+                objects: [
+                    {type: 'player', id: 'player', x: 1, y: 1},
+                    {type: 'boss', id: 'boss', x: 9, y: 3},
+                    {type: 'coffee', id: 'coffee1', x: 8, y: 3},
+                    {type: 'coffee', id: 'coffee2', x: 1, y: 8},
+                    {type: 'workmate', id: '1', x: 3, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '2', x: 4, y: 8},
+                    {type: 'workmate', id: '3', x: 5, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '4', x: 6, y: 8},
+                    {type: 'workmate', id: '5', x: 7, y: 8},
+                    {type: 'workmate', id: '6', x: 8, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '7', x: 9, y: 8},
+                    {type: 'workmate', id: '8', x: 10, y: 8},
+                    {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+                ],
+            },
+
         ];
 
 
         levels.map(function(currentLevel) {
+            var levelObjects = currentLevel.objects;
             for(var i=0; i <= maxX;i++) {
-                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + '0', x: i, y: 0});
-                currentLevel.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
+                levelObjects.push({type: 'wall', id:'wall_' + i + '_' + '0', x: i, y: 0});
+                levelObjects.push({type: 'wall', id:'wall_' + i + '_' + maxY, x: i, y: maxY});
             }
 
             for(var v=1; v <= maxY-1;v++) {
-                currentLevel.push({type: 'wall', id:'wall_' + '0' + '_' + v, x: 0, y: v});
-                currentLevel.push({type: 'wall', id:'wall_' + maxX + '_' + v, x: maxX, y: v});
+                levelObjects.push({type: 'wall', id:'wall_' + '0' + '_' + v, x: 0, y: v});
+                levelObjects.push({type: 'wall', id:'wall_' + maxX + '_' + v, x: maxX, y: v});
             }
         });
 
@@ -131,7 +139,6 @@ define(['scripts/feierabend/scene.js',
         var gameState = GAMESTATE.INGAME;
         var player, workmates = [], boss;
         var counters = {};
-        var countDown = createCountDown(0,15);
 
         assets.map(function (asset) {
             loader.add(asset.name, asset.file);
@@ -283,8 +290,6 @@ define(['scripts/feierabend/scene.js',
 
                 this.load();
 				        this.initLevel(currentLevelNum);
-
-                countDown.start();
 
 
                 pauseScene.container.addChild(pauseText);
