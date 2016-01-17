@@ -1,6 +1,6 @@
 define(["vendor/howler/howler.min.js"], function (howler) {
   var bgMusic = new howler.Howl({
-    urls: ['audio/background-music.mp3', 'audio/background-music-schnell.mp3'],
+    urls: ['audio/background-music.mp3'],
     autoplay: false,
     loop: true,
     volume: 0,
@@ -18,6 +18,18 @@ define(["vendor/howler/howler.min.js"], function (howler) {
       //console.log('Finished!');
     }
   });
+    
+     var bgMusicSlow = new howler.Howl({
+    urls: ['audio/background-music-slow.mp3'],
+    autoplay: false,
+    loop: true,
+    volume: 0.5,
+    onend: function () {
+      //console.log('Finished!');
+    }
+  });
+    
+    
   var currentMusic = null;
   return function playMusic(musicString) {
     var music = { backgroundMusic: bgMusic, backgroundMusicFast: bgMusicFast };
