@@ -36,7 +36,7 @@ define(['scripts/feierabend/scene.js',
         ];
         var levels = [
             {
-                timer: 200,
+                timer: 30,
                 objects: [
                     {type: 'player', id: 'player', x: 1, y: 1},
                     {type: 'boss', id: 'boss', x: 9, y: 10},
@@ -51,7 +51,7 @@ define(['scripts/feierabend/scene.js',
                 ]
             },
             {
-                timer: 150,
+                timer: 20,
                 objects: [
                     {type: 'player', id: 'player', x: 1, y: 1},
                     {type: 'boss', id: 'boss', x: 9, y: 3},
