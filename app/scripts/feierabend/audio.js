@@ -42,12 +42,42 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     loop:false,
   });
 
-  var officeAtmosphere = new howler.Howl({
-    urls:['audio/officeAtmosphere.mp3'],
-    volume:1,
-    loop:true,
-
+  var workmateM1 = new howler.Howl({
+    urls:['audio/workmateM1.mp3'],
+      volume: 1.5,
+      loop:false,
   });
+    
+    var workmateM2 = new howler.Howl({
+    urls:['audio/workmateM2.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+    
+    var workmateM3 = new howler.Howl({
+    urls:['audio/workmateM3.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+      
+   var workmateW1 = new howler.Howl({
+    urls:['audio/workmateW1.mp3'],
+      volume: 1.5,
+      loop:false,
+  });
+    
+    var workmateW2 = new howler.Howl({
+    urls:['audio/workmateW2.mp3'],
+      volume: 1.5,
+      loop:false,
+  }); 
+    
+    var workmateW3 = new howler.Howl({
+    urls:['audio/workmateW3.mp3'],
+      volume: 1.5,
+      loop:false,
+  }); 
+      
 
 
 
@@ -58,7 +88,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
 
   return function playAudio(audioString) {
     var audios = { footstep: footstep, drinkCoffee: drinkCoffee, boss: boss, stoss:stoss, 
-      workOnNotebook:workOnNotebook, workOnPaper:workOnPaper};
+      workOnNotebook:workOnNotebook, workOnPaper:workOnPaper, workmateM1: workmateM1, workmateM2: workmateM2, workmateM3: workmateM3, workmateW1: workmateW1, workmateW2: workmateW2, workmateW3: workmateW3};
 
     if(audios.hasOwnProperty(audioString)) {
 

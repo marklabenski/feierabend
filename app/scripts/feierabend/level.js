@@ -9,7 +9,8 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/viewable.js',
     'scripts/feierabend/music.js',
     'scripts/feierabend/audio.js',
-], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio) {
+    'scripts/feierabend/countdown.js',
+], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio, createCountDown) {
     return function createLevel(level, loader, game, gameScene, renderer, score) {
         var childrenToAdd = [];
         var workmates = [];
@@ -20,7 +21,7 @@ define(['scripts/feierabend/player.js',
         var hiddenObjects = [];
 
         if(game.hasBeenSaved) {
-            level.map(function (object) {
+            level.objects.map(function (object) {
                 game.getLoadedObjects().map(function(loadedObject) {
                     if(object.id === loadedObject.id) {
                         object.x = loadedObject.gridPos.x;
@@ -48,7 +49,7 @@ define(['scripts/feierabend/player.js',
 
             childrenToAdd.push(object.getSprite());
         };
-        level.map(
+        level.objects.map(
             function (object) {
                 switch (object.type) {
                     case 'player':
@@ -122,6 +123,7 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+                        
                     case 'door':
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {
@@ -133,6 +135,7 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+
                     case 'wall':
                         var newObject = createViewable(
                             object.id,
@@ -145,34 +148,35 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+                    
+                        
                     case 'workmate':
-                        var texture = loader.resources.workmate.texture;
+                        var gender;
+                        if(object.hasOwnProperty('gender')) {
+                            gender = object.gender;
+                        } else {
+                            gender = 'm'
+                        }
+                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, gender, {
 
-                        var newWorkmate = createWorkmate(object.id, texture, game, {
                             x: object.x,
                             y: object.y
                         });
-
-
-                        /*tilingSprite.tilePosition.x += 1;
-                        tilingSprite.tilePosition.y += 1;*/
-
-                        if(followPlayer.indexOf(object.id) != -1) {
-                            newWorkmate.follow(player);
-                        }
+                        
                         workmates.push(newWorkmate);
                         addLevelObject(newWorkmate);
+                        break;
                 }
 
             }
         );
-
+                
         childrenToAdd.map(function(child) {
             gameScene.container.addChild(child);
         });
 
 
-
+        createCountDown(0, level.timer, game).start();
 
 
         return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss, score: score};

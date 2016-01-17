@@ -6,6 +6,8 @@ define(['scripts/feierabend/movable.js',
     'scripts/feierabend/viewable.js'], function (movable, controllable, createViewable) {
     return function createPlayer(texture, game, pos) {
         var playerInstance;
+        var tilingSprite = new PIXI.extras.TilingSprite(texture, 50, 50);
+        var animationStep = 0;
 
 
         //init with texture
@@ -16,9 +18,15 @@ define(['scripts/feierabend/movable.js',
             enteredGridTile: [],
             move: function () {
                 this.moveSprite(this.getSprite());
+                this.animate();
             },
             changeDirectionByKeyCode: function (keyCode) {
                 this.changeSpriteDirectionByKeyCode(keyCode, this.getSprite());
+            },
+            animate: function animate() {
+                var animationFrame = animationStep++ % 3;
+
+                tilingSprite.tilePosition.x = animationFrame * 50;
             },
             unfollow: function (workmate) {
                 var workmateIndex = this.workmatesFollowing.indexOf(workmate);
@@ -42,6 +50,14 @@ define(['scripts/feierabend/movable.js',
         viewable.init();
 
         var composedPlayer = $.extend({}, Object.create(Player), movable(game), viewable, controllable);
+
+
+        tilingSprite.tileScale.x = 0.78;
+        tilingSprite.tileScale.y = 0.78;
+        tilingSprite.tilePosition.x = 100;
+        tilingSprite.tilePosition.y = 0;
+
+        composedPlayer.changeSprite(tilingSprite);
 
         return composedPlayer;
     };

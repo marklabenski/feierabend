@@ -38,17 +38,15 @@ requirejs([
 
             // Close the menu with a slideUp
             mainpage.slideUp(600, function () {
-				
-				if(gameAvailable) {
-					var canvas = $('canvas');
-					canvas.slideDown(1000);
-				}
-                
+				        if(gameAvailable) {
+					          var canvas = $('canvas');
+					          canvas.slideDown(1000);
+                }
             });
             // Init the game...
             if (!gameAvailable) {
-				//score.text(0);
-				score.show(1200);
+				        //score.text(0);
+				        score.show(1200);
                 feierabend.loader.load();
                 gameAvailable = true;
             }

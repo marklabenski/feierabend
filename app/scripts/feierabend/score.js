@@ -21,10 +21,10 @@ define(["vendor/jquery/jquery-2.1.4.min.js"], function () {
 
             if(boniMaliValue > 0) {
                 $stateDiv.addClass("boni");
-				stateString = "State: +" + currentGettingValue + " +" + boniMaliValue;
+				        stateString = "State: +" + currentGettingValue + " +" + boniMaliValue;
             } else {
                 $stateDiv.addClass("mali");
-				stateString = "State: +" + currentGettingValue + " " + boniMaliValue;
+				        stateString = "State: +" + currentGettingValue + " " + boniMaliValue;
             }
 
             $stateDiv.text(stateString);
