@@ -4,15 +4,27 @@ define(['scripts/feierabend/audio.js',
 
 ], function(playAudio){
 
-	return function countDown(time, totoltime, game){
+	var timer = null;
+
+	return function countDown(time, totoltime, game, elapsedCb){
         var createCountDown = {
+
+        	destroy: function(){
+        		clearInterval(timer);
+        	},
+
         	start: function(){
-        		$(document).ready(function(){
-					var timer = setInterval(function(){
+        		
+					timer = setInterval(function(){
 
 							var i = (time/totoltime)*100; // 0-1
 
 							$("#processbar .finish").css("width", (100-i) + "%");
+
+							if(i >= 0 && i <= 40){//green
+								$("#processbar .finish").css({"background-color":"#8ac320",
+									"box-shadow":"inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #79aa1e , 0 7px 0 #628c14"});
+							}
 
 							if(i > 40){//orange
 								$("#processbar .finish").css({"background-color": "#ff9800",
@@ -33,11 +45,11 @@ define(['scripts/feierabend/audio.js',
 
 							if (time == totoltime+1) {
 								clearInterval(timer);
-								var winText = new PIXI.Text("Game Over", {font: "20px Arial", fill: "red"});
+								elapsedCb();
 							}
 
 						}, 1000);
-					});
+					
 				}
         };	
         return Object.create(createCountDown);

@@ -11,6 +11,7 @@ define(['scripts/feierabend/player.js',
     'scripts/feierabend/audio.js',
     'scripts/feierabend/countdown.js',
 ], function (createPlayer, createCollectable, createBoss, createWorkmate, createViewable, playMusic, playAudio, createCountDown) {
+
     return function createLevel(level, loader, game, gameScene, renderer, score) {
         var childrenToAdd = [];
         var workmates = [];
@@ -19,6 +20,7 @@ define(['scripts/feierabend/player.js',
         var levelObjects = [];
         var followPlayer = [];
         var hiddenObjects = [];
+        
 
         if(game.hasBeenSaved) {
             level.objects.map(function (object) {
@@ -175,11 +177,13 @@ define(['scripts/feierabend/player.js',
             gameScene.container.addChild(child);
         });
 
+ 
+        var countdown = createCountDown(0, level.timer, game, game.stopCountDown);
+        countdown.start();
 
-        createCountDown(0, level.timer, game).start();
 
 
-        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss, score: score};
+        return {levelObjects: levelObjects, player: player, workmates: workmates, boss: boss, score: score, countdown: countdown};
     }
 
 });

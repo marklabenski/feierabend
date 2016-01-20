@@ -36,7 +36,7 @@ define(['scripts/feierabend/scene.js',
         ];
         var levels = [
             {
-                timer: 30,
+                timer: 25,
                 objects: [
                     {type: 'player', id: 'player', x: 1, y: 1},
                     {type: 'boss', id: 'boss', x: 9, y: 10},
@@ -132,6 +132,7 @@ define(['scripts/feierabend/scene.js',
         var levelBeginTime;
         var levelEndTime;
         var deltaTime;
+        var countdownElapsed = false;
 
         var fadeOutObjects = [];
 
@@ -252,6 +253,8 @@ define(['scripts/feierabend/scene.js',
                         // needed time for currentLevel in seconds
                         deltaTime = (levelEndTime - levelBeginTime) / 1000;
                         finishLevel = false;
+                        currentLevel.countdown.destroy();
+                        countdownElapsed = false;
                     }
                     // start Time measure
                     levelBeginTime = new Date().getTime();
@@ -275,6 +278,10 @@ define(['scripts/feierabend/scene.js',
                     boss = currentLevel.boss;
 					          score = currentLevel.score;
                 }
+            },
+
+            stopCountDown: function(){
+                countdownElapsed = true;
             },
 
             init: function init() {
@@ -342,8 +349,10 @@ define(['scripts/feierabend/scene.js',
                             playAudio("footstep");
 
                             //Score
-                            score.update(1 + player.workmatesFollowing.length, false);
-                            score.doStep();
+                            if(!countdownElapsed){
+                                score.update(1 + player.workmatesFollowing.length, false);
+                                score.doStep();
+                            }                            
 
                             workmates.map(function (workmate) {
                                 workmate.move();
