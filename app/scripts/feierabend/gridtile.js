@@ -62,7 +62,7 @@ define([], function () {
             },
             enter: function (object) {
                 objectsOnTile.map(function (objectOnTile) {
-                    if (objectOnTile.collideFn !== undefined)
+                    if (objectOnTile.collideFn !== undefined && objectOnTile.id !== object.id)
                         objectOnTile.collideFn(object);
                 });
 
