@@ -95,8 +95,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
       workmateW1: workmateW1, workmateW2: workmateW2, workmateW3: workmateW3};
 
     if(audios.hasOwnProperty(audioString)) {
-
-      audioToPlay = audios[audioString];
+      var audioToPlay = audios[audioString];
       audioToPlay.play();
       return audioToPlay;
     }
