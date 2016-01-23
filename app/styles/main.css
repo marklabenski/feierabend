@@ -57,9 +57,7 @@ img {
     background-image: url("../img/BackgroundMenu.png");
     background-repeat: no-repeat;
     top: 250px;
-    margin: 0 auto;
-    right: 0;
-    left: 0;
+    left: 270px;
 }
 
 #menu ul.buttons {
