@@ -17,13 +17,12 @@
     <div class="infoPanelContent" id="score">Score: 0</div>
     <div class="infoPanelContent" id="state">State: 1</div>
 
-<div id="processbar">
-    <div class="finish"></div>
-</div>    
+    <div id="processbar">
+        <div class="finish"></div>
+    </div>
 
 
 </div>
-
 
 
 <main id="mainpage">
@@ -35,7 +34,9 @@
         <div id="background-menu">
             <ul class="buttons">
                 <li class="menuButton" id="startButton"><img src="img/buttonStart.png"></li>
-                <a href="#highscore-lists"><li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li></a>
+                <a href="#highscore-lists">
+                    <li class="menuButton" id="highscoreButton"><img src="img/buttonHighscore.png"></li>
+                </a>
             </ul>
         </div>
     </div>
@@ -62,7 +63,9 @@
                 </div>
             </div>
         </section>
-        <a href="#menu"><div id="zurueck-button"></div></a>
+        <a href="#menu">
+            <div id="zurueck-button"></div>
+        </a>
     </div>
 </main>
 
@@ -71,7 +74,8 @@
 <div class="debug-panel">
     <h3>DEBUG PANEL</h3>
     <label for="display-debug-grid">debug grid</label>
-    <input id="display-debug-grid" type="checkbox" onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/><br>
+    <input id="display-debug-grid" type="checkbox"
+           onchange="document.querySelector('.debug-grid').classList.toggle('hidden');"/><br>
     <button onclick="localStorage.clear()">Clear Storage</button>
 </div>
 
@@ -83,8 +87,8 @@
     </div>
     <form id="entry-highscore_form" action="index.html">
         <div id="entry-highscore_signature">
-                <input id="signature" name="signature" type="text" maxlength="8" size="8">
-                <label for="signature">Unterschrift</label>
+            <input id="signature" name="signature" type="text" maxlength="8" size="8">
+            <label for="signature">Unterschrift</label>
         </div>
         <div id="entry-highscore_send">
             <input type="submit" value="Eintragen">
