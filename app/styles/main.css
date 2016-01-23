@@ -85,6 +85,55 @@ img {
     opacity: 1.0;
 }
 
+/*Modal*/
+div.modal-overlay {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 50%;
+    margin-top: 0;
+    top:0;
+    left: -400px;
+    display: block;
+
+    position:absolute;
+    width: 800px;
+    height: 654px;
+    background-color: rgb(27, 27, 27);
+    opacity: 0.8;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+}
+div.modal-overlay.hidden {
+    pointer-events: none;
+    opacity: 0;
+}
+div.modal {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 50%;
+    background-color: #5e5e5e;
+    margin-top: 354px;
+    left:-150px;
+    border:1px solid #222222;
+    top: -70px;
+    position:absolute;
+    width: 300px;
+    height: 140px;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    opacity: 1;
+    text-align:center;
+}
+div.modal h2 {
+    padding-top: 12px;
+    padding-bottom: 8px;
+}
+div.modal div.content {
+    display:inline-block;
+}
+div.modal.hidden {
+    opacity: 0;
+}
 
 /*Game*/
 canvas {
@@ -95,6 +144,7 @@ canvas {
     display: block;
     width: 800px;
 }
+
 
 .debug-grid.hidden {
     display:none !important;
