@@ -56,7 +56,6 @@ define(['scripts/feierabend/viewable.js',
         var workmateInstance = Object.create(Workmate);
 
         var collideFn = function collideFn(collideObj, thisWorkmate) {
-
             if (collideObj.id === 'player') {
                 if(followingPlayer) {
                     collideObj.unfollow(thisWorkmate);
@@ -74,6 +73,12 @@ define(['scripts/feierabend/viewable.js',
                         break;
                     }
                     workmateInstance.follow(collideObj);
+                }
+            } else if (collideObj.id === 'boss') {
+                if(followingPlayer) {
+                    playAudio('boss');
+                    followingPlayer.unfollow(thisWorkmate);
+                    followingPlayer = null;
                 }
             }
         };
