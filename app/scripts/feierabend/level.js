@@ -245,6 +245,19 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
+
+                    case 'plant':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.plant.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
                 }
 
             }
