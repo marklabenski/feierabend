@@ -32,23 +32,71 @@ define(['scripts/feierabend/scene.js',
             {name: 'notebook', file: 'img/notebook.png'},
             {name: 'background', file: 'img/floor.png'},
             {name: 'wall', file: 'img/wall.png'},
-
+            {name: 'chair', file: 'img/officechair.png'},
+            {name: 'plant', file: 'img/plant.png'},
+            {name: 'table_end_left', file: 'img/table_end_left.png'},
+            {name: 'table_end_right', file: 'img/table_end_right.png'},
+            {name: 'table_1', file: 'img/table_1.png'},
+            {name: 'table_2', file: 'img/table_2.png'},
+            {name: 'table_3', file: 'img/table_3.png'},
         ];
         var levels = [
             {
                 timer: 25,
                 objects: [
                     {type: 'player', id: 'player', x: 1, y: 1},
-                    {type: 'boss', id: 'boss', x: 9, y: 10},
-                    {type: 'coffee', id: 'coffee1', x: 3, y: 3},
+                    {type: 'boss', id: 'boss', x: 12, y: 6},
+                    {type: 'coffee', id: 'coffee1', x: 7, y: 5},
                     {type: 'coffee', id: 'coffee2', x: 3, y: 8},
-                    {type: 'coffee', id: 'coffee3', x: 3, y: 9},
                     {type: 'workmate', id: 'workmate1', x: 5, y: 8},
                     {type: 'workmate', id: 'workmate2', x: 8, y: 8},
+                    {type: 'workmate', id: 'workmate3', x: 9, y: 1},
                     {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
                     {type: 'paperjam', id: 'paper1', x: 4, y: 4},
+                    {type: 'paperjam', id: 'paper2', x: 13, y: 5},
                     {type: 'notebook', id: 'notebook1', x: 7, y: 7},
+                    {type: 'table_end_left', id: 'table1', x: 5, y: 2},
+                    {type: 'table_end_right', id: 'table2', x: 8, y: 2},
+                    {type: 'table_1', id: 'table3', x: 6, y: 2},
+                    {type: 'table_2', id: 'table4', x: 7, y: 2},
+                    {type: 'chair', id: 'chair1', x: 7, y: 1},
                 ]
+            },
+            {
+                timer: 20,
+                objects: [
+                    {type: 'player', id: 'player', x: 1, y: 1},
+                    {type: 'boss', id: 'boss', x: 9, y: 3},
+                    {type: 'coffee', id: 'coffee1', x: 8, y: 3},
+                    {type: 'coffee', id: 'coffee2', x: 1, y: 8},
+                    {type: 'workmate', id: '1', x: 3, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '2', x: 4, y: 8},
+                    {type: 'workmate', id: '3', x: 5, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '4', x: 6, y: 8},
+                    {type: 'workmate', id: '5', x: 7, y: 8},
+                    {type: 'workmate', id: '6', x: 8, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '7', x: 9, y: 8},
+                    {type: 'workmate', id: '8', x: 10, y: 8},
+                    {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+                ],
+            },
+            {
+                timer: 20,
+                objects: [
+                    {type: 'player', id: 'player', x: 1, y: 1},
+                    {type: 'boss', id: 'boss', x: 9, y: 3},
+                    {type: 'coffee', id: 'coffee1', x: 8, y: 3},
+                    {type: 'coffee', id: 'coffee2', x: 1, y: 8},
+                    {type: 'workmate', id: '1', x: 3, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '2', x: 4, y: 8},
+                    {type: 'workmate', id: '3', x: 5, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '4', x: 6, y: 8},
+                    {type: 'workmate', id: '5', x: 7, y: 8},
+                    {type: 'workmate', id: '6', x: 8, y: 8, gender: 'w'},
+                    {type: 'workmate', id: '7', x: 9, y: 8},
+                    {type: 'workmate', id: '8', x: 10, y: 8},
+                    {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+                ],
             },
             {
                 timer: 20,
@@ -116,18 +164,12 @@ define(['scripts/feierabend/scene.js',
         var currentScenes = [gameScene, pauseScene, winScene];
         //noinspection AmdModulesDependencies
         var stage = new PIXI.Container();
-        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend'};
+        var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend', PAUSE: 'pause'};
         //noinspection AmdModulesDependencies
         var pauseText = new PIXI.Text("Game is paused\nPress SPACE to continue", {font: "30px Arial", fill: "red"});
-        //noinspection AmdModulesDependencies
-        var winText = new PIXI.Text("Level Complete \nCongratulations!", {font: "20px Arial", fill: "red"});
-        //noinspection AmdModulesDependencies
-        var levelText = new PIXI.Text("Level: " + currentLevelNum, {font:"15px Arial", fill:"red"});
         var isPaused = false;
         var finishLevel = false;
         var gameEnd = false;
-        var nameInput;
-        var confirmNameButton;
         var saveFn = undefined;
         var levelBeginTime;
         var levelEndTime;
@@ -267,16 +309,13 @@ define(['scripts/feierabend/scene.js',
                     bgSprite.width = gameWidth;
                     bgSprite.height = gameHeight;
                     gameScene.container.addChild(bgSprite);
-                    levelText.x = 10;
-                    levelText.y = 20;
-                    gameScene.container.addChild(levelText);
                     grid = createGrid(gridSize, gameWidth, gameHeight);
                     currentLevel = createLevel(levels[currentLevelNum], loader, this, gameScene, renderer, score);
                     $levelInfo.text("Level: " + (currentLevelNum + 1));
                     player = currentLevel.player; // player Object
                     workmates = currentLevel.workmates; // workmates as Array
                     boss = currentLevel.boss;
-					          score = currentLevel.score;
+                    score = currentLevel.score;
                 }
             },
 
@@ -304,14 +343,6 @@ define(['scripts/feierabend/scene.js',
                 pauseScene.container.height = 200;
                 pauseScene.container.x = gameWidth / 2 - pauseScene.container.width / 2;
                 pauseScene.container.y = gameHeight / 2 - pauseScene.container.height / 2;
-
-
-                winScene.container.addChild(winText);
-                winScene.container.width = 400;
-                winScene.container.height = 200;
-                winScene.container.x = gameWidth / 2 - winScene.container.width / 2;
-                winScene.container.y = gameHeight / 2 - winScene.container.height / 2;
-
 
                 togglePause();
                 render();
@@ -359,14 +390,14 @@ define(['scripts/feierabend/scene.js',
                             });
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
+                    } else {
+                        game.changeGameState("PAUSE");
                     }
                     fadeOuts();
                     break;
                 case GAMESTATE.FINISH:
                     currentLevelNum += 1;
                     if(levels[currentLevelNum] != null) {
-                        //stage.addChild(winScene.container);
-                        //stage.removeChild(winScene.container);
                         finishLevel = true;
                         game.initLevel(currentLevelNum);
                         game.changeGameState("INGAME");
@@ -377,10 +408,18 @@ define(['scripts/feierabend/scene.js',
                     break;
                 case GAMESTATE.GAMEEND:
                     if(gameEnd) {
-						            $('#entry-highscore').css("display", "block");
+                        $('#entry-highscore').css("display", "block");
                         $('#entry-highscore_points_points').append(JSON.parse(score.getScore()));
                         gameEnd = false;
-					          }
+                    }
+                    break;
+                case GAMESTATE.PAUSE:
+                    if(isPaused) {
+                        $('#pause-menu').css("display", "block");
+                    } else {
+                        $('#pause-menu').css("display", "none");
+                        game.changeGameState("INGAME");
+                    }
                     break;
             }
             renderer.render(stage);

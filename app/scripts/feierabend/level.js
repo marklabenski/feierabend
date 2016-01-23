@@ -150,7 +150,6 @@ define(['scripts/feierabend/player.js',
 
                         addLevelObject(newObject);
                         break;
-                    
                         
                     case 'workmate':
                         var gender;
@@ -167,6 +166,84 @@ define(['scripts/feierabend/player.js',
                         
                         workmates.push(newWorkmate);
                         addLevelObject(newWorkmate);
+                        break;
+
+                    case 'chair':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.chair.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'table_end_left':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.table_end_left.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'table_end_right':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.table_end_right.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'table_1':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.table_1.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'table_2':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.table_2.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
+                        break;
+
+                    case 'table_3':
+                        var newObject = createViewable(
+                            object.id,
+                            loader.resources.table_3.texture,
+                            game.getGrid(),
+                            {x: object.x, y: object.y}
+                        );
+                        newObject.init();
+                        newObject.isSolid = true;
+
+                        addLevelObject(newObject);
                         break;
                 }
 
