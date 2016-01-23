@@ -8,10 +8,11 @@ define(['scripts/feierabend/scene.js',
     'scripts/feierabend/level.js',
     'scripts/feierabend/audio.js',
     'scripts/feierabend/score.js',
+    'scripts/feierabend/modal.js',
     'scripts/feierabend/countdown.js',
     'vendor/pixijs/pixi.min',
 
-], function (createScene, createGrid, createLevel, playAudio, score) {
+], function (createScene, createGrid, createLevel, playAudio, score, createModal) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -104,16 +105,15 @@ define(['scripts/feierabend/scene.js',
         var renderer = null;
         var gameInstance;
         var gameScene;
-        var pauseScene;
         var winScene;
         var currentLevel = null;
         var currentLevelNum = 0;
+        var pauseModal = createModal('.modal', '.modal-overlay', 'Game is paused. <br >Please hit SPACE to continue.', 'PAUSE');
+        var finishModal = createModal('.modal', '.modal-overlay', 'finish', 'finish');
 
-
-
-		var $levelInfo = $("#level");
+		    var $levelInfo = $("#level");
         //noinspection JSUnusedAssignment
-        var currentScenes = [gameScene, pauseScene, winScene];
+        var currentScenes = [gameScene, winScene];
         //noinspection AmdModulesDependencies
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend'};
@@ -168,12 +168,13 @@ define(['scripts/feierabend/scene.js',
 
                 fadeOutObjects.map(function(fadeOutObj) {
                     var sprite = fadeOutObj.getSprite();
-                    if(sprite.alpha > 0.05) {
+                    if(sprite.alpha > 0.01) {
                         sprite.alpha-= 0.01;
                     }
                     else {
                         fadeOutObj.hide();
                         fadeOutObjects.splice(fadeOutObjects.indexOf(fadeOutObj, 1));
+                        gameScene.container.removeChild(sprite);
                     }
 
                 });
@@ -221,10 +222,10 @@ define(['scripts/feierabend/scene.js',
 
                 switch (gameState) {
                     case GAMESTATE.INGAME:
-                        currentScenes = [pauseScene, gameScene];
+                        currentScenes = [gameScene];
                         break;
                     case GAMESTATE.FINISH:
-                        currentScenes = [gameScene, winScene];
+                        currentScenes = [gameScene];
                         break;
                 }
 
@@ -292,19 +293,10 @@ define(['scripts/feierabend/scene.js',
 
                 gameScene = createScene();
 
-                pauseScene = createScene();
                 winScene = createScene();
 
                 this.load();
 				        this.initLevel(currentLevelNum);
-
-
-                pauseScene.container.addChild(pauseText);
-                pauseScene.container.width = 400;
-                pauseScene.container.height = 200;
-                pauseScene.container.x = gameWidth / 2 - pauseScene.container.width / 2;
-                pauseScene.container.y = gameHeight / 2 - pauseScene.container.height / 2;
-
 
                 winScene.container.addChild(winText);
                 winScene.container.width = 400;
@@ -389,11 +381,13 @@ define(['scripts/feierabend/scene.js',
         var togglePause = function togglePause() {
             if (isPaused) {
                 isPaused = false;
-                stage.removeChild(pauseScene.container);
+                //stage.removeChild(pauseScene.container);
+                pauseModal.hide();
             }
             else {
                 isPaused = true;
-                stage.addChild(pauseScene.container);
+                pauseModal.show();
+                //stage.addChild(pauseScene.container);
             }
         };
 
