@@ -20,6 +20,11 @@ define([], function () {
             setPath: function setPath(_path) {
                 path = _path;
             },
+            applyDirection: function applyDirection(newDirection) {
+                this.setRotationByDirection(newDirection);
+                direction = newDirection;
+                return direction;
+            },
             changeDirection: function changeDirection(change) {
                 var newDirection = direction + change;
                 if (direction === DIRECTION.DOWN && change === -1) {
