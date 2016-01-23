@@ -45,19 +45,9 @@ define(['scripts/feierabend/scene.js',
             {
                 timer: 25,
                 objects: [
-                    {type: 'player', id: 'player', x: 1, y: 1},
-                    {type: 'boss', id: 'boss', x: 12, y: 6},
-
                     {type: 'coffee', id: 'coffee1', x: 2, y: 5},
                     {type: 'coffee', id: 'coffee2', x: 4, y: 2},
                     {type: 'coffee', id: 'coffee3', x: 12, y: 8},
-
-                    {type: 'workmate', id: 'workmate1', x: 3, y: 4},
-                    {type: 'workmate', id: 'workmate2', x: 3, y: 6},
-                    {type: 'workmate', id: 'workmate3', x: 10, y: 3},
-                    {type: 'workmate', id: 'workmate4', x: 9, y: 8},
-                    {type: 'workmate', id: 'workmate5', x: 13, y: 6},
-                    {type: 'workmate', id: 'workmate6', x: 14, y: 9},
 
                     {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
                     {type: 'paperjam', id: 'paper1', x: 9, y: 5},
@@ -94,14 +84,22 @@ define(['scripts/feierabend/scene.js',
                     {type: 'chair', id: 'chair2', x: 4, y: 6},
                     {type: 'chair', id: 'chair3', x: 4, y: 8},
                     {type: 'chair', id: 'chair4', x: 11, y: 6},
+
+
+                    {type: 'workmate', id: 'workmate1', x: 3, y: 4},
+                    {type: 'workmate', id: 'workmate2', x: 3, y: 6},
+                    {type: 'workmate', id: 'workmate3', x: 10, y: 3},
+                    {type: 'workmate', id: 'workmate4', x: 9, y: 8},
+                    {type: 'workmate', id: 'workmate5', x: 13, y: 6},
+                    {type: 'workmate', id: 'workmate6', x: 14, y: 9},
+
+                    {type: 'boss', id: 'boss', x: 12, y: 6},
+                    {type: 'player', id: 'player', x: 1, y: 1},
                 ]
             },
             {
                 timer: 20,
                 objects: [
-                    {type: 'player', id: 'player', x: 1, y: 1},
-                    {type: 'boss', id: 'boss', x: 9, y: 3},
-
                     {type: 'coffee', id: 'coffee1', x: 2, y: 7},
                     {type: 'coffee', id: 'coffee2', x: 4, y: 6},
                     {type: 'coffee', id: 'coffee3', x: 7, y: 10},
@@ -109,16 +107,6 @@ define(['scripts/feierabend/scene.js',
 
                     {type: 'paperjam', id: 'paper1', x: 10, y: 4},
                     {type: 'paperjam', id: 'paper2', x: 4, y: 8},
-
-                    {type: 'workmate', id: '1', x: 4, y: 2, gender: 'w'},
-                    {type: 'workmate', id: '2', x: 4, y: 7},
-                    {type: 'workmate', id: '3', x: 4, y: 9, gender: 'w'},
-                    {type: 'workmate', id: '4', x: 1, y: 9},
-                    {type: 'workmate', id: '5', x: 10, y: 1},
-                    {type: 'workmate', id: '6', x: 9, y: 4, gender: 'w'},
-                    {type: 'workmate', id: '7', x: 11, y: 4},
-                    {type: 'workmate', id: '8', x: 8, y: 6},
-                    {type: 'workmate', id: '9', x: 10, y: 8},
 
                     {type: 'table_end_left', id: 'table1', x: 3, y: 1},
                     {type: 'table_end_right', id: 'table2', x: 4, y: 1},
@@ -168,6 +156,19 @@ define(['scripts/feierabend/scene.js',
                     {type: 'chair', id: 'chair5', x: 10, y: 6},
 
                     {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+
+                    {type: 'workmate', id: '1', x: 4, y: 2, gender: 'w'},
+                    {type: 'workmate', id: '2', x: 4, y: 7},
+                    {type: 'workmate', id: '3', x: 4, y: 9, gender: 'w'},
+                    {type: 'workmate', id: '4', x: 1, y: 9},
+                    {type: 'workmate', id: '5', x: 10, y: 1},
+                    {type: 'workmate', id: '6', x: 9, y: 4, gender: 'w'},
+                    {type: 'workmate', id: '7', x: 11, y: 4},
+                    {type: 'workmate', id: '8', x: 8, y: 6},
+                    {type: 'workmate', id: '9', x: 10, y: 8},
+
+                    {type: 'player', id: 'player', x: 1, y: 1},
+                    {type: 'boss', id: 'boss', x: 9, y: 3},
                 ],
             },
 

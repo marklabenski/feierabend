@@ -176,7 +176,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
@@ -189,7 +189,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
@@ -202,7 +202,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
@@ -215,7 +215,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
@@ -228,7 +228,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
@@ -241,7 +241,7 @@ define(['scripts/feierabend/player.js',
                             {x: object.x, y: object.y}
                         );
                         newObject.init();
-                        newObject.isSolid = true;
+                        //newObject.isSolid = true;
 
                         addLevelObject(newObject);
                         break;
