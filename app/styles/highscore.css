@@ -47,6 +47,16 @@
             position: absolute;
             transform: rotate(4deg);
         }
+        #mitarbeiter_des_monats-portrait {
+            bottom: 183px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            background-repeat: no-repeat;
+        }
 
 #der_rest {
     position: absolute;

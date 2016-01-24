@@ -48,9 +48,47 @@ function showHighscoreList() {
     for (var i = 2; i <= localStorage.length && i < 11; i++) {
 
         $("#der_rest-name table").append("<tr>" + "<td>#" + i + "</td><td>" + JSON.parse(localStorage[i])[0] + "</td><td>" + JSON.parse(localStorage[i])[1] + "</td></tr>");
+
     }
 
-    //Test-end
-    //
+    //Add #1-Portrait
+    if (localStorage.getItem("1") != null) {
+
+        //1-99
+        if (JSON.parse(localStorage[1])[1] < 100 && JSON.parse(localStorage[1])[1] > 0) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_1.png')");
+        }
+
+        //100-199
+        if (JSON.parse(localStorage[1])[1] < 200 && JSON.parse(localStorage[1])[1] > 99) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_2.png')");
+        }
+
+        //200-299
+        if (JSON.parse(localStorage[1])[1] < 300 && JSON.parse(localStorage[1])[1] > 199) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_3.png')");
+        }
+
+        //300-499
+        if (JSON.parse(localStorage[1])[1] < 500 && JSON.parse(localStorage[1])[1] > 299) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_4.png')");
+        }
+
+        //500-699
+        if (JSON.parse(localStorage[1])[1] < 700 && JSON.parse(localStorage[1])[1] > 499) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_5.png')");
+        }
+
+        //700-999
+        if (JSON.parse(localStorage[1])[1] < 1000 && JSON.parse(localStorage[1])[1] > 699) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_6.png')");
+        }
+
+        //1000-infinity
+        if (JSON.parse(localStorage[1])[1] > 999) {
+            $("#mitarbeiter_des_monats-portrait").css("background-image","url('img/highscore-portrait_7.png')");
+        }
+
+    }
 
 }
