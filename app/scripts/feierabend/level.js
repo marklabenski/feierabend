@@ -130,7 +130,7 @@ define(['scripts/feierabend/player.js',
                         var newObject = createCollectable(object.id, loader.resources.door.texture, game,
                             function collideFn(collideObj, eventObj) {
                                 if (collideObj.id === 'player') {
-                                    // play here a win audio
+                                    playAudio("win");
                                     game.changeGameState("FINISH");
                                 }
                             }, {x: object.x, y: object.y});

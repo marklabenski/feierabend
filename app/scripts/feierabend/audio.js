@@ -83,14 +83,18 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     volume:0.6,
     loop:false,    
   });
-      
-  
+
+  var win = new howler.Howl({
+    urls:['audio/win.mp3'],
+    volume:0.6,
+    loop:false,
+  });
     
     
 
   return function playAudio(audioString) {
     var audios = { footstep: footstep, drinkCoffee: drinkCoffee, boss: boss, stoss:stoss, 
-      workOnNotebook:workOnNotebook, workOnPaper:workOnPaper, countDownBeep: countDownBeep,
+      workOnNotebook:workOnNotebook, workOnPaper:workOnPaper, countDownBeep: countDownBeep, win: win,
       workmateM1: workmateM1, workmateM2: workmateM2, workmateM3: workmateM3, 
       workmateW1: workmateW1, workmateW2: workmateW2, workmateW3: workmateW3};
 

@@ -461,10 +461,7 @@ define(['scripts/feierabend/scene.js',
                     }
                     break;
                 case GAMESTATE.PAUSE:
-                    if(isPaused) {
-                        $('#pause-menu').css("display", "block");
-                    } else {
-                        $('#pause-menu').css("display", "none");
+                    if(!isPaused) {
                         game.changeGameState("INGAME");
                     }
                     break;
