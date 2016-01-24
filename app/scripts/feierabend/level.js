@@ -152,13 +152,20 @@ define(['scripts/feierabend/player.js',
                         break;
                         
                     case 'workmate':
-                        var gender;
-                        if(object.hasOwnProperty('gender')) {
-                            gender = object.gender;
-                        } else {
-                            gender = 'm'
-                        }
-                        var newWorkmate = createWorkmate(object.id, loader.resources.workmate.texture, game, gender, {
+                        var gender = "m";
+                        var randomWorkmateResource = function () {
+                            var rand = Math.floor(Math.random() * 3);
+                            if (rand === 0) {
+                                return "workmatem1";
+                            } else if (rand === 1){
+                                return "workmatem2";
+                            } else {
+                                gender = "w";
+                                return "workmatef1";
+                            }
+                        };
+
+                        var newWorkmate = createWorkmate(object.id, loader.resources[randomWorkmateResource()].texture, game, gender, {
 
                             x: object.x,
                             y: object.y
@@ -177,7 +184,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 
@@ -190,7 +197,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 
@@ -203,7 +210,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 
@@ -216,7 +223,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 
@@ -229,7 +236,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 
@@ -242,7 +249,7 @@ define(['scripts/feierabend/player.js',
                         );
                         newObject.init();
                         //newObject.isSolid = true;
-
+                        newObject.changeSpriteTint(0x8fa0a1);
                         addLevelObject(newObject);
                         break;
 

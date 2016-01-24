@@ -16,6 +16,9 @@ define([], function () {
                 this.visible = false;
                 sprite.visible = false;
             },
+            changeSpriteTint: function changeSpriteTint(tint) {
+                sprite.tint = tint; // 0x8fa0a1
+            },
             changeSprite: function changeSprite(newSprite) {
                 sprite = newSprite;
 
