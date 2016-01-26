@@ -3,13 +3,13 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     urls: ['audio/background-music.mp3'],
     autoplay: false,
     loop: true,
-    volume: 0,
+    volume: 0.4,
     onend: function () {
       //console.log('Finished!');
     }
   });
     
-    var bgMusicFast = new howler.Howl({
+  var bgMusicFast = new howler.Howl({
     urls: ['audio/background-music-fast.mp3'],
     autoplay: false,
     loop: true,
@@ -19,7 +19,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
     }
   });
     
-     var bgMusicSlow = new howler.Howl({
+  var bgMusicSlow = new howler.Howl({
     urls: ['audio/background-music-slow.mp3'],
     autoplay: false,
     loop: true,
@@ -39,7 +39,7 @@ define(["vendor/howler/howler.min.js"], function (howler) {
             currentMusic.stop();
         }
         
-      musicToPlay = music[musicString];
+      var musicToPlay = music[musicString];
       musicToPlay.play();
       currentMusic = musicToPlay;
       return musicToPlay;

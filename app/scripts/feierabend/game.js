@@ -7,12 +7,13 @@ define(['scripts/feierabend/scene.js',
     'scripts/feierabend/grid.js',
     'scripts/feierabend/level.js',
     'scripts/feierabend/audio.js',
+    'scripts/feierabend/music.js',
     'scripts/feierabend/score.js',
     'scripts/feierabend/modal.js',
     'scripts/feierabend/countdown.js',
     'vendor/pixijs/pixi.min',
 
-], function (createScene, createGrid, createLevel, playAudio, score, createModal) {
+], function (createScene, createGrid, createLevel, playAudio, playMusic, score, createModal) {
     var gameWidth = 800;
     var gameHeight = 600;
     var gridSize = 50;
@@ -27,7 +28,9 @@ define(['scripts/feierabend/scene.js',
             {name: 'player', file: 'img/player.png'},
             {name: 'boss', file: 'img/boss.png'},
             {name: 'coffee', file: 'img/coffee.png'},
-            {name: 'workmate', file: 'img/workmate.png'},
+            {name: 'workmatem1', file: 'img/workmate.png'},
+            {name: 'workmatem2', file: 'img/workmate2.png'},
+            {name: 'workmatef1', file: 'img/workmate_f.png'},
             {name: 'door', file: 'img/door.png'},
             {name: 'paperjam', file: 'img/paperjam.png'},
             {name: 'notebook', file: 'img/notebook.png'},
@@ -171,6 +174,62 @@ define(['scripts/feierabend/scene.js',
                     {type: 'boss', id: 'boss', x: 9, y: 3},
                 ],
             },
+            //{
+            //    timer: 15,
+            //    objects: [
+            //        {type: 'coffee', id: 'coffee1', x: 2, y: 7},
+            //
+            //        {type: 'paperjam', id: 'paper1', x: maxX-2, y: maxY-1},
+            //        {type: 'laptop', id: 'lappi1', x: 4, y: 8},
+            //
+            //        //{type: 'table_end_left', id: 'table1', x: 3, y: 1},
+            //        //{type: 'table_end_right', id: 'table2', x: 4, y: 1},
+            //        //{type: 'table_1', id: 'table3', x: 4, y: 3},
+            //        //{type: 'table_2', id: 'table4', x: 3, y: 5},
+            //        //{type: 'table_end_left', id: 'table5', x: 3, y: 6},
+            //        //{type: 'table_end_right', id: 'table6', x: 3, y: 7},
+            //        //{type: 'table_1', id: 'table7', x: 3, y: 8},
+            //        //{type: 'table_2', id: 'table8', x: 3, y: 9},
+            //        //{type: 'table_end_left', id: 'table9', x: 2, y: 10},
+            //        //{type: 'table_end_right', id: 'table10', x: 1, y: 10},
+            //        //{type: 'table_1', id: 'table11', x: 7, y: 1},
+            //        //{type: 'table_2', id: 'table12', x: 8, y: 1},
+            //        //{type: 'table_end_left', id: 'table13', x: 11, y: 1},
+            //        //{type: 'table_end_right', id: 'table14', x: 12, y: 1},
+            //        //{type: 'table_1', id: 'table15', x: 13, y: 1},
+            //        //{type: 'table_2', id: 'table16', x: 7, y: 3},
+            //        //{type: 'table_end_left', id: 'table17', x: 8, y: 3},
+            //        //{type: 'table_1', id: 'table19', x: 9, y: 3},
+            //        //{type: 'table_2', id: 'table20', x: 10, y: 3},
+            //        //{type: 'table_end_right', id: 'table22', x: 11, y: 3},
+            //        //{type: 'table_1', id: 'table23', x: 12, y: 3},
+            //        //{type: 'table_end_left', id: 'table24', x: 7, y: 4},
+            //        //{type: 'table_end_right', id: 'table25', x: 11, y: 6},
+            //        //{type: 'table_1', id: 'table26', x: 11, y: 7},
+            //        //{type: 'table_2', id: 'table27', x: 7, y: 7},
+            //        //{type: 'table_end_left', id: 'table28', x: 8, y: 7},
+            //
+            //        {type: 'plant', id: 'plant1', x: maxX-2, y: 1},
+            //        {type: 'plant', id: 'plant2', x: 1, y: 12},
+            //
+            //        {type: 'chair', id: 'chair1', x: 5, y: 5},
+            //        {type: 'chair', id: 'chair2', x: 10, y: 4},
+            //        {type: 'chair', id: 'chair3', x: maxX-4, y: 1},
+            //        {type: 'chair', id: 'chair4', x: maxX-4, y: maxY-3},
+            //        {type: 'chair', id: 'chair5', x: 10, y: 6},
+            //
+            //        {type: 'door', id: 'door', x: maxX-1, y: maxY-1},
+            //        {type: 'workmate', id: '1', x: 5, y: 5},
+            //        {type: 'workmate', id: '2', x: 10, y: 4},
+            //        {type: 'workmate', id: '3', x: maxX-6, y: 4},
+            //        {type: 'workmate', id: '4', x: maxX-4, y: maxY-3},
+            //        {type: 'workmate', id: '5', x: 10, y: 8},
+            //
+            //        {type: 'player', id: 'player', x: maxX-1, y: 1},
+            //        {type: 'boss1', id: 'boss', x: 1, y: 1},
+            //        {type: 'boss2', id: 'boss', x: 1, y: maxY-1},
+            //    ],
+            //},
 
         ];
 
@@ -215,7 +274,7 @@ define(['scripts/feierabend/scene.js',
 
 		    var $levelInfo = $("#level");
         //noinspection JSUnusedAssignment
-        var currentScenes = [gameScene, winScene];
+        var currentScenes = [gameScene];
         //noinspection AmdModulesDependencies
         var stage = new PIXI.Container();
         var GAMESTATE = {MENU: 'menu', INGAME: 'ingame', FINISH: 'finish', GAMEEND: 'gameend', PAUSE: 'pause'};
@@ -371,6 +430,7 @@ define(['scripts/feierabend/scene.js',
                     workmates = currentLevel.workmates; // workmates as Array
                     boss = currentLevel.boss;
                     score = currentLevel.score;
+
                 }
             },
 
@@ -405,6 +465,8 @@ define(['scripts/feierabend/scene.js',
                             break;
                     }
                 });
+
+                playMusic('backgroundMusic');
             }
         };
 
@@ -438,7 +500,7 @@ define(['scripts/feierabend/scene.js',
                             document.querySelector('.debug-grid').innerHTML = grid.visualize();
                         });
                     } else {
-                        game.changeGameState("PAUSE");
+                        //game.changeGameState("PAUSE");
                     }
                     fadeOuts();
                     break;
